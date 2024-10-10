@@ -8,7 +8,7 @@
 	"id": "raydeeux.toktikmode",
 	"name": "TokTikMode",
 	"version": "v1.0.0",
-	"developer":, "RayDeeUx",
+	"developer": "RayDeeUx",
 	"description": "\"Vertical\" mode for Geometry Dash. Best on Android.",
 	"repository": "https://github.com/RayDeeUx/TokTikMode",
 	"settings": {
