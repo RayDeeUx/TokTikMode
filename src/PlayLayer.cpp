@@ -125,11 +125,9 @@ struct MyPlayLayer : Modify<MyPlayLayer, PlayLayer> {
             if (const auto forYou = createForYou()) scene->addChild(forYou);
             if (const auto search = createSearch()) scene->addChild(search);
             if (const auto live = createLive()) scene->addChild(live);
-            std::string desc = "No";
-            auto descLabel = CCLabelBMFont::create();
+            const std::string desc = "No";
+            const auto descLabel = CCLabelBMFont::create(desc.c_str(), "tokTikFont.fnt"_spr, m_fields->winWidth * 0.35f, kCCTextAlignmentLeft);
             // desc.c_str(), "tokTikFont.fnt"_spr, m_fields->winWidth * 0.35f, kCCTextAlignmentLeft
-            descLabel->setString(desc.c_str());
-            descLabel->setFntFile("tokTikFont.fnt");
             scene->addChild(descLabel);
         }
         scene->setRotation(static_cast<float>(degrees));
