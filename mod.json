@@ -1,0 +1,62 @@
+{
+	"geode": "3.4.0",
+	"gd": {
+		"win": "2.206",
+		"mac": "2.206",
+		"android": "2.206"
+	},
+	"id": "raydeeux.toktikmode",
+	"name": "TokTikMode",
+	"version": "v1.0.0",
+	"developer": "RayDeeUx",
+	"description": "\"Vertical\" mode for Geometry Dash. Best on Android.",
+	"repository": "https://github.com/RayDeeUx/TokTikMode",
+	"settings": {
+		"enabled": {
+			"name": "Enabled",
+			"description": "Toggles the mod.",
+			"type": "bool",
+			"default": true
+		},
+		"tiktokUI": {
+			"name": "TokTik UI",
+			"description": "Toggles the TokTik UI.",
+			"type": "bool",
+			"default": true
+		},
+		"rotationDegrees": {
+			"name": "Rotation (Degrees)",
+			"description": "The number of degrees you want to rotate your gameplay screen to.\n\n<cy>To disable, set this setting to \"0\".</c>\n\n<cy>Otherwise, choose either</c> <cl>\"90\"</c> <cy>or</c> <cl>\"270\"</c> <cy>degrees.</c>",
+			"type": "string",
+			"default": "0",
+			"one-of": [
+				"0",
+				"90",
+				"270"
+			]
+		}
+	},
+	"resources": {
+		"files": [
+			"resources/*.png",
+			"resources/*.fnt"
+		]
+	},
+	"tags":	[
+		"content",
+		"customization",
+		"gameplay",
+		"interface",
+		"modtober24",
+		"offline",
+		"joke"
+	],
+	"issues": {
+		"url": "https://discord.com/channels/911701438269386882/1205523212444639292",
+		"info": "Ping me <cl>(@erymanthus)</c> in the Geode SDK Discord server's <cl>#help</c> channel if you need help. <cr>DMs are NOT accepted.</c>"
+	},
+	"links": {
+		"community": "https://discord.gg/WqZBYdBWZW",
+		"homepage": "https://discord.com/channels/822510988409831486/1206371881222144020"
+	}
+}
