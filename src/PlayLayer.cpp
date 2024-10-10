@@ -82,7 +82,7 @@ class $modify(MyPlayLayer, PlayLayer) {
 		});
 		bottomBar->setScale(m_fields->winWidth);
 		bottomBar->setZOrder(OTHER_MAGIC_NUMBER - 1);
-		bottomBar->setColor(ccColor3B(0,0,0));
+		bottomBar->setColor({0, 0, 0});
 		return bottomBar;
 	}
 	CCSprite* createTopBar() {
@@ -95,7 +95,7 @@ class $modify(MyPlayLayer, PlayLayer) {
 		});
 		topBar->setScale(m_fields->winWidth);
 		topBar->setZOrder(OTHER_MAGIC_NUMBER - 1);
-		topBar->setColor(ccColor3B(0,0,0));
+		topBar->setColor({0, 0, 0});
 		return topBar;
 	}
 	void postUpdate(float p0) {
