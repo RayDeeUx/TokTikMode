@@ -20,10 +20,7 @@ namespace Utils {
 	
 	bool isModLoaded(const std::string &modID);
 	Mod* getMod(const std::string &modID);
-	std::string getModVersion(Mod* mod);
+	std::string getModVersion(const Mod* mod);
 
-	double findBearing(double latitude = KABBA_LATITUDE * PI / 180, double longitude = KABBA_LONGITUDE * PI / 180);
-	void findBearingWebAPI(double userLatitude, double userLongitude);
-	void showBearing();
-	int getRandInt(int min = 0, int max = 5);
+	int getRandInt(int min, int max);
 }

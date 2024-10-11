@@ -1,7 +1,7 @@
 #include <Geode/modify/PlayLayer.hpp>
-
 #include "Manager.hpp"
 #include "Utils.hpp"
+#include <random>
 #define MAGIC_NUMBER (-2123456789)
 #define OTHER_MAGIC_NUMBER (-MAGIC_NUMBER / 30000)
 
@@ -145,20 +145,22 @@ class $modify(MyPlayLayer, PlayLayer) {
 		likesLabel->setID("likes"_spr);
 		return likesLabel;
 	}
-	CCLabelBMFont* createDownloadsLabel() {
-		std::string downloads = "0";
-		if (m_level && m_level->m_levelType == GJLevelType::Saved) downloads = utils::numToAbbreviatedString(m_level->m_downloads);
-		const auto downloadsLabel = CCLabelBMFont::create(downloads.c_str(), "tokTikFontBold.fnt"_spr);
-		downloadsLabel->setScale(0.2f);
-		downloadsLabel->setZOrder(OTHER_MAGIC_NUMBER);
-		downloadsLabel->setID("downloads"_spr);
-		return downloadsLabel;
+	CCLabelBMFont* createCommentsLabel() {
+		std::string comments = "0";
+		if (m_level && m_level->m_levelType == GJLevelType::Saved) comments = utils::numToAbbreviatedString(abs(abs(m_level->m_downloads - m_level->m_likes) / Utils::getRandInt(10, 20)) * Utils::getRandInt(3, 9));
+		const auto commentsLabel = CCLabelBMFont::create(comments.c_str(), "tokTikFontBold.fnt"_spr);
+		commentsLabel->setScale(0.2f);
+		commentsLabel->setZOrder(OTHER_MAGIC_NUMBER);
+		commentsLabel->setID("comments"_spr);
+		return commentsLabel;
 	}
-	CCLabelBMFont* createShareLabel() {
-		const auto shareLabel = CCLabelBMFont::create("Share", "tokTikFontBold.fnt"_spr);
+	CCLabelBMFont* createDownloadsLabel() {
+		int downloads = 0;
+		if (m_level && m_level->m_levelType == GJLevelType::Saved) downloads = m_level->m_downloads;
+		const auto shareLabel = CCLabelBMFont::create(utils::numToAbbreviatedString(downloads).c_str(), "tokTikFontBold.fnt"_spr);
 		shareLabel->setScale(0.2f);
 		shareLabel->setZOrder(OTHER_MAGIC_NUMBER);
-		shareLabel->setID("share"_spr);
+		shareLabel->setID("downloads"_spr);
 		return shareLabel;
 	}
 	void setupHasCompleted() {
@@ -198,13 +200,13 @@ class $modify(MyPlayLayer, PlayLayer) {
 					actions->addChild(likesLabel);
 					likesLabel->setPosition({13.5f, 63.f}); // it's being added as a child of an existing node (at this point in code execution); no need to clutch onto your mother pearls because of "hArDcOdEd PoSiTiOnS", people
 				}
-				if (const auto downloadsLabel = createDownloadsLabel(); !actions->getChildByID("downloads"_spr)) {
-					actions->addChild(downloadsLabel);
-					downloadsLabel->setPosition({actions->getChildByID("likes"_spr)->getPositionX(), actions->getChildByID("likes"_spr)->getPositionY() - 20.f}); // it's being added as a child of an existing node (at this point in code execution); no need to clutch onto your mother pearls because of "hArDcOdEd PoSiTiOnS", people
+				if (const auto commentsLabel = createCommentsLabel(); !actions->getChildByID("downloads"_spr)) {
+					actions->addChild(commentsLabel);
+					commentsLabel->setPosition({actions->getChildByID("likes"_spr)->getPositionX(), actions->getChildByID("likes"_spr)->getPositionY() - 20.f}); // it's being added as a child of an existing node (at this point in code execution); no need to clutch onto your mother pearls because of "hArDcOdEd PoSiTiOnS", people
 				}
-				if (const auto shareLabel = createShareLabel(); !actions->getChildByID("share"_spr)) {
+				if (const auto shareLabel = createDownloadsLabel(); !actions->getChildByID("downloads"_spr)) {
 					actions->addChild(shareLabel);
-					shareLabel->setPosition({actions->getChildByID("downloads"_spr)->getPositionX(), actions->getChildByID("downloads"_spr)->getPositionY() - 20.f}); // it's being added as a child of an existing node (at this point in code execution); no need to clutch onto your mother pearls because of "hArDcOdEd PoSiTiOnS", people
+					shareLabel->setPosition({actions->getChildByID("comments"_spr)->getPositionX(), actions->getChildByID("comments"_spr)->getPositionY() - 20.f}); // it's being added as a child of an existing node (at this point in code execution); no need to clutch onto your mother pearls because of "hArDcOdEd PoSiTiOnS", people
 				}
 			}
 		}
