@@ -20,7 +20,7 @@ class $modify(MyPlayLayer, PlayLayer) {
 		footer->setID("footer"_spr);
 		footer->setPosition({
 			m_fields->winWidth / 2.f,
-			(-m_fields->winHeight) + (2.f * footer->getContentHeight())
+			(-m_fields->winWidth) + (2.f * footer->getContentHeight())
 		});
 		footer->setScale(m_fields->winWidth / footer->getContentWidth());
 		footer->setZOrder(OTHER_MAGIC_NUMBER);
