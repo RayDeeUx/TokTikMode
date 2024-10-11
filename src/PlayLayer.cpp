@@ -1,4 +1,6 @@
 #include <Geode/modify/PlayLayer.hpp>
+
+#include "Manager.hpp"
 #include "Utils.hpp"
 #define MAGIC_NUMBER (-2123456789)
 #define OTHER_MAGIC_NUMBER (-MAGIC_NUMBER / 30000)
@@ -14,6 +16,7 @@ class $modify(MyPlayLayer, PlayLayer) {
 		float winWidth = winSize.width;
 		float winHeight = winSize.height;
 		bool rotated = false;
+		Manager* manager = Manager::getSharedInstance();
 	};
 	CCSprite* createFooter() {
 		CCSprite* footer = CCSprite::create("footer.png"_spr);
@@ -102,7 +105,7 @@ class $modify(MyPlayLayer, PlayLayer) {
 		PlayLayer::postUpdate(p0);
 		auto degrees = utils::numFromString<int>(Utils::getString("rotationDegrees")).unwrapOr(0);
 		auto scene = CCScene::get();
-		if (m_fields->rotated && scene->getRotation() == static_cast<float>(degrees)) return;
+		if ((m_fields->rotated && scene->getRotation() == static_cast<float>(degrees)) || !m_fields->manager->canRotate) return;
 		if (degrees == 0) {
 			m_fields->rotated = true;
 			return;

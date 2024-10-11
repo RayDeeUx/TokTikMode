@@ -10,16 +10,7 @@ class Manager {
 protected:
 	static Manager* instance;
 public:
-
-	bool userAgentBareMinimumAcquired = false;
-	bool requestFailed = true;
-
-	double direction = -1.0f;
-
-	std::string gameVer = "";
-	std::string loaderVer = "";
-	std::string modVer = "";
-	std::string platformName = "";
+	bool canRotate = false;
 
 	static Manager* getSharedInstance() {
 		if (!instance) {
