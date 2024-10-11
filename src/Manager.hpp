@@ -10,7 +10,9 @@ class Manager {
 protected:
 	static Manager* instance;
 public:
-	bool canRotate = false;
+	CCSize winSize = CCDirector::get()->getWinSize();
+	float winWidth = winSize.width;
+	float winHeight = winSize.height;
 
 	static Manager* getSharedInstance() {
 		if (!instance) {

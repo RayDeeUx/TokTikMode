@@ -12,9 +12,6 @@ class $modify(MyPlayLayer, PlayLayer) {
 		(void) self.setHookPriority("PlayLayer::postUpdate", MAGIC_NUMBER);
 	}
 	struct Fields {
-		CCSize winSize = CCDirector::get()->getWinSize();
-		float winWidth = winSize.width;
-		float winHeight = winSize.height;
 		bool rotated = false;
 		Manager* manager = Manager::getSharedInstance();
 	};
@@ -22,10 +19,10 @@ class $modify(MyPlayLayer, PlayLayer) {
 		CCSprite* footer = CCSprite::create("footer.png"_spr);
 		footer->setID("footer"_spr);
 		footer->setPosition({
-			m_fields->winWidth / 2.f,
-			(-m_fields->winHeight) + (2.f * footer->getContentHeight())
+			m_fields->manager->winWidth / 2.f,
+			(-m_fields->manager->winHeight) + (2.f * footer->getContentHeight())
 		});
-		footer->setScale(m_fields->winWidth / footer->getContentWidth());
+		footer->setScale(m_fields->manager->winWidth / footer->getContentWidth());
 		footer->setZOrder(OTHER_MAGIC_NUMBER);
 		return footer;
 	}
@@ -33,10 +30,10 @@ class $modify(MyPlayLayer, PlayLayer) {
 		CCSprite* actions = CCSprite::create("actions.png"_spr);
 		actions->setID("actions"_spr);
 		actions->setPosition({
-			m_fields->winWidth - (actions->getContentWidth() * 3.10f),
+			m_fields->manager->winWidth - (actions->getContentWidth() * 3.10f),
 			0
 		});
-		actions->setScale((actions->getContentWidth() / m_fields->winWidth) * 125.f);
+		actions->setScale((actions->getContentWidth() / m_fields->manager->winWidth) * 125.f);
 		actions->setZOrder(OTHER_MAGIC_NUMBER);
 		return actions;
 	}
@@ -44,10 +41,10 @@ class $modify(MyPlayLayer, PlayLayer) {
 		CCSprite* forYou = CCSprite::create("followingAndFYP.png"_spr);
 		forYou->setID("for-you"_spr);
 		forYou->setPosition({
-			m_fields->winWidth / 2.f,
-			m_fields->winWidth + (forYou->getContentHeight())
+			m_fields->manager->winWidth / 2.f,
+			m_fields->manager->winWidth + (forYou->getContentHeight())
 		});
-		forYou->setScale((forYou->getContentWidth() / m_fields->winWidth) * 40.f);
+		forYou->setScale((forYou->getContentWidth() / m_fields->manager->winWidth) * 40.f);
 		forYou->setZOrder(OTHER_MAGIC_NUMBER);
 		return forYou;
 	}
@@ -80,10 +77,10 @@ class $modify(MyPlayLayer, PlayLayer) {
 		bottomBar->setID("bottom-bar"_spr);
 		bottomBar->setAnchorPoint({0.5f, 1.f});
 		bottomBar->setPosition({
-			m_fields->winWidth / 2.f,
+			m_fields->manager->winWidth / 2.f,
 			0
 		});
-		bottomBar->setScale(m_fields->winWidth);
+		bottomBar->setScale(m_fields->manager->winWidth);
 		bottomBar->setZOrder(OTHER_MAGIC_NUMBER - 1);
 		bottomBar->setColor({0, 0, 0});
 		return bottomBar;
@@ -93,50 +90,54 @@ class $modify(MyPlayLayer, PlayLayer) {
 		topBar->setID("top-bar"_spr);
 		topBar->setAnchorPoint({0.5f, 0.f});
 		topBar->setPosition({
-			m_fields->winWidth / 2.f,
-			m_fields->winHeight
+			m_fields->manager->winWidth / 2.f,
+			m_fields->manager->winHeight
 		});
-		topBar->setScale(m_fields->winWidth);
+		topBar->setScale(m_fields->manager->winWidth);
 		topBar->setZOrder(OTHER_MAGIC_NUMBER - 1);
 		topBar->setColor({0, 0, 0});
 		return topBar;
+	}
+	CCLabelBMFont* createDescLabel() {
+		std::string desc = "[This level's description does not follow TokTik's Community Guidelines, which help us foster an inclusive and authentic community and define the kind of content and behavior that's not allowed on our app.]";
+		if (m_level) {
+			const std::string description = m_level->getUnpackedLevelDescription();
+			if (!description.empty()) desc = description;
+		}
+		const auto descLabel = CCLabelBMFont::create(desc.c_str(), "tokTikFont.fnt"_spr, m_fields->manager->winWidth * 0.75f, kCCTextAlignmentLeft);
+		descLabel->setScale(0.75f);
+		descLabel->setZOrder(OTHER_MAGIC_NUMBER);
+		descLabel->setAnchorPoint({0, 0});
+		auto footer = CCScene::get()->getChildByID("footer"_spr);
+		descLabel->setPosition({
+			15.f,
+			footer->getPositionY() + (footer->getContentHeight() * 3) + 20.f
+		});
+		descLabel->setID("desc"_spr);
+		return descLabel;
 	}
 	void postUpdate(float p0) {
 		PlayLayer::postUpdate(p0);
 		auto degrees = utils::numFromString<int>(Utils::getString("rotationDegrees")).unwrapOr(0);
 		auto scene = CCScene::get();
-		if ((m_fields->rotated && scene->getRotation() == static_cast<float>(degrees)) || !m_fields->manager->canRotate) return;
+		if (m_fields->rotated && scene->getRotation() == static_cast<float>(degrees)) return;
 		if (degrees == 0) {
 			m_fields->rotated = true;
 			return;
 		}
 		if (!scene) return;
-		if (const auto sprite = createBottomBar()) scene->addChild(sprite);
-		if (const auto sprite = createTopBar()) scene->addChild(sprite);
+		if (const auto sprite = createBottomBar(); !scene->getChildByID("bottom-bar"_spr)) scene->addChild(sprite);
+		if (const auto sprite = createTopBar(); !scene->getChildByID("top-bar"_spr)) scene->addChild(sprite);
 		if (Utils::getBool("tiktokUI")) {
-			if (const auto footer = createFooter()) scene->addChild(footer);
-			if (const auto actions = createActions()) scene->addChild(actions);
-			if (const auto forYou = createForYou()) scene->addChild(forYou);
-			if (const auto search = createSearch()) scene->addChild(search);
-			if (const auto live = createLive()) scene->addChild(live);
-			std::string desc = "[This level's description does not follow TokTik's Community Guidelines, which help us foster an inclusive and authentic community and define the kind of content and behavior that's not allowed on our app.]";
-			if (m_level) {
-				const std::string description = m_level->getUnpackedLevelDescription();
-				if (!description.empty()) desc = description;
-			}
-			const auto descLabel = CCLabelBMFont::create(desc.c_str(), "tokTikFont.fnt"_spr, m_fields->winWidth * 0.75f, kCCTextAlignmentLeft);
-			descLabel->setScale(0.75f);
-			descLabel->setZOrder(OTHER_MAGIC_NUMBER);
-			descLabel->setAnchorPoint({0, 0});
-			auto footer = scene->getChildByID("footer"_spr);
-			descLabel->setPosition({
-				15.f,
-				footer->getPositionY() + (footer->getContentHeight() * 3) + 10.f
-			});
-			scene->addChild(descLabel);
+			if (const auto footer = createFooter(); !scene->getChildByID("footer"_spr)) scene->addChild(footer);
+			if (const auto actions = createActions(); !scene->getChildByID("actions"_spr)) scene->addChild(actions);
+			if (const auto forYou = createForYou(); !scene->getChildByID("for-you"_spr)) scene->addChild(forYou);
+			if (const auto search = createSearch(); !scene->getChildByID("search"_spr)) scene->addChild(search);
+			if (const auto live = createLive(); !scene->getChildByID("live"_spr)) scene->addChild(live);
+			if (const auto descLabel = createDescLabel(); !scene->getChildByID("desc"_spr)) scene->addChild(descLabel);
 		}
 		scene->setRotation(static_cast<float>(degrees));
-		scene->setScale(m_fields->winHeight / m_fields->winWidth);
+		scene->setScale(m_fields->manager->winHeight / m_fields->manager->winWidth);
 		m_fields->rotated = true;
 	}
 };
