@@ -13,7 +13,9 @@ class $modify(MyPlayLayer, PlayLayer) {
 	}
 	struct Fields {
 		bool rotated = false;
+		bool hasRotationOrScale = false;
 		Manager* manager = Manager::getSharedInstance();
+		std::vector<int> compatibilityMode {1346, 2067};
 	};
 	CCSprite* createFooter() {
 		CCSprite* footer = CCSprite::create("footer.png"_spr);
@@ -116,9 +118,18 @@ class $modify(MyPlayLayer, PlayLayer) {
 		descLabel->setID("desc"_spr);
 		return descLabel;
 	}
+	void setupHasCompleted() {
+		PlayLayer::setupHasCompleted();
+		for (auto object : CCArrayExt<GameObject*>(m_objects)) {
+			if (std::ranges::find(m_fields->compatibilityMode, object->m_objectID) != m_fields->compatibilityMode.end()) {
+				m_fields->hasRotationOrScale = true;
+				break;
+			}
+		}
+	}
 	void postUpdate(float p0) {
 		PlayLayer::postUpdate(p0);
-		auto degrees = utils::numFromString<int>(Utils::getString("rotationDegrees")).unwrapOr(0);
+		auto degrees = static_cast<float>(utils::numFromString<int>(Utils::getString("rotationDegrees")).unwrapOr(0));
 		auto scene = CCScene::get();
 		if (m_fields->rotated && scene->getRotation() == static_cast<float>(degrees)) return;
 		if (degrees == 0) {
@@ -128,6 +139,9 @@ class $modify(MyPlayLayer, PlayLayer) {
 		if (!scene) return;
 		if (const auto sprite = createBottomBar(); !scene->getChildByID("bottom-bar"_spr)) scene->addChild(sprite);
 		if (const auto sprite = createTopBar(); !scene->getChildByID("top-bar"_spr)) scene->addChild(sprite);
+		scene->setRotation(degrees);
+		if (Utils::getBool("compatibilityMode") && m_fields->hasRotationOrScale) return;
+		scene->setScale(m_fields->manager->winHeight / m_fields->manager->winWidth);
 		if (Utils::getBool("tiktokUI")) {
 			if (const auto footer = createFooter(); !scene->getChildByID("footer"_spr)) scene->addChild(footer);
 			if (const auto actions = createActions(); !scene->getChildByID("actions"_spr)) scene->addChild(actions);
@@ -136,8 +150,6 @@ class $modify(MyPlayLayer, PlayLayer) {
 			if (const auto live = createLive(); !scene->getChildByID("live"_spr)) scene->addChild(live);
 			if (const auto descLabel = createDescLabel(); !scene->getChildByID("desc"_spr)) scene->addChild(descLabel);
 		}
-		scene->setRotation(static_cast<float>(degrees));
-		scene->setScale(m_fields->manager->winHeight / m_fields->manager->winWidth);
 		m_fields->rotated = true;
 	}
 };

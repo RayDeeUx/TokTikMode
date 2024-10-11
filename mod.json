@@ -18,6 +18,12 @@
 			"type": "bool",
 			"default": true
 		},
+		"compatibilityMode": {
+			"name": "Compatibility Mode",
+			"description": "If a level has rotation or scale triggers, this mod will not go further beyond rotating the screen.\n\n<cy>You can go thank RobTop for this silly blunder; apparently the screen needs to be at *exactly* 1.000 scale to have rotation and scale triggers work properly.</c>",
+			"type": "bool",
+			"default": true
+		},
 		"tiktokUI": {
 			"name": "TokTik UI",
 			"description": "Toggles the TokTik UI.",
