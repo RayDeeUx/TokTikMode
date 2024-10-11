@@ -17,6 +17,18 @@ class $modify(MyPlayLayer, PlayLayer) {
 		Manager* manager = Manager::getSharedInstance();
 		std::vector<int> compatibilityMode {1346, 2067};
 	};
+	static int whichIcon(GameManager* gm = GameManager::get()) {
+		int iconType = (int) gm->m_playerIconType;
+		if (iconType == 1) return gm->m_playerShip.value();
+		if (iconType == 2) return gm->m_playerBall.value();
+		if (iconType == 3) return gm->m_playerBird.value();
+		if (iconType == 4) return gm->m_playerDart.value();
+		if (iconType == 5) return gm->m_playerRobot.value();
+		if (iconType == 6) return gm->m_playerSpider.value();
+		if (iconType == 7) return gm->m_playerSwing.value();
+		if (iconType == 8) return gm->m_playerJetpack.value();
+		return gm->m_playerFrame.value();
+	}
 	CCSprite* createFooter() {
 		CCSprite* footer = CCSprite::create("footer.png"_spr);
 		footer->setID("footer"_spr);
@@ -36,7 +48,7 @@ class $modify(MyPlayLayer, PlayLayer) {
 			0
 		});
 		actions->setScale((actions->getContentWidth() / m_fields->manager->winWidth) * 125.f);
-		actions->setZOrder(OTHER_MAGIC_NUMBER);
+		actions->setZOrder(OTHER_MAGIC_NUMBER + 1);
 		return actions;
 	}
 	CCSprite* createForYou() {
@@ -50,7 +62,7 @@ class $modify(MyPlayLayer, PlayLayer) {
 		forYou->setZOrder(OTHER_MAGIC_NUMBER);
 		return forYou;
 	}
-	CCSprite* createSearch() {
+	static CCSprite* createSearch() {
 		CCSprite* search = CCSprite::create("search.png"_spr);
 		auto scene = CCScene::get();
 		search->setID("search"_spr);
@@ -62,7 +74,7 @@ class $modify(MyPlayLayer, PlayLayer) {
 		search->setZOrder(OTHER_MAGIC_NUMBER);
 		return search;
 	}
-	CCSprite* createLive() {
+	static CCSprite* createLive() {
 		CCSprite* live = CCSprite::create("live.png"_spr);
 		auto scene = CCScene::get();
 		live->setID("live"_spr);
@@ -163,6 +175,20 @@ class $modify(MyPlayLayer, PlayLayer) {
 		shareLabel->setID("downloads"_spr);
 		return shareLabel;
 	}
+	static SimplePlayer* createSimplePlayer() {
+		GameManager* gm = GameManager::get();
+		SimplePlayer* player = SimplePlayer::create(0);
+		player->updatePlayerFrame(whichIcon(), gm->m_playerIconType);
+		player->setColor(gm->colorForIdx(gm->m_playerColor.value()));
+		player->setSecondColor(gm->colorForIdx(gm->m_playerColor2.value()));
+		player->enableCustomGlowColor(gm->colorForIdx(gm->m_playerGlowColor.value()));
+		player->setGlowOutline(gm->colorForIdx(gm->m_playerGlowColor.value()));
+		if (!gm->getPlayerGlow()) player->disableGlowOutline();
+		player->setZOrder(OTHER_MAGIC_NUMBER);
+		player->setID("player"_spr);
+		player->setScale(.25f);
+		return player;
+	}
 	void setupHasCompleted() {
 		PlayLayer::setupHasCompleted();
 		for (auto object : CCArrayExt<GameObject*>(m_objects)) {
@@ -202,11 +228,15 @@ class $modify(MyPlayLayer, PlayLayer) {
 				}
 				if (const auto commentsLabel = createCommentsLabel(); !actions->getChildByID("downloads"_spr)) {
 					actions->addChild(commentsLabel);
-					commentsLabel->setPosition({actions->getChildByID("likes"_spr)->getPositionX(), actions->getChildByID("likes"_spr)->getPositionY() - 20.f}); // it's being added as a child of an existing node (at this point in code execution); no need to clutch onto your mother pearls because of "hArDcOdEd PoSiTiOnS", people
+					commentsLabel->setPosition({actions->getChildByID("likes"_spr)->getPositionX(), actions->getChildByID("likes"_spr)->getPositionY() - 20.f});
 				}
 				if (const auto shareLabel = createDownloadsLabel(); !actions->getChildByID("downloads"_spr)) {
 					actions->addChild(shareLabel);
-					shareLabel->setPosition({actions->getChildByID("comments"_spr)->getPositionX(), actions->getChildByID("comments"_spr)->getPositionY() - 20.f}); // it's being added as a child of an existing node (at this point in code execution); no need to clutch onto your mother pearls because of "hArDcOdEd PoSiTiOnS", people
+					shareLabel->setPosition({actions->getChildByID("comments"_spr)->getPositionX(), actions->getChildByID("comments"_spr)->getPositionY() - 20.f});
+				}
+				if (const auto simplePlayer = createSimplePlayer(); !actions->getChildByID("player"_spr)) {
+					actions->addChild(simplePlayer);
+					simplePlayer->setPosition({actions->getChildByID("likes"_spr)->getPositionX(), 91.f});
 				}
 			}
 		}
