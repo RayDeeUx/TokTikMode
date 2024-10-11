@@ -1,7 +1,7 @@
 #include <Geode/modify/PlayLayer.hpp>
 #include "Manager.hpp"
 #include "Utils.hpp"
-#include <random>
+
 #define MAGIC_NUMBER (-2123456789)
 #define OTHER_MAGIC_NUMBER (-MAGIC_NUMBER / 30000)
 
@@ -180,13 +180,16 @@ class $modify(MyPlayLayer, PlayLayer) {
 		SimplePlayer* player = SimplePlayer::create(0);
 		player->updatePlayerFrame(whichIcon(), gm->m_playerIconType);
 		player->setColor(gm->colorForIdx(gm->m_playerColor.value()));
+		const auto actions = CCScene::get()->getChildByID("actions"_spr);
 		player->setSecondColor(gm->colorForIdx(gm->m_playerColor2.value()));
 		player->enableCustomGlowColor(gm->colorForIdx(gm->m_playerGlowColor.value()));
 		player->setGlowOutline(gm->colorForIdx(gm->m_playerGlowColor.value()));
 		if (!gm->getPlayerGlow()) player->disableGlowOutline();
+		player->setPositionY(actions->getPositionY() + 205.f);
+		player->setPositionX(actions->getPositionX() + 22.f);
 		player->setZOrder(OTHER_MAGIC_NUMBER);
 		player->setID("player"_spr);
-		player->setScale(.3f);
+		player->setScale(1.1f);
 		return player;
 	}
 	void setupHasCompleted() {
@@ -234,9 +237,8 @@ class $modify(MyPlayLayer, PlayLayer) {
 					actions->addChild(shareLabel);
 					shareLabel->setPosition({actions->getChildByID("comments"_spr)->getPositionX(), actions->getChildByID("comments"_spr)->getPositionY() - 20.f});
 				}
-				if (const auto simplePlayer = createSimplePlayer(); !actions->getChildByID("player"_spr)) {
-					actions->addChild(simplePlayer);
-					simplePlayer->setPosition({actions->getChildByID("likes"_spr)->getPositionX() + 0.5f, 91.f});
+				if (const auto simplePlayer = createSimplePlayer(); !scene->getChildByID("player"_spr)) {
+					scene->addChild(simplePlayer);
 				}
 			}
 		}
