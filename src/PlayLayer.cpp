@@ -118,6 +118,27 @@ class $modify(MyPlayLayer, PlayLayer) {
 		descLabel->setID("desc"_spr);
 		return descLabel;
 	}
+	CCLabelBMFont* createUsernameLabel() {
+		std::string username = "{User expunged by TokTik}";
+		if (m_level) {
+			if (m_level->m_levelType == GJLevelType::Local) username = "@RobTop";
+			else if (m_level->m_levelType == GJLevelType::Editor) username = fmt::format("@{}", GameManager::get()->m_playerName);
+			else if (m_level->m_levelType == GJLevelType::Saved) {
+				if (!m_level->m_creatorName.empty()) username = fmt::format("@{}", m_level->m_creatorName);
+			}
+		}
+		const auto authorLabel = CCLabelBMFont::create(username.c_str(), "tokTikFontBold.fnt"_spr, m_fields->manager->winWidth * 0.75f, kCCTextAlignmentLeft);
+		authorLabel->setScale(0.75f);
+		authorLabel->setZOrder(OTHER_MAGIC_NUMBER);
+		authorLabel->setAnchorPoint({0, 0});
+		auto descLabel = CCScene::get()->getChildByID("desc"_spr);
+		authorLabel->setPosition({
+			15.f,
+			descLabel->getPositionY() + descLabel->getContentHeight() - 2.f
+		});
+		authorLabel->setID("author"_spr);
+		return authorLabel;
+	}
 	void setupHasCompleted() {
 		PlayLayer::setupHasCompleted();
 		for (auto object : CCArrayExt<GameObject*>(m_objects)) {
@@ -149,6 +170,7 @@ class $modify(MyPlayLayer, PlayLayer) {
 			if (const auto search = createSearch(); !scene->getChildByID("search"_spr)) scene->addChild(search);
 			if (const auto live = createLive(); !scene->getChildByID("live"_spr)) scene->addChild(live);
 			if (const auto descLabel = createDescLabel(); !scene->getChildByID("desc"_spr)) scene->addChild(descLabel);
+			if (const auto usernameLabel = createUsernameLabel(); !scene->getChildByID("author"_spr)) scene->addChild(usernameLabel);
 		}
 		m_fields->rotated = true;
 	}
