@@ -186,7 +186,7 @@ class $modify(MyPlayLayer, PlayLayer) {
 		if (!gm->getPlayerGlow()) player->disableGlowOutline();
 		player->setZOrder(OTHER_MAGIC_NUMBER);
 		player->setID("player"_spr);
-		player->setScale(.25f);
+		player->setScale(.3f);
 		return player;
 	}
 	void setupHasCompleted() {
@@ -236,7 +236,7 @@ class $modify(MyPlayLayer, PlayLayer) {
 				}
 				if (const auto simplePlayer = createSimplePlayer(); !actions->getChildByID("player"_spr)) {
 					actions->addChild(simplePlayer);
-					simplePlayer->setPosition({actions->getChildByID("likes"_spr)->getPositionX(), 91.f});
+					simplePlayer->setPosition({actions->getChildByID("likes"_spr)->getPositionX() + 0.5f, 91.f});
 				}
 			}
 		}
