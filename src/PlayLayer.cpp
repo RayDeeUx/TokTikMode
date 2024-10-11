@@ -10,7 +10,7 @@ class $modify(MyPlayLayer, PlayLayer) {
 		(void) self.setHookPriority("PlayLayer::postUpdate", MAGIC_NUMBER);
 	}
 	struct Fields {
-		CCSize winSize = PlayLayer::get()->getContentSize();
+		CCSize winSize = CCDirector::get()->getVisibleSize();
 		float winWidth = winSize.width;
 		float winHeight = winSize.height;
 		bool rotated = false;
