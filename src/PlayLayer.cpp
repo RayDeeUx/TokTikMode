@@ -131,7 +131,7 @@ class $modify(MyPlayLayer, PlayLayer) {
 		auto descLabel = CCScene::get()->getChildByID("desc"_spr);
 		authorLabel->setPosition({
 			15.f,
-			descLabel->getPositionY() + descLabel->getContentHeight() - 10.f
+			descLabel->getPositionY() + descLabel->getContentHeight() - 5.f
 		});
 		authorLabel->setID("author"_spr);
 		return authorLabel;
@@ -147,7 +147,7 @@ class $modify(MyPlayLayer, PlayLayer) {
 	}
 	CCLabelBMFont* createCommentsLabel() {
 		std::string comments = "0";
-		if (m_level && m_level->m_levelType == GJLevelType::Saved) comments = utils::numToAbbreviatedString(abs(abs(m_level->m_downloads - m_level->m_likes) / 20) * 3);
+		if (m_level && m_level->m_levelType == GJLevelType::Saved) comments = utils::numToAbbreviatedString(abs((abs(m_level->m_downloads - m_level->m_likes) + 1) / 20) * 3);
 		const auto commentsLabel = CCLabelBMFont::create(comments.c_str(), "tokTikFontBold.fnt"_spr);
 		commentsLabel->setScale(0.2f);
 		commentsLabel->setZOrder(OTHER_MAGIC_NUMBER);
