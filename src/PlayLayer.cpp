@@ -102,10 +102,7 @@ class $modify(MyPlayLayer, PlayLayer) {
 	}
 	CCLabelBMFont* createDescLabel() {
 		std::string desc = "[This level's description does not follow TokTik's Community Guidelines, which help us foster an inclusive and authentic community and define the kind of content and behavior that's not allowed on our app.]";
-		if (m_level) {
-			const std::string description = m_level->getUnpackedLevelDescription();
-			if (!description.empty()) desc = description;
-		}
+		if (m_level && !m_level->getUnpackedLevelDescription().empty()) desc = m_level->getUnpackedLevelDescription();
 		const auto descLabel = CCLabelBMFont::create(desc.c_str(), "tokTikFont.fnt"_spr, m_fields->manager->winWidth * 0.75f, kCCTextAlignmentLeft);
 		descLabel->setScale(0.75f);
 		descLabel->setZOrder(OTHER_MAGIC_NUMBER);
@@ -134,10 +131,35 @@ class $modify(MyPlayLayer, PlayLayer) {
 		auto descLabel = CCScene::get()->getChildByID("desc"_spr);
 		authorLabel->setPosition({
 			15.f,
-			descLabel->getPositionY() + descLabel->getContentHeight() - 2.f
+			descLabel->getPositionY() + descLabel->getContentHeight() - 10.f
 		});
 		authorLabel->setID("author"_spr);
 		return authorLabel;
+	}
+	CCLabelBMFont* createLikesLabel() {
+		std::string likes = "0";
+		if (m_level && m_level->m_levelType == GJLevelType::Saved) likes = utils::numToAbbreviatedString(m_level->m_likes);
+		const auto likesLabel = CCLabelBMFont::create(likes.c_str(), "tokTikFontBold.fnt"_spr);
+		likesLabel->setScale(0.2f);
+		likesLabel->setZOrder(OTHER_MAGIC_NUMBER);
+		likesLabel->setID("likes"_spr);
+		return likesLabel;
+	}
+	CCLabelBMFont* createDownloadsLabel() {
+		std::string downloads = "0";
+		if (m_level && m_level->m_levelType == GJLevelType::Saved) downloads = utils::numToAbbreviatedString(m_level->m_downloads);
+		const auto downloadsLabel = CCLabelBMFont::create(downloads.c_str(), "tokTikFontBold.fnt"_spr);
+		downloadsLabel->setScale(0.2f);
+		downloadsLabel->setZOrder(OTHER_MAGIC_NUMBER);
+		downloadsLabel->setID("downloads"_spr);
+		return downloadsLabel;
+	}
+	CCLabelBMFont* createShareLabel() {
+		const auto shareLabel = CCLabelBMFont::create("Share", "tokTikFontBold.fnt"_spr);
+		shareLabel->setScale(0.2f);
+		shareLabel->setZOrder(OTHER_MAGIC_NUMBER);
+		shareLabel->setID("share"_spr);
+		return shareLabel;
 	}
 	void setupHasCompleted() {
 		PlayLayer::setupHasCompleted();
@@ -152,7 +174,7 @@ class $modify(MyPlayLayer, PlayLayer) {
 		PlayLayer::postUpdate(p0);
 		auto degrees = static_cast<float>(utils::numFromString<int>(Utils::getString("rotationDegrees")).unwrapOr(0));
 		auto scene = CCScene::get();
-		if (m_fields->rotated && scene->getRotation() == static_cast<float>(degrees)) return;
+		if (m_fields->rotated && scene->getRotation() == degrees) return;
 		if (degrees == 0) {
 			m_fields->rotated = true;
 			return;
@@ -171,6 +193,20 @@ class $modify(MyPlayLayer, PlayLayer) {
 			if (const auto live = createLive(); !scene->getChildByID("live"_spr)) scene->addChild(live);
 			if (const auto descLabel = createDescLabel(); !scene->getChildByID("desc"_spr)) scene->addChild(descLabel);
 			if (const auto usernameLabel = createUsernameLabel(); !scene->getChildByID("author"_spr)) scene->addChild(usernameLabel);
+			if (const auto actions = scene->getChildByID("actions"_spr)) {
+				if (const auto likesLabel = createLikesLabel(); !actions->getChildByID("likes"_spr)) {
+					actions->addChild(likesLabel);
+					likesLabel->setPosition({13.5f, 63.f}); // it's being added as a child of an existing node (at this point in code execution); no need to clutch onto your mother pearls because of "hArDcOdEd PoSiTiOnS", people
+				}
+				if (const auto downloadsLabel = createDownloadsLabel(); !actions->getChildByID("downloads"_spr)) {
+					actions->addChild(downloadsLabel);
+					downloadsLabel->setPosition({actions->getChildByID("likes"_spr)->getPositionX(), actions->getChildByID("likes"_spr)->getPositionY() - 20.f}); // it's being added as a child of an existing node (at this point in code execution); no need to clutch onto your mother pearls because of "hArDcOdEd PoSiTiOnS", people
+				}
+				if (const auto shareLabel = createShareLabel(); !actions->getChildByID("share"_spr)) {
+					actions->addChild(shareLabel);
+					shareLabel->setPosition({actions->getChildByID("downloads"_spr)->getPositionX(), actions->getChildByID("downloads"_spr)->getPositionY() - 20.f}); // it's being added as a child of an existing node (at this point in code execution); no need to clutch onto your mother pearls because of "hArDcOdEd PoSiTiOnS", people
+				}
+			}
 		}
 		m_fields->rotated = true;
 	}
