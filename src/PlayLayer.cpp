@@ -213,8 +213,8 @@ class $modify(MyPlayLayer, PlayLayer) {
 		if (!scene) return;
 		if (const auto sprite = createBottomBar(); !scene->getChildByID("bottom-bar"_spr)) scene->addChild(sprite);
 		if (const auto sprite = createTopBar(); !scene->getChildByID("top-bar"_spr)) scene->addChild(sprite);
-		scene->setRotation(degrees);
 		if (Utils::getBool("compatibilityMode") && m_fields->hasRotationOrScale) return;
+		scene->setRotation(degrees);
 		scene->setScale(m_fields->manager->winHeight / m_fields->manager->winWidth);
 		if (Utils::getBool("tiktokUI")) {
 			if (const auto footer = createFooter(); !scene->getChildByID("footer"_spr)) scene->addChild(footer);
