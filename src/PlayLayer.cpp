@@ -15,7 +15,7 @@ class $modify(MyPlayLayer, PlayLayer) {
 		bool rotated = false;
 		bool hasRotationOrScale = false;
 		Manager* manager = Manager::getSharedInstance();
-		std::vector<int> compatibilityMode {1346, 2067};
+		std::vector<int> compatibilityMode {1346, 2067, 3007, 3008, 3012, 3013};
 	};
 	static int whichIcon(GameManager* gm = GameManager::get()) {
 		int iconType = (int) gm->m_playerIconType;
@@ -36,6 +36,9 @@ class $modify(MyPlayLayer, PlayLayer) {
 			m_fields->manager->winWidth / 2.f,
 			(-m_fields->manager->winHeight) + (2.f * footer->getContentHeight())
 		});
+		#ifdef GEODE_IS_MACOS
+		footer->setPositionY(footer->getPositionY() + 83.f);
+		#endif
 		footer->setScale(m_fields->manager->winWidth / footer->getContentWidth());
 		footer->setZOrder(OTHER_MAGIC_NUMBER);
 		return footer;
@@ -47,6 +50,9 @@ class $modify(MyPlayLayer, PlayLayer) {
 			m_fields->manager->winWidth - (actions->getContentWidth() * 3.10f),
 			0
 		});
+		#ifdef GEODE_IS_MACOS
+		actions->setPositionY(actions->getPositionY() + 83.f);
+		#endif
 		actions->setScale((actions->getContentWidth() / m_fields->manager->winWidth) * 125.f);
 		actions->setZOrder(OTHER_MAGIC_NUMBER + 1);
 		return actions;
@@ -58,7 +64,12 @@ class $modify(MyPlayLayer, PlayLayer) {
 			m_fields->manager->winWidth / 2.f,
 			m_fields->manager->winWidth + (forYou->getContentHeight())
 		});
+		#ifdef GEODE_IS_MACOS
+		forYou->setPositionY(forYou->getPositionY() - 15.f);
+		forYou->setScale(((forYou->getContentWidth() / m_fields->manager->winWidth) * 40.f) * 0.75f);
+		#else
 		forYou->setScale((forYou->getContentWidth() / m_fields->manager->winWidth) * 40.f);
+		#endif
 		forYou->setZOrder(OTHER_MAGIC_NUMBER);
 		return forYou;
 	}
