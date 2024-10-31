@@ -45,13 +45,48 @@
 			"name": "Offset (Lower Menu)",
 			"description": "The number of Cocos2d-x units you want to move the TokTik UI's lower menu.\n\n<cy>Positive numbers will bring the lower menu closer to the center of the screen.</c>\n<cy>Negative numbers will bring the lower menu further away from the center of the screen.</c>",
 			"type": "int",
-			"default": 0
+			"default": 0,
+			"control": {
+				"input": true,
+				"slider": false,
+				"arrows": true,
+				"big-arrows": true,
+				"arrow-step": 1,
+				"big-arrow-step": 10,
+				"slider-step": 0.0
+			}
 		},
 		"headerOffset": {
 			"name": "Offset (Upper Menu)",
 			"description": "The number of Cocos2d-x units you want to move the TokTik UI's upper menu.\n\n<cy>Negative numbers will bring the upper menu closer to the center of the screen.</c>\n<cy>Positive numbers will bring the upper menu further away from the center of the screen.</c>",
 			"type": "int",
-			"default": 0
+			"default": 0,
+			"control": {
+				"input": true,
+				"slider": true,
+				"arrows": false,
+				"big-arrows": false,
+				"arrow-step": 1,
+				"big-arrow-step": 10,
+				"slider-step": 0.0
+			}
+		},
+		"headerScale": {
+			"name": "Scale (Upper Menu)",
+			"description": "The extent to which you want to scale the TokTik UI's upper menu.",
+			"type": "float",
+			"default": 1.0,
+			"min": 0.1,
+			"max": 1.0,
+			"control": {
+				"input": true,
+				"slider": true,
+				"arrows": false,
+				"big-arrows": false,
+				"arrow-step": 0,
+				"big-arrow-step": 0,
+				"slider-step": 0.1
+			}
 		}
 	},
 	"resources": {

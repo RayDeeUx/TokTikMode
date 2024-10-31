@@ -38,6 +38,10 @@ class $modify(MyPlayLayer, PlayLayer) {
 		});
 		#ifdef GEODE_IS_MACOS
 		footer->setPositionY(footer->getPositionY() + 83.f);
+		#elif GEODE_IS_ANDROID64
+		footer->setPositionY(footer->getPositionY() - 145.f);
+		#elif GEODE_IS_ANDROID32
+		footer->setPositionY(footer->getPositionY() - 67.5f);
 		#endif
 		footer->setScale(m_fields->manager->winWidth / footer->getContentWidth());
 		footer->setZOrder(OTHER_MAGIC_NUMBER);
@@ -52,6 +56,10 @@ class $modify(MyPlayLayer, PlayLayer) {
 		});
 		#ifdef GEODE_IS_MACOS
 		actions->setPositionY(actions->getPositionY() + 83.f);
+		#elif GEODE_IS_ANDROID64
+		actions->setPositionY(actions->getPositionY() - 145.f);
+		#elif GEODE_IS_ANDROID32
+		actions->setPositionY(actions->getPositionY() - 67.5f);
 		#endif
 		actions->setScale((actions->getContentWidth() / m_fields->manager->winWidth) * 125.f);
 		actions->setZOrder(OTHER_MAGIC_NUMBER + 1);
@@ -66,9 +74,15 @@ class $modify(MyPlayLayer, PlayLayer) {
 		});
 		#ifdef GEODE_IS_MACOS
 		forYou->setPositionY(forYou->getPositionY() - 15.f);
-		forYou->setScale(((forYou->getContentWidth() / m_fields->manager->winWidth) * 40.f) * 0.75f);
+		forYou->setScale(((forYou->getContentWidth() / m_fields->manager->winWidth) * 40.f) * 0.75f * static_cast<float>(Utils::getDouble("headerScale")));
+		#elif GEODE_IS_ANDROID64
+		forYou->setScale(((forYou->getContentWidth() / m_fields->manager->winWidth) * 40.f) * 1.449f * static_cast<float>(Utils::getDouble("headerScale")));
+		forYou->setPositionY(forYou->getPositionY() + 120.f);
+		#elif GEODE_IS_ANDROID32
+		forYou->setScale(((forYou->getContentWidth() / m_fields->manager->winWidth) * 40.f) * 0.9f * static_cast<float>(Utils::getDouble("headerScale")));
+		forYou->setPositionY(forYou->getPositionY() + 60.f);
 		#else
-		forYou->setScale((forYou->getContentWidth() / m_fields->manager->winWidth) * 40.f);
+		forYou->setScale((forYou->getContentWidth() / m_fields->manager->winWidth) * 40.f * static_cast<float>(Utils::getDouble("headerScale")));
 		#endif
 		forYou->setZOrder(OTHER_MAGIC_NUMBER);
 		return forYou;
@@ -205,6 +219,13 @@ class $modify(MyPlayLayer, PlayLayer) {
 		if (!gm->getPlayerGlow()) player->disableGlowOutline();
 		player->setPositionY(actions->getPositionY() + 205.f);
 		player->setPositionX(actions->getPositionX() + 22.f);
+		#ifdef GEODE_IS_WINDOWS
+		player->setPositionY(player->getPositionY() - 19.f);
+		player->setPositionX(player->getPositionX() - 3.f);
+		#elif GEODE_IS_ANDROID
+		player->setPositionY(player->getPositionY() - 57.f);
+		player->setPositionX(player->getPositionX() - 6.f);
+		#endif
 		player->setZOrder(OTHER_MAGIC_NUMBER);
 		player->setID("player"_spr);
 		player->setScale(1.1f);
