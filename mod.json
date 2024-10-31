@@ -20,11 +20,11 @@
 		},
 		"compatibilityMode": {
 			"name": "Compatibility Mode",
-			"description": "If a level has rotation or scale triggers, this mod will not go further beyond rotating the screen.\n\n<cy>You can go thank RobTop for this silly blunder; apparently the screen needs to be at *exactly* 1.000 scale to have rotation and scale triggers work properly.</c>",
+			"description": "If a level has rotation or scale triggers, this mod will not do anything.\n\n<cy>Apparently, the screen needs to be at *exactly* 1.000 scale to have rotation and scale triggers working properly.</c>\n<cr>ONLY DISABLE IF YOU KNOW WHAT YOU'RE DOING.</c>",
 			"type": "bool",
 			"default": true
 		},
-		"tiktokUI": {
+		"tokTikUI": {
 			"name": "TokTik UI",
 			"description": "Toggles the TokTik UI.",
 			"type": "bool",
@@ -40,6 +40,18 @@
 				"90",
 				"270"
 			]
+		},
+		"footerOffset": {
+			"name": "Offset (Lower Menu)",
+			"description": "The number of Cocos2d-x units you want to move the TokTik UI's lower menu.\n\n<cy>Positive numbers will bring the lower menu closer to the center of the screen.</c>\n<cy>Negative numbers will bring the lower menu further away from the center of the screen.</c>",
+			"type": "int",
+			"default": 0
+		},
+		"headerOffset": {
+			"name": "Offset (Upper Menu)",
+			"description": "The number of Cocos2d-x units you want to move the TokTik UI's upper menu.\n\n<cy>Negative numbers will bring the upper menu closer to the center of the screen.</c>\n<cy>Positive numbers will bring the upper menu further away from the center of the screen.</c>",
+			"type": "int",
+			"default": 0
 		}
 	},
 	"resources": {

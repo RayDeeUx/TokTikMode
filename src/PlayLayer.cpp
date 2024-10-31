@@ -15,7 +15,7 @@ class $modify(MyPlayLayer, PlayLayer) {
 		bool rotated = false;
 		bool hasRotationOrScale = false;
 		Manager* manager = Manager::getSharedInstance();
-		std::vector<int> compatibilityMode {1346, 2067, 3007, 3008, 3012, 3013};
+		std::vector<int> compatibilityMode {1346, 2067, 3007, 3008, 3012, 3013, 3032, 3033};
 	};
 	static int whichIcon(GameManager* gm = GameManager::get()) {
 		int iconType = (int) gm->m_playerIconType;
@@ -34,7 +34,7 @@ class $modify(MyPlayLayer, PlayLayer) {
 		footer->setID("footer"_spr);
 		footer->setPosition({
 			m_fields->manager->winWidth / 2.f,
-			(-m_fields->manager->winHeight) + (2.f * footer->getContentHeight())
+			(-m_fields->manager->winHeight) + (2.f * footer->getContentHeight()) + static_cast<float>(Utils::getInt("footerOffset"))
 		});
 		#ifdef GEODE_IS_MACOS
 		footer->setPositionY(footer->getPositionY() + 83.f);
@@ -48,7 +48,7 @@ class $modify(MyPlayLayer, PlayLayer) {
 		actions->setID("actions"_spr);
 		actions->setPosition({
 			m_fields->manager->winWidth - (actions->getContentWidth() * 3.10f),
-			0
+			0 + static_cast<float>(Utils::getInt("footerOffset"))
 		});
 		#ifdef GEODE_IS_MACOS
 		actions->setPositionY(actions->getPositionY() + 83.f);
@@ -62,7 +62,7 @@ class $modify(MyPlayLayer, PlayLayer) {
 		forYou->setID("for-you"_spr);
 		forYou->setPosition({
 			m_fields->manager->winWidth / 2.f,
-			m_fields->manager->winWidth + (forYou->getContentHeight())
+			m_fields->manager->winWidth + (forYou->getContentHeight()) + static_cast<float>(Utils::getInt("headerOffset"))
 		});
 		#ifdef GEODE_IS_MACOS
 		forYou->setPositionY(forYou->getPositionY() - 15.f);
@@ -96,6 +96,13 @@ class $modify(MyPlayLayer, PlayLayer) {
 		live->setScale(scene->getChildByID("for-you"_spr)->getScale() * 0.85f);
 		live->setZOrder(OTHER_MAGIC_NUMBER);
 		return live;
+	}
+	static CCSprite* createVibingCube() {
+		CCSprite* vibingCube = CCSprite::create("vibingCube.png"_spr);
+		auto scene = CCScene::get();
+		vibingCube->setID("vibing-cube"_spr);
+		vibingCube->setZOrder(OTHER_MAGIC_NUMBER + 1);
+		return vibingCube;
 	}
 	CCSprite* createBottomBar() {
 		CCSprite* bottomBar = CCSprite::create("bar.png"_spr);
@@ -227,7 +234,7 @@ class $modify(MyPlayLayer, PlayLayer) {
 		if (Utils::getBool("compatibilityMode") && m_fields->hasRotationOrScale) return;
 		scene->setRotation(degrees);
 		scene->setScale(m_fields->manager->winHeight / m_fields->manager->winWidth);
-		if (Utils::getBool("tiktokUI")) {
+		if (Utils::getBool("tokTikUI")) {
 			if (const auto footer = createFooter(); !scene->getChildByID("footer"_spr)) scene->addChild(footer);
 			if (const auto actions = createActions(); !scene->getChildByID("actions"_spr)) scene->addChild(actions);
 			if (const auto forYou = createForYou(); !scene->getChildByID("for-you"_spr)) scene->addChild(forYou);
@@ -240,13 +247,18 @@ class $modify(MyPlayLayer, PlayLayer) {
 					actions->addChild(likesLabel);
 					likesLabel->setPosition({13.5f, 63.f}); // it's being added as a child of an existing node (at this point in code execution); no need to clutch onto your mother pearls because of "hArDcOdEd PoSiTiOnS", people
 				}
-				if (const auto commentsLabel = createCommentsLabel(); !actions->getChildByID("downloads"_spr)) {
+				if (const auto commentsLabel = createCommentsLabel(); !actions->getChildByID("comments"_spr)) {
 					actions->addChild(commentsLabel);
 					commentsLabel->setPosition({actions->getChildByID("likes"_spr)->getPositionX(), actions->getChildByID("likes"_spr)->getPositionY() - 20.f});
 				}
 				if (const auto shareLabel = createDownloadsLabel(); !actions->getChildByID("downloads"_spr)) {
 					actions->addChild(shareLabel);
 					shareLabel->setPosition({actions->getChildByID("comments"_spr)->getPositionX(), actions->getChildByID("comments"_spr)->getPositionY() - 20.f});
+				}
+				if (const auto vibingCube = createVibingCube(); !actions->getChildByID("vibing-cube"_spr)) {
+					actions->addChild(vibingCube);
+					vibingCube->setScale(0.05f);
+					vibingCube->setPosition({actions->getChildByID("downloads"_spr)->getPositionX(), actions->getChildByID("downloads"_spr)->getPositionY() - 12.f});
 				}
 				if (const auto simplePlayer = createSimplePlayer(); !scene->getChildByID("player"_spr)) {
 					scene->addChild(simplePlayer);
