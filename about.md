@@ -13,6 +13,10 @@ Play <co>Geometry</c> <cb>Dash</c> levels as if you were viewing a TokTik video.
 
 However, not all devices are created the same. Therefore, <c-25f4ee>Tok</c><c-fe2c55>Tik</c>Mode has additional settings for you to adjust positions and scaling of <c-25f4ee>Tok</c><c-fe2c55>Tik</c> UI elements to fit your device as necessary.
 
+Special thanks to [TheBearodactyl](https://geode-sdk.org/mods?developer=TheBearodactyl) for sending me a more recent version of the <c-25f4ee>Tok</c><c-fe2c55>Tik</c> UI to use as a reference.
+
+Mod idea by [Mattt Nguyen](https://discord.com/users/899558162758266920).
+
 Some parts of the <c-25f4ee>Tok</c><c-fe2c55>Tik</c> UI recreation re-use [assets created by Adriano Reis from Figma](https://www.figma.com/community/file/865012298664294326/tiktok-ui-mockup-fully-customizable), licensed under [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/).
 
 The <c-25f4ee>Tok</c><c-fe2c55>Tik</c> UI's font is (based on) Helvetica Neue DeskInterface, available on [FontKe](https://eng.fontke.com/font/106860486/download/) for non-commercial purposes.

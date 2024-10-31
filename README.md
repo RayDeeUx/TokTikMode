@@ -13,6 +13,10 @@ TokTikMode was tested on the following devices, operating systems, and aspect ra
 
 However, not all devices are created the same. Therefore, TokTikMode has additional settings for you to adjust positions and scaling of TokTik UI elements to fit your device as necessary.
 
+Special thanks to [TheBearodactyl](https://geode-sdk.org/mods?developer=TheBearodactyl) for sending me a more recent version of the <c-25f4ee>Tok</c><c-fe2c55>Tik</c> UI to use as a reference.
+
+Mod idea by [Mattt Nguyen](https://discord.com/users/899558162758266920).
+
 Some parts of the TokTik UI recreation re-use [assets created by Adriano Reis from Figma](https://www.figma.com/community/file/865012298664294326/tiktok-ui-mockup-fully-customizable), licensed under [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/).
 
 The TokTik UI's font is (based on) Helvetica Neue DeskInterface, available on [FontKe](https://eng.fontke.com/font/106860486/download/) for non-commercial purposes.
