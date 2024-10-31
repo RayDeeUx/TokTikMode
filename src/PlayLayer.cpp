@@ -15,7 +15,6 @@ class $modify(MyPlayLayer, PlayLayer) {
 		bool rotated = false;
 		bool hasRotationOrScale = false;
 		Manager* manager = Manager::getSharedInstance();
-		std::vector<int> compatibilityMode {1346, 2067, 3007, 3008, 3012, 3013, 3032, 3033};
 	};
 	static int whichIcon(GameManager* gm = GameManager::get()) {
 		int iconType = (int) gm->m_playerIconType;
@@ -89,7 +88,7 @@ class $modify(MyPlayLayer, PlayLayer) {
 	}
 	static CCSprite* createSearch() {
 		CCSprite* search = CCSprite::create("search.png"_spr);
-		auto scene = CCScene::get();
+		const auto &scene = CCScene::get();
 		search->setID("search"_spr);
 		search->setPosition({
 			scene->getChildByID("actions"_spr)->getPositionX() + 20.f,
@@ -101,7 +100,7 @@ class $modify(MyPlayLayer, PlayLayer) {
 	}
 	static CCSprite* createLive() {
 		CCSprite* live = CCSprite::create("live.png"_spr);
-		auto scene = CCScene::get();
+		const auto &scene = CCScene::get();
 		live->setID("live"_spr);
 		live->setPosition({
 			35.f,
@@ -113,7 +112,6 @@ class $modify(MyPlayLayer, PlayLayer) {
 	}
 	static CCSprite* createVibingCube() {
 		CCSprite* vibingCube = CCSprite::create("vibingCube.png"_spr);
-		auto scene = CCScene::get();
 		vibingCube->setID("vibing-cube"_spr);
 		vibingCube->setZOrder(OTHER_MAGIC_NUMBER + 1);
 		return vibingCube;
@@ -147,11 +145,11 @@ class $modify(MyPlayLayer, PlayLayer) {
 	CCLabelBMFont* createDescLabel() {
 		std::string desc = "[This level's description does not follow TokTik's Community Guidelines, which help us foster an inclusive and authentic community and define the kind of content and behavior that's not allowed on our app.]";
 		if (m_level && !m_level->getUnpackedLevelDescription().empty()) desc = m_level->getUnpackedLevelDescription();
-		const auto descLabel = CCLabelBMFont::create(desc.c_str(), "tokTikFont.fnt"_spr, m_fields->manager->winWidth * 0.75f, kCCTextAlignmentLeft);
+		const auto &descLabel = CCLabelBMFont::create(desc.c_str(), "tokTikFont.fnt"_spr, m_fields->manager->winWidth * 0.75f, kCCTextAlignmentLeft);
 		descLabel->setScale(0.75f);
 		descLabel->setZOrder(OTHER_MAGIC_NUMBER);
 		descLabel->setAnchorPoint({0, 0});
-		auto footer = CCScene::get()->getChildByID("footer"_spr);
+		const auto &footer = CCScene::get()->getChildByID("footer"_spr);
 		descLabel->setPosition({
 			15.f,
 			footer->getPositionY() + (footer->getContentHeight() * 3) + 20.f
@@ -168,11 +166,11 @@ class $modify(MyPlayLayer, PlayLayer) {
 				if (!m_level->m_creatorName.empty()) username = fmt::format("@{}", m_level->m_creatorName);
 			}
 		}
-		const auto authorLabel = CCLabelBMFont::create(username.c_str(), "tokTikFontBold.fnt"_spr, m_fields->manager->winWidth * 0.75f, kCCTextAlignmentLeft);
+		const auto &authorLabel = CCLabelBMFont::create(username.c_str(), "tokTikFontBold.fnt"_spr, m_fields->manager->winWidth * 0.75f, kCCTextAlignmentLeft);
 		authorLabel->setScale(0.75f);
 		authorLabel->setZOrder(OTHER_MAGIC_NUMBER);
 		authorLabel->setAnchorPoint({0, 0});
-		auto descLabel = CCScene::get()->getChildByID("desc"_spr);
+		const auto &descLabel = CCScene::get()->getChildByID("desc"_spr);
 		authorLabel->setPosition({
 			15.f,
 			descLabel->getPositionY() + descLabel->getContentHeight() - 5.f
@@ -183,7 +181,7 @@ class $modify(MyPlayLayer, PlayLayer) {
 	CCLabelBMFont* createLikesLabel() {
 		std::string likes = "0";
 		if (m_level && m_level->m_levelType == GJLevelType::Saved) likes = utils::numToAbbreviatedString(m_level->m_likes);
-		const auto likesLabel = CCLabelBMFont::create(likes.c_str(), "tokTikFontBold.fnt"_spr);
+		const auto &likesLabel = CCLabelBMFont::create(likes.c_str(), "tokTikFontBold.fnt"_spr);
 		likesLabel->setScale(0.2f);
 		likesLabel->setZOrder(OTHER_MAGIC_NUMBER);
 		likesLabel->setID("likes"_spr);
@@ -192,7 +190,7 @@ class $modify(MyPlayLayer, PlayLayer) {
 	CCLabelBMFont* createCommentsLabel() {
 		std::string comments = "0";
 		if (m_level && m_level->m_levelType == GJLevelType::Saved) comments = utils::numToAbbreviatedString(abs((abs(m_level->m_downloads - m_level->m_likes) + 1) / 20) * 3);
-		const auto commentsLabel = CCLabelBMFont::create(comments.c_str(), "tokTikFontBold.fnt"_spr);
+		const auto &commentsLabel = CCLabelBMFont::create(comments.c_str(), "tokTikFontBold.fnt"_spr);
 		commentsLabel->setScale(0.2f);
 		commentsLabel->setZOrder(OTHER_MAGIC_NUMBER);
 		commentsLabel->setID("comments"_spr);
@@ -201,7 +199,7 @@ class $modify(MyPlayLayer, PlayLayer) {
 	CCLabelBMFont* createDownloadsLabel() {
 		int downloads = 0;
 		if (m_level && m_level->m_levelType == GJLevelType::Saved) downloads = m_level->m_downloads;
-		const auto shareLabel = CCLabelBMFont::create(utils::numToAbbreviatedString(downloads).c_str(), "tokTikFontBold.fnt"_spr);
+		const auto &shareLabel = CCLabelBMFont::create(utils::numToAbbreviatedString(downloads).c_str(), "tokTikFontBold.fnt"_spr);
 		shareLabel->setScale(0.2f);
 		shareLabel->setZOrder(OTHER_MAGIC_NUMBER);
 		shareLabel->setID("downloads"_spr);
@@ -212,7 +210,7 @@ class $modify(MyPlayLayer, PlayLayer) {
 		SimplePlayer* player = SimplePlayer::create(0);
 		player->updatePlayerFrame(whichIcon(), gm->m_playerIconType);
 		player->setColor(gm->colorForIdx(gm->m_playerColor.value()));
-		const auto actions = CCScene::get()->getChildByID("actions"_spr);
+		const auto &actions = CCScene::get()->getChildByID("actions"_spr);
 		player->setSecondColor(gm->colorForIdx(gm->m_playerColor2.value()));
 		player->enableCustomGlowColor(gm->colorForIdx(gm->m_playerGlowColor.value()));
 		player->setGlowOutline(gm->colorForIdx(gm->m_playerGlowColor.value()));
@@ -233,8 +231,10 @@ class $modify(MyPlayLayer, PlayLayer) {
 	}
 	void setupHasCompleted() {
 		PlayLayer::setupHasCompleted();
-		for (auto object : CCArrayExt<GameObject*>(m_objects)) {
-			if (std::ranges::find(m_fields->compatibilityMode, object->m_objectID) != m_fields->compatibilityMode.end()) {
+		if (!Utils::modEnabled()) return;
+		std::array compatibilityMode {1346, 2067, 3007, 3008, 3012, 3013, 3032, 3033};
+		for (const auto &object : CCArrayExt<GameObject*>(m_objects)) {
+			if (std::ranges::find(compatibilityMode, object->m_objectID) != compatibilityMode.end()) {
 				m_fields->hasRotationOrScale = true;
 				break;
 			}
@@ -242,46 +242,47 @@ class $modify(MyPlayLayer, PlayLayer) {
 	}
 	void postUpdate(float p0) {
 		PlayLayer::postUpdate(p0);
-		auto degrees = static_cast<float>(utils::numFromString<int>(Utils::getString("rotationDegrees")).unwrapOr(0));
-		auto scene = CCScene::get();
+		if (!Utils::modEnabled()) return;
+		const auto &degrees = static_cast<float>(utils::numFromString<int>(Utils::getString("rotationDegrees")).unwrapOr(0));
+		const auto &scene = CCScene::get();
 		if (m_fields->rotated && scene->getRotation() == degrees) return;
 		if (degrees == 0) {
 			m_fields->rotated = true;
 			return;
 		}
 		if (!scene) return;
-		if (const auto sprite = createBottomBar(); !scene->getChildByID("bottom-bar"_spr)) scene->addChild(sprite);
-		if (const auto sprite = createTopBar(); !scene->getChildByID("top-bar"_spr)) scene->addChild(sprite);
+		if (const auto &sprite = createBottomBar(); !scene->getChildByID("bottom-bar"_spr)) scene->addChild(sprite);
+		if (const auto &sprite = createTopBar(); !scene->getChildByID("top-bar"_spr)) scene->addChild(sprite);
 		if (Utils::getBool("compatibilityMode") && m_fields->hasRotationOrScale) return;
 		scene->setRotation(degrees);
 		scene->setScale(m_fields->manager->winHeight / m_fields->manager->winWidth);
 		if (Utils::getBool("tokTikUI")) {
-			if (const auto footer = createFooter(); !scene->getChildByID("footer"_spr)) scene->addChild(footer);
-			if (const auto actions = createActions(); !scene->getChildByID("actions"_spr)) scene->addChild(actions);
-			if (const auto forYou = createForYou(); !scene->getChildByID("for-you"_spr)) scene->addChild(forYou);
-			if (const auto search = createSearch(); !scene->getChildByID("search"_spr)) scene->addChild(search);
-			if (const auto live = createLive(); !scene->getChildByID("live"_spr)) scene->addChild(live);
-			if (const auto descLabel = createDescLabel(); !scene->getChildByID("desc"_spr)) scene->addChild(descLabel);
-			if (const auto usernameLabel = createUsernameLabel(); !scene->getChildByID("author"_spr)) scene->addChild(usernameLabel);
-			if (const auto actions = scene->getChildByID("actions"_spr)) {
-				if (const auto likesLabel = createLikesLabel(); !actions->getChildByID("likes"_spr)) {
+			if (const auto &footer = createFooter(); !scene->getChildByID("footer"_spr)) scene->addChild(footer);
+			if (const auto &actions = createActions(); !scene->getChildByID("actions"_spr)) scene->addChild(actions);
+			if (const auto &forYou = createForYou(); !scene->getChildByID("for-you"_spr)) scene->addChild(forYou);
+			if (const auto &search = createSearch(); !scene->getChildByID("search"_spr)) scene->addChild(search);
+			if (const auto &live = createLive(); !scene->getChildByID("live"_spr)) scene->addChild(live);
+			if (const auto &descLabel = createDescLabel(); !scene->getChildByID("desc"_spr)) scene->addChild(descLabel);
+			if (const auto &usernameLabel = createUsernameLabel(); !scene->getChildByID("author"_spr)) scene->addChild(usernameLabel);
+			if (const auto &actions = scene->getChildByID("actions"_spr)) {
+				if (const auto &likesLabel = createLikesLabel(); !actions->getChildByID("likes"_spr)) {
 					actions->addChild(likesLabel);
 					likesLabel->setPosition({13.5f, 63.f}); // it's being added as a child of an existing node (at this point in code execution); no need to clutch onto your mother pearls because of "hArDcOdEd PoSiTiOnS", people
 				}
-				if (const auto commentsLabel = createCommentsLabel(); !actions->getChildByID("comments"_spr)) {
+				if (const auto &commentsLabel = createCommentsLabel(); !actions->getChildByID("comments"_spr)) {
 					actions->addChild(commentsLabel);
 					commentsLabel->setPosition({actions->getChildByID("likes"_spr)->getPositionX(), actions->getChildByID("likes"_spr)->getPositionY() - 20.f});
 				}
-				if (const auto shareLabel = createDownloadsLabel(); !actions->getChildByID("downloads"_spr)) {
+				if (const auto &shareLabel = createDownloadsLabel(); !actions->getChildByID("downloads"_spr)) {
 					actions->addChild(shareLabel);
 					shareLabel->setPosition({actions->getChildByID("comments"_spr)->getPositionX(), actions->getChildByID("comments"_spr)->getPositionY() - 20.f});
 				}
-				if (const auto vibingCube = createVibingCube(); !actions->getChildByID("vibing-cube"_spr)) {
+				if (const auto &vibingCube = createVibingCube(); !actions->getChildByID("vibing-cube"_spr)) {
 					actions->addChild(vibingCube);
 					vibingCube->setScale(0.05f);
 					vibingCube->setPosition({actions->getChildByID("downloads"_spr)->getPositionX(), actions->getChildByID("downloads"_spr)->getPositionY() - 12.f});
 				}
-				if (const auto simplePlayer = createSimplePlayer(); !scene->getChildByID("player"_spr)) {
+				if (const auto &simplePlayer = createSimplePlayer(); !scene->getChildByID("player"_spr)) {
 					scene->addChild(simplePlayer);
 				}
 			}
