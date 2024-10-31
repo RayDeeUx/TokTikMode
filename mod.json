@@ -63,9 +63,9 @@
 			"default": 0,
 			"control": {
 				"input": true,
-				"slider": true,
-				"arrows": false,
-				"big-arrows": false,
+				"slider": false,
+				"arrows": true,
+				"big-arrows": true,
 				"arrow-step": 1,
 				"big-arrow-step": 10,
 				"slider-step": 0.0
