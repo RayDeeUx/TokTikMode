@@ -117,7 +117,6 @@
 			"resources/*.png"
 		],
 		"files": [
-			"resources/staticSize/*.png",
 			"resources/fonts/*.png",
 			"resources/fonts/*.fnt"
 		]
