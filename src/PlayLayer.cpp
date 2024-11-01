@@ -232,7 +232,7 @@ class $modify(MyPlayLayer, PlayLayer) {
 	void exitPlayLayer(CCObject* sender) {
 		if (!Utils::modEnabled() || !Utils::getBool("tokTikUI") || !Utils::getBool("footerMenu") || !PlayLayer::get()) return;
 		PauseLayer::create(false)->onQuit(nullptr);
-		m_fields->manager->senderTag = sender->getTag();
+		m_fields->manager->senderTag = -1;
 	}
 	void openFriends(CCObject* sender) {
 		if (!Utils::modEnabled() || !Utils::getBool("tokTikUI") || !Utils::getBool("footerMenu") || !PlayLayer::get()) return;
@@ -242,7 +242,7 @@ class $modify(MyPlayLayer, PlayLayer) {
 	void openMyLevels(CCObject* sender) {
 		if (!Utils::modEnabled() || !Utils::getBool("tokTikUI") || !Utils::getBool("footerMenu") || !PlayLayer::get()) return;
 		CCDirector::sharedDirector()->replaceScene(CCTransitionFade::create(0.5f, LevelBrowserLayer::scene(GJSearchObject::create(SearchType::MyLevels))));
-		m_fields->manager->senderTag = sender->getTag();
+		m_fields->manager->senderTag = -1;
 	}
 	void openMessages(CCObject* sender) {
 		if (!Utils::modEnabled() || !Utils::getBool("tokTikUI") || !Utils::getBool("footerMenu") || !PlayLayer::get()) return;
