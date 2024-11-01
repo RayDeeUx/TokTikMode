@@ -10,10 +10,6 @@ class Manager {
 protected:
 	static Manager* instance;
 public:
-	CCSize winSize = CCDirector::get()->getWinSize();
-	float winWidth = winSize.width;
-	float winHeight = winSize.height;
-
 	int senderTag = -1;
 
 	static Manager* getSharedInstance() {
