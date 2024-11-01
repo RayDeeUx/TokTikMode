@@ -23,4 +23,6 @@ namespace Utils {
 	std::string getModVersion(const Mod* mod);
 
 	int getRandInt(int min, int max);
+
+	void showGuardrailCode();
 }

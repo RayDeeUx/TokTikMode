@@ -15,10 +15,6 @@ class $modify(MyCommentCell, CommentCell) {
 	};
 	void onGoToLevel(cocos2d::CCObject* sender) {
 		if (!Utils::modEnabled() || !Utils::getBool("tokTikUI") || !Utils::getBool("footerMenu") || !PlayLayer::get() || m_fields->manager->senderTag == -1) return CommentCell::onGoToLevel(sender);
-		FLAlertLayer::create(
-			"Warning",
-			"You must <cr>EXIT</c> the level to proceed.\n\n--<cj>Tok</c><cr>Tik</c>Mode",
-			"Ok"
-		)->show();
+		Utils::showGuardrailCode();
     }
 };
