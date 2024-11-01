@@ -15,6 +15,9 @@ class $modify(MyPlayLayer, PlayLayer) {
 		bool rotated = false;
 		bool hasRotationOrScale = false;
 		Manager* manager = Manager::getSharedInstance();
+		CCSize winSize = CCDirector::get()->getWinSize();
+		float winWidth = winSize.width;
+		float winHeight = winSize.height;
 	};
 	static int whichIcon(GameManager* gm = GameManager::get()) {
 		int iconType = (int) gm->m_playerIconType;
@@ -32,8 +35,8 @@ class $modify(MyPlayLayer, PlayLayer) {
 		CCSprite* footer = CCSprite::create("footer.png"_spr);
 		footer->setID("footer"_spr);
 		footer->setPosition({
-			m_fields->manager->winWidth / 2.f,
-			(-m_fields->manager->winHeight) + (2.f * footer->getContentHeight()) + static_cast<float>(Utils::getInt("footerOffset"))
+			m_fields->winWidth / 2.f,
+			(-m_fields->winHeight) + (2.f * footer->getContentHeight()) + static_cast<float>(Utils::getInt("footerOffset"))
 		});
 		#ifdef GEODE_IS_MACOS
 		footer->setPositionY(footer->getPositionY() + 83.f);
@@ -42,7 +45,7 @@ class $modify(MyPlayLayer, PlayLayer) {
 		#elif defined(GEODE_IS_ANDROID32)
 		footer->setPositionY(footer->getPositionY() - 67.5f);
 		#endif
-		footer->setScale(m_fields->manager->winWidth / footer->getContentWidth());
+		footer->setScale(m_fields->winWidth / footer->getContentWidth());
 		footer->setZOrder(OTHER_MAGIC_NUMBER);
 		return footer;
 	}
@@ -50,7 +53,7 @@ class $modify(MyPlayLayer, PlayLayer) {
 		CCSprite* actions = CCSprite::create("actions.png"_spr);
 		actions->setID("actions"_spr);
 		actions->setPosition({
-			m_fields->manager->winWidth - (actions->getContentWidth() * 3.10f),
+			m_fields->winWidth - (actions->getContentWidth() * 3.10f),
 			0 + static_cast<float>(Utils::getInt("footerOffset"))
 		});
 		#ifdef GEODE_IS_MACOS
@@ -60,7 +63,7 @@ class $modify(MyPlayLayer, PlayLayer) {
 		#elif defined(GEODE_IS_ANDROID32)
 		actions->setPositionY(actions->getPositionY() - 67.5f);
 		#endif
-		actions->setScale((actions->getContentWidth() / m_fields->manager->winWidth) * 125.f * static_cast<float>(Utils::getDouble("actionsScale")));
+		actions->setScale((actions->getContentWidth() / m_fields->winWidth) * 125.f * static_cast<float>(Utils::getDouble("actionsScale")));
 		actions->setZOrder(OTHER_MAGIC_NUMBER + 1);
 		return actions;
 	}
@@ -68,20 +71,20 @@ class $modify(MyPlayLayer, PlayLayer) {
 		CCSprite* forYou = CCSprite::create("followingAndFYP.png"_spr);
 		forYou->setID("for-you"_spr);
 		forYou->setPosition({
-			m_fields->manager->winWidth / 2.f,
-			m_fields->manager->winWidth + (forYou->getContentHeight()) + static_cast<float>(Utils::getInt("headerOffset"))
+			m_fields->winWidth / 2.f,
+			m_fields->winWidth + (forYou->getContentHeight()) + static_cast<float>(Utils::getInt("headerOffset"))
 		});
 		#ifdef GEODE_IS_MACOS
 		forYou->setPositionY(forYou->getPositionY() - 15.f);
-		forYou->setScale(((forYou->getContentWidth() / m_fields->manager->winWidth) * 40.f) * 0.75f * static_cast<float>(Utils::getDouble("headerScale")));
+		forYou->setScale(((forYou->getContentWidth() / m_fields->winWidth) * 40.f) * 0.75f * static_cast<float>(Utils::getDouble("headerScale")));
 		#elif defined(GEODE_IS_ANDROID64)
-		forYou->setScale(((forYou->getContentWidth() / m_fields->manager->winWidth) * 40.f) * 1.449f * static_cast<float>(Utils::getDouble("headerScale")));
+		forYou->setScale(((forYou->getContentWidth() / m_fields->winWidth) * 40.f) * 1.449f * static_cast<float>(Utils::getDouble("headerScale")));
 		forYou->setPositionY(forYou->getPositionY() + 120.f);
 		#elif defined(GEODE_IS_ANDROID32)
-		forYou->setScale(((forYou->getContentWidth() / m_fields->manager->winWidth) * 40.f) * 0.9f * static_cast<float>(Utils::getDouble("headerScale")));
+		forYou->setScale(((forYou->getContentWidth() / m_fields->winWidth) * 40.f) * 0.9f * static_cast<float>(Utils::getDouble("headerScale")));
 		forYou->setPositionY(forYou->getPositionY() + 60.f);
 		#else
-		forYou->setScale((forYou->getContentWidth() / m_fields->manager->winWidth) * 40.f * static_cast<float>(Utils::getDouble("headerScale")));
+		forYou->setScale((forYou->getContentWidth() / m_fields->winWidth) * 40.f * static_cast<float>(Utils::getDouble("headerScale")));
 		#endif
 		forYou->setZOrder(OTHER_MAGIC_NUMBER);
 		return forYou;
@@ -121,10 +124,10 @@ class $modify(MyPlayLayer, PlayLayer) {
 		bottomBar->setID("bottom-bar"_spr);
 		bottomBar->setAnchorPoint({0.5f, 1.f});
 		bottomBar->setPosition({
-			m_fields->manager->winWidth / 2.f,
+			m_fields->winWidth / 2.f,
 			0
 		});
-		bottomBar->setScale(m_fields->manager->winWidth);
+		bottomBar->setScale(m_fields->winWidth);
 		bottomBar->setZOrder(OTHER_MAGIC_NUMBER - 1);
 		bottomBar->setColor({0, 0, 0});
 		return bottomBar;
@@ -134,10 +137,10 @@ class $modify(MyPlayLayer, PlayLayer) {
 		topBar->setID("top-bar"_spr);
 		topBar->setAnchorPoint({0.5f, 0.f});
 		topBar->setPosition({
-			m_fields->manager->winWidth / 2.f,
-			m_fields->manager->winHeight
+			m_fields->winWidth / 2.f,
+			m_fields->winHeight
 		});
-		topBar->setScale(m_fields->manager->winWidth);
+		topBar->setScale(m_fields->winWidth);
 		topBar->setZOrder(OTHER_MAGIC_NUMBER - 1);
 		topBar->setColor({0, 0, 0});
 		return topBar;
@@ -145,7 +148,7 @@ class $modify(MyPlayLayer, PlayLayer) {
 	CCLabelBMFont* createDescLabel() {
 		std::string desc = "[This level's description does not follow TokTik's Community Guidelines, which help us foster an inclusive and authentic community and define the kind of content and behavior that's not allowed on our app.]";
 		if (m_level && !m_level->getUnpackedLevelDescription().empty()) desc = m_level->getUnpackedLevelDescription();
-		const auto &descLabel = CCLabelBMFont::create(desc.c_str(), "tokTikFont.fnt"_spr, m_fields->manager->winWidth * 0.75f, kCCTextAlignmentLeft);
+		const auto &descLabel = CCLabelBMFont::create(desc.c_str(), "tokTikFont.fnt"_spr, m_fields->winWidth * 0.75f, kCCTextAlignmentLeft);
 		descLabel->setScale(0.75f);
 		descLabel->setZOrder(OTHER_MAGIC_NUMBER);
 		descLabel->setAnchorPoint({0, 0});
@@ -166,7 +169,7 @@ class $modify(MyPlayLayer, PlayLayer) {
 				if (!m_level->m_creatorName.empty()) username = fmt::format("@{}", m_level->m_creatorName);
 			}
 		}
-		const auto &authorLabel = CCLabelBMFont::create(username.c_str(), "tokTikFontBold.fnt"_spr, m_fields->manager->winWidth * 0.75f, kCCTextAlignmentLeft);
+		const auto &authorLabel = CCLabelBMFont::create(username.c_str(), "tokTikFontBold.fnt"_spr, m_fields->winWidth * 0.75f, kCCTextAlignmentLeft);
 		authorLabel->setScale(0.75f);
 		authorLabel->setZOrder(OTHER_MAGIC_NUMBER);
 		authorLabel->setAnchorPoint({0, 0});
@@ -280,7 +283,7 @@ class $modify(MyPlayLayer, PlayLayer) {
 		if (const auto &sprite = createTopBar(); !scene->getChildByID("top-bar"_spr)) scene->addChild(sprite);
 		if (Utils::getBool("compatibilityMode") && m_fields->hasRotationOrScale) return;
 		scene->setRotation(degrees);
-		scene->setScale(m_fields->manager->winHeight / m_fields->manager->winWidth);
+		scene->setScale(m_fields->winHeight / m_fields->winWidth);
 		if (Utils::getBool("tokTikUI")) {
 			if (const auto &footer = createFooter(); !scene->getChildByID("footer"_spr)) scene->addChild(footer);
 			if (const auto &actions = createActions(); !scene->getChildByID("actions"_spr)) scene->addChild(actions);
