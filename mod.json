@@ -113,10 +113,10 @@
 		}
 	},
 	"resources": {
-		"files": [
+		"sprites": [
 			"resources/*.png"
 		],
-		"sprites": [
+		"files": [
 			"resources/*.fnt"
 		]
 	},
