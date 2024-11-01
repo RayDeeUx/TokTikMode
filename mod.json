@@ -117,7 +117,8 @@
 			"resources/*.png"
 		],
 		"files": [
-			"resources/*.fnt"
+			"resources/fonts/*.png",
+			"resources/fonts/*.fnt"
 		]
 	},
 	"tags":	[
