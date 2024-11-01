@@ -16,6 +16,7 @@ class $modify(MyMessagesProfilePage, MessagesProfilePage) {
 		auto touchDispatcher = CCTouchDispatcher::get();
 		if (m_listLayer) touchDispatcher->unregisterForcePrio(m_listLayer);
 		touchDispatcher->unregisterForcePrio(this);
+		untoggleAll();
 		setKeypadEnabled(false);
 		removeFromParentAndCleanup(true);
 	}
