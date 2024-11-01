@@ -239,7 +239,6 @@ class $modify(MyPlayLayer, PlayLayer) {
 	}
 	void openMyLevels(CCObject* sender) {
 		if (!Utils::modEnabled()) return;
-		PauseLayer::create(false)->onQuit(nullptr);
 		CCDirector::sharedDirector()->replaceScene(CCTransitionFade::create(0.5f, LevelBrowserLayer::scene(GJSearchObject::create(SearchType::MyLevels))));
 	}
 	void openMessages(CCObject* sender) {
