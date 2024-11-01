@@ -36,7 +36,7 @@ jobs:
         uses: geode-sdk/build-geode-mod@main
         with:
           bindings: RayDeeUx/bindings
-          bindings-ref: i-hate-cc-lightning
+          bindings-ref: i-hate-cc-lightning-toktikmode
           combine: true
           target: ${{ matrix.config.target }}
 
