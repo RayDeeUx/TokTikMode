@@ -15,6 +15,6 @@ class $modify(MyCommentCell, CommentCell) {
 	};
 	void onGoToLevel(cocos2d::CCObject* sender) {
 		if (!Utils::modEnabled() || !Utils::getBool("tokTikUI") || !Utils::getBool("footerMenu") || !PlayLayer::get() || m_fields->manager->senderTag == -1) return CommentCell::onGoToLevel(sender);
-		Utils::showGuardrailCode();
+		Utils::showGuardrailAlert();
     }
 };

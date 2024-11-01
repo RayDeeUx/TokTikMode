@@ -32,7 +32,7 @@
 		},
 		"footerMenu": {
 			"name": "Interactive Footer",
-			"description": "Turns the footer of the TokTik UI into a clickable menu.\n\n<cy>Geode Node IDs is</c> <cr>required</c> <cy>for this feature.</c>",
+			"description": "Turns the footer of the TokTik UI into a clickable menu.\n\n<cy>Some menus that appear from pressing these buttons may break. This is a Cocos2d-x issue.</c>",
 			"type": "bool",
 			"default": true
 		},
@@ -40,7 +40,7 @@
 			"name": "Rotation (Degrees)",
 			"description": "The number of degrees you want to rotate your gameplay screen to.\n\n<cy>To disable, set this setting to \"0\".</c>\n\n<cy>Otherwise, choose either</c> <cl>\"90\"</c> <cy>or</c> <cl>\"270\"</c> <cy>degrees.</c>",
 			"type": "string",
-			"default": "0",
+			"default": "90",
 			"one-of": [
 				"0",
 				"90",

@@ -39,7 +39,7 @@ namespace Utils {
 		return uni(rng);
 	}
 
-	void showGuardrailCode() {
+	void showGuardrailAlert() {
 		FLAlertLayer::create(
 			"Warning",
 			"You must <cr>EXIT</c> the level to proceed.\n\n--<cj>Tok</c><cr>Tik</c>Mode",
