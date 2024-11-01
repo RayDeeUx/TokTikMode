@@ -114,7 +114,9 @@
 	},
 	"resources": {
 		"files": [
-			"resources/*.png",
+			"resources/*.png"
+		],
+		"sprites": [
 			"resources/*.fnt"
 		]
 	},
