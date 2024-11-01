@@ -60,7 +60,7 @@ class $modify(MyPlayLayer, PlayLayer) {
 		#elif defined(GEODE_IS_ANDROID32)
 		actions->setPositionY(actions->getPositionY() - 67.5f);
 		#endif
-		actions->setScale((actions->getContentWidth() / m_fields->manager->winWidth) * 125.f);
+		actions->setScale((actions->getContentWidth() / m_fields->manager->winWidth) * 125.f * static_cast<float>(Utils::getDouble("actionsScale")));
 		actions->setZOrder(OTHER_MAGIC_NUMBER + 1);
 		return actions;
 	}

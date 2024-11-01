@@ -7,7 +7,7 @@
 	},
 	"id": "raydeeux.toktikmode",
 	"name": "TokTikMode",
-	"version": "v1.0.0",
+	"version": "v1.0.1",
 	"developer": "RayDeeUx",
 	"description": "\"Vertical\" mode for Geometry Dash. Best on Android.",
 	"repository": "https://github.com/RayDeeUx/TokTikMode",
@@ -82,8 +82,25 @@
 			"description": "The extent to which you want to scale the TokTik UI's upper menu.",
 			"type": "float",
 			"default": 1.0,
-			"min": 0.1,
-			"max": 2.0,
+			"min": 0.01,
+			"max": 3.0,
+			"control": {
+				"input": true,
+				"slider": true,
+				"arrows": false,
+				"big-arrows": false,
+				"arrow-step": 0,
+				"big-arrow-step": 0,
+				"slider-step": 0.1
+			}
+		},
+		"actionsScale": {
+			"name": "Scale (Actions Menu)",
+			"description": "The extent to which you want to scale the TokTik UI's actions menu (on the right).",
+			"type": "float",
+			"default": 1.0,
+			"min": 0.01,
+			"max": 3.0,
 			"control": {
 				"input": true,
 				"slider": true,

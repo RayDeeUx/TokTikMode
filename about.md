@@ -1,6 +1,6 @@
 # <c-25f4ee>Tok</c><c-fe2c55>Tik</c>Mode
 
-Play <co>Geometry</c> <cj>Dash</c> levels as if you were viewing a TokTik video. Or if you just want to play <co>Geometry</c> <cj>Dash</c> vertically for whatever reason. levels as if you were viewing a <c-25f4ee>Tok</c><c-fe2c55>Tik</c> video. Or if you just want to play <co>Geometry</c> <cj>Dash</c> vertically for whatever reason.
+Play <co>Geometry</c> <cj>Dash</c> levels as if you were viewing a TokTik video. Or if you just want to play <co>Geometry</c> <cj>Dash</c> vertically for whatever reason.
 
 <cy>***_Note:_*** Due to technical limitations, this mod is intentionally disabled when playing levels that use Rotate/Scale triggers, including Area Rotate/Scale triggers and Keyframe triggers.</c>
 
