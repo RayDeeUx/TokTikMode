@@ -25,4 +25,5 @@ namespace Utils {
 	int getRandInt(int min, int max);
 
 	void showGuardrailAlert();
+	void showFirstTimeAlert();
 }

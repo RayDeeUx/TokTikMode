@@ -40,11 +40,26 @@ namespace Utils {
 	}
 
 	void showGuardrailAlert() {
+		if (!PlayLayer::get()) return;
 		FLAlertLayer::create(
 			"Warning",
 			"You must <cr>EXIT</c> the level to proceed.\n\n--<cj>Tok</c><cr>Tik</c>Mode",
 			"Ok"
 		)->show();
 	}
+
+	void showFirstTimeAlert() {
+		if (!PlayLayer::get()) return;
+		const auto &priorAlert = getChildOfType<FLAlertLayer>(CCScene::get(), -1);
+		if (priorAlert && priorAlert->m_button1) {
+			if (std::string(priorAlert->m_button1->m_label->getString()) == "Alright") return;
+		}
+		FLAlertLayer::create(
+			"Warning",
+			"Hey there! You're not really supposed to view this menu under these circumstances. The button was made interactive for fun, and nothing more.\n\n--<cj>Tok</c><cr>Tik</c>Mode",
+			"Alright"
+		)->show();
+	}
+
 
 }

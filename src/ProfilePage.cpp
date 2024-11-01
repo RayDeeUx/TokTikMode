@@ -22,4 +22,9 @@ class $modify(MyProfilePage, ProfilePage) {
 		if (!Utils::modEnabled() || !Utils::getBool("tokTikUI") || !Utils::getBool("footerMenu") || !PlayLayer::get() || m_fields->manager->senderTag == -1) return ProfilePage::onMyLists(sender);
 		Utils::showGuardrailAlert();
 	}
+	void setupCommentsBrowser(cocos2d::CCArray* p0) {
+		ProfilePage::setupCommentsBrowser(p0);
+		if (!Utils::modEnabled() || !Utils::getBool("tokTikUI") || !Utils::getBool("footerMenu") || !PlayLayer::get() || m_fields->manager->senderTag == -1) return;
+		Utils::showFirstTimeAlert();
+	}
 };
