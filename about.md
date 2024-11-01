@@ -6,7 +6,7 @@ Play <co>Geometry</c> <cj>Dash</c> levels as if you were viewing a TokTik video.
 
 <cr>*While you can enable this mod on levels that use such triggers, doing so will very likely break a level's gameplay.*</c>
 
-For <c-cdcdcd>macOS</c> and <c-00adef>Windows</c> folks, <c-25f4ee>Tok</c><c-fe2c55>Tik</c>Mode is best experienced on <cl>Borderless Fullscreen</c>.
+For <c-cdcdcd>macOS</c> and <c-00adef>Windows</c> folks, <c-25f4ee>Tok</c><c-fe2c55>Tik</c>Mode is best experienced on <cl>Borderless Fullscreen</c>. For <cg>Android</c> folks, well... you already *are* on Fullscreen, obviously.
 
 <c-25f4ee>Tok</c><c-fe2c55>Tik</c>Mode was tested on the following devices, operating systems, and aspect ratios:
 - <c-cdcdcd>MacBook Pro</c> (16-inch, 2019) running <c-cdcdcd>macOS</c> <c-2e88d6>Seq</c><c-f7a865>uoia</c> <c-cdcdcd>(macOS 15.0.1)</c> with a <cl>16:10</c> aspect ratio display

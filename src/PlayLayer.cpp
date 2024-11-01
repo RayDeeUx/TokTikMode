@@ -229,6 +229,27 @@ class $modify(MyPlayLayer, PlayLayer) {
 		player->setScale(1.1f);
 		return player;
 	}
+	void exitPlayLayer(CCObject* sender) {
+		if (!Utils::modEnabled()) return;
+		PauseLayer::create(false)->onQuit(nullptr);
+	}
+	void openFriends(CCObject* sender) {
+		if (!Utils::modEnabled()) return;
+		FriendsProfilePage::create(UserListType::Friends)->show();
+	}
+	void openMyLevels(CCObject* sender) {
+		if (!Utils::modEnabled()) return;
+		PauseLayer::create(false)->onQuit(nullptr);
+		CCDirector::sharedDirector()->replaceScene(CCTransitionFade::create(0.5f, LevelBrowserLayer::scene(GJSearchObject::create(SearchType::MyLevels))));
+	}
+	void openMessages(CCObject* sender) {
+		if (!Utils::modEnabled()) return;
+		MessagesProfilePage::create(false)->show();
+	}
+	void openProfile(CCObject* sender) {
+		if (!Utils::modEnabled()) return;
+		GameManager::get()->m_menuLayer->onMyProfile(nullptr);
+	}
 	void setupHasCompleted() {
 		PlayLayer::setupHasCompleted();
 		if (!Utils::modEnabled()) return;
@@ -264,6 +285,50 @@ class $modify(MyPlayLayer, PlayLayer) {
 			if (const auto &live = createLive(); !scene->getChildByID("live"_spr)) scene->addChild(live);
 			if (const auto &descLabel = createDescLabel(); !scene->getChildByID("desc"_spr)) scene->addChild(descLabel);
 			if (const auto &usernameLabel = createUsernameLabel(); !scene->getChildByID("author"_spr)) scene->addChild(usernameLabel);
+			if (const auto &footer = scene->getChildByID("footer"_spr); Utils::getBool("footerMenu")) {
+				const auto &footerMenu = CCMenu::create();
+				const auto &rowLayout = RowLayout::create()->setAutoScale(true)->setAxisAlignment(AxisAlignment::Center)->setAxis(Axis::Row)->setGap(5.0f);
+				footerMenu->setLayout(rowLayout);
+				const auto &homeTabButton = CCSprite::create("square.png");
+				const auto &homeTab = CCMenuItemSpriteExtra::create(homeTabButton, footer, menu_selector(MyPlayLayer::exitPlayLayer));
+				homeTab->setID("home-tab"_spr);
+				homeTab->setOpacity(0);
+				homeTab->setTag(1);
+				footerMenu->addChild(homeTab);
+				footerMenu->updateLayout();
+				const auto &friendsTabButton = CCSprite::create("square.png");
+				const auto &friendsTab = CCMenuItemSpriteExtra::create(friendsTabButton, footer, menu_selector(MyPlayLayer::openFriends));
+				friendsTab->setID("friends-tab"_spr);
+				friendsTab->setOpacity(0);
+				friendsTab->setTag(2);
+				footerMenu->addChild(friendsTab);
+				footerMenu->updateLayout();
+				const auto &myLevelsTabButton = CCSprite::create("square.png");
+				const auto &myLevelsTab = CCMenuItemSpriteExtra::create(myLevelsTabButton, footer, menu_selector(MyPlayLayer::openMyLevels));
+				myLevelsTab->setOpacity(0);
+				myLevelsTab->setTag(3);
+				myLevelsTab->setID("my-levels-tab"_spr);
+				footerMenu->addChild(myLevelsTab);
+				footerMenu->updateLayout();
+				const auto &inboxTabButton = CCSprite::create("square.png");
+				const auto &inboxTab = CCMenuItemSpriteExtra::create(inboxTabButton, footer, menu_selector(MyPlayLayer::openMessages));
+				inboxTab->setID("inbox-tab"_spr);
+				inboxTab->setOpacity(0);
+				inboxTab->setTag(4);
+				footerMenu->addChild(inboxTab);
+				footerMenu->updateLayout();
+				const auto &profileTabButton = CCSprite::create("square.png");
+				const auto &profileTab = CCMenuItemSpriteExtra::create(profileTabButton, footer, menu_selector(MyPlayLayer::openProfile));
+				profileTab->setID("profile-tab"_spr);
+				profileTab->setOpacity(0);
+				profileTab->setTag(5);
+				footerMenu->addChild(profileTab);
+				footerMenu->updateLayout();
+				footer->addChild(footerMenu);
+				footerMenu->setPosition({47.f, 15.f}); // these hardcoded values are fine because they are for a child of an existing node
+				footerMenu->setScale(1.425f); // these hardcoded values are fine because they are for a child of an existing node
+				footerMenu->setID("footer-menu"_spr);
+			}
 			if (const auto &actions = scene->getChildByID("actions"_spr)) {
 				if (const auto &likesLabel = createLikesLabel(); !actions->getChildByID("likes"_spr)) {
 					actions->addChild(likesLabel);
@@ -288,5 +353,9 @@ class $modify(MyPlayLayer, PlayLayer) {
 			}
 		}
 		m_fields->rotated = true;
+	}
+	void onQuit() {
+		m_fields->manager->senderTag = -1;
+		PlayLayer::onQuit();
 	}
 };

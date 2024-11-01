@@ -14,6 +14,8 @@ public:
 	float winWidth = winSize.width;
 	float winHeight = winSize.height;
 
+	int senderTag = -1;
+
 	static Manager* getSharedInstance() {
 		if (!instance) {
 			instance = new Manager();
