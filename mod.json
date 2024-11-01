@@ -34,7 +34,7 @@
 			"name": "Interactive Footer",
 			"description": "Turns the footer of the TokTik UI into a clickable menu.\n\n<cy>Geode Node IDs is</c> <cr>required</c> <cy>for this feature.</c>",
 			"type": "bool",
-			"default": false
+			"default": true
 		},
 		"rotationDegrees": {
 			"name": "Rotation (Degrees)",
