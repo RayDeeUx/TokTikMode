@@ -6,6 +6,7 @@
 
 class $modify(MyMessagesProfilePage, MessagesProfilePage) {
 	static void onModify(auto &self) {
+		(void) self.setHookPriority("MessagesProfilePage::setupCommentsBrowser", MAGIC_NUMBER);
 		(void) self.setHookPriority("MessagesProfilePage::onClose", MAGIC_NUMBER);
 	}
 	struct Fields {
