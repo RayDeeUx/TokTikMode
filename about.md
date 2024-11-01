@@ -20,6 +20,8 @@ Additional thanks to [hiimjustin000](https://geode-sdk.org/mods?developer=hiimju
 
 <c-25f4ee>Tok</c><c-fe2c55>Tik</c>Mode is based on a mod idea by [Mattt Nguyen](https://discord.com/users/899558162758266920) that went too far, and is my submission for <c-A379C0>G</c><c-CA869F>eo</c><c-DF8F8F>d</c><c-E1B29B>e</c>'s <co>Modtober 24</c> contest.
 
+<c-25f4ee>Tok</c><c-fe2c55>Tik</c>Mode is non-profit, open-source, fan-made software written in C++ and the <c-A379C0>Ge</c><c-CA869F>od</c><c-DF8F8F>e S</c><c-E1B29B>DK</c> as a mod for <co>Geometry</c> <cj>Dash</c>, and has no affiliation with <c-305bb7>Byt</c><c-3d8aff>eDa</c><c-00c9ca>nce</c> <c-78e5df>Ltd.</c> It is intended to be a parody of the social media platform of a similar name. As such, <c-25f4ee>Tok</c><c-fe2c55>Tik</c>Mode falls under fair use of trademarks per [Section 107 of the Copyright Act](https://www.law.cornell.edu/uscode/text/17/107).
+
 Some parts of the <c-25f4ee>Tok</c><c-fe2c55>Tik</c> UI recreation re-use [assets created by Adriano Reis from Figma](https://www.figma.com/community/file/865012298664294326/tiktok-ui-mockup-fully-customizable), licensed under [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/).
 
 The <c-25f4ee>Tok</c><c-fe2c55>Tik</c> UI's font is (based on) Helvetica Neue DeskInterface, available on [FontKe](https://eng.fontke.com/font/106860486/download/) for non-commercial purposes.

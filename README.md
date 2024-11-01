@@ -17,6 +17,8 @@ Special thanks to [TheBearodactyl](https://geode-sdk.org/mods?developer=TheBearo
 
 Mod idea by [Mattt Nguyen](https://discord.com/users/899558162758266920).
 
+<c-25f4ee>Tok</c><c-fe2c55>Tik</c>Mode is non-profit, open-source, fan-made software written in C++ and the <c-A379C0>Ge</c><c-CA869F>od</c><c-DF8F8F>e S</c><c-E1B29B>DK</c> as a mod for <co>Geometry</c> <cj>Dash</c>, and has no affiliation with <c-305bb7>Byt</c><c-3d8aff>eDa</c><c-00c9ca>nce</c> <c-78e5df>Ltd.</c> It is intended to be a parody of the social media platform of a similar name. As such, <c-25f4ee>Tok</c><c-fe2c55>Tik</c>Mode falls under fair use of trademarks per [Section 107 of the Copyright Act](https://www.law.cornell.edu/uscode/text/17/107)
+
 Some parts of the TokTik UI recreation re-use [assets created by Adriano Reis from Figma](https://www.figma.com/community/file/865012298664294326/tiktok-ui-mockup-fully-customizable), licensed under [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/).
 
 The TokTik UI's font is (based on) Helvetica Neue DeskInterface, available on [FontKe](https://eng.fontke.com/font/106860486/download/) for non-commercial purposes.
