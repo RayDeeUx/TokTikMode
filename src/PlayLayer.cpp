@@ -40,10 +40,8 @@ class $modify(MyPlayLayer, PlayLayer) {
 		});
 		#ifdef GEODE_IS_MACOS
 		footer->setPositionY(footer->getPositionY() + 83.f);
-		#elif defined(GEODE_IS_ANDROID64)
+		#elif defined(GEODE_IS_ANDROID)
 		footer->setPositionY(footer->getPositionY() - 145.f);
-		#elif defined(GEODE_IS_ANDROID32)
-		footer->setPositionY(footer->getPositionY() - 67.5f);
 		#endif
 		footer->setScale(m_fields->winWidth / footer->getContentWidth());
 		footer->setZOrder(OTHER_MAGIC_NUMBER);
@@ -58,10 +56,8 @@ class $modify(MyPlayLayer, PlayLayer) {
 		});
 		#ifdef GEODE_IS_MACOS
 		actions->setPositionY(actions->getPositionY() + 83.f);
-		#elif defined(GEODE_IS_ANDROID64)
+		#elif defined(GEODE_IS_ANDROID)
 		actions->setPositionY(actions->getPositionY() - 145.f);
-		#elif defined(GEODE_IS_ANDROID32)
-		actions->setPositionY(actions->getPositionY() - 67.5f);
 		#endif
 		actions->setScale((actions->getContentWidth() / m_fields->winWidth) * 125.f * static_cast<float>(Utils::getDouble("actionsScale")));
 		actions->setZOrder(OTHER_MAGIC_NUMBER + 1);
@@ -77,12 +73,9 @@ class $modify(MyPlayLayer, PlayLayer) {
 		#ifdef GEODE_IS_MACOS
 		forYou->setPositionY(forYou->getPositionY() - 15.f);
 		forYou->setScale(((forYou->getContentWidth() / m_fields->winWidth) * 40.f) * 0.75f * static_cast<float>(Utils::getDouble("headerScale")));
-		#elif defined(GEODE_IS_ANDROID64)
+		#elif defined(GEODE_IS_ANDROID)
 		forYou->setScale(((forYou->getContentWidth() / m_fields->winWidth) * 40.f) * 1.449f * static_cast<float>(Utils::getDouble("headerScale")));
 		forYou->setPositionY(forYou->getPositionY() + 120.f);
-		#elif defined(GEODE_IS_ANDROID32)
-		forYou->setScale(((forYou->getContentWidth() / m_fields->winWidth) * 40.f) * 0.9f * static_cast<float>(Utils::getDouble("headerScale")));
-		forYou->setPositionY(forYou->getPositionY() + 60.f);
 		#else
 		forYou->setScale((forYou->getContentWidth() / m_fields->winWidth) * 40.f * static_cast<float>(Utils::getDouble("headerScale")));
 		#endif
