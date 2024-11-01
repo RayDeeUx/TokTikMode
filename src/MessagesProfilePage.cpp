@@ -31,7 +31,7 @@ class $modify(MyMessagesProfilePage, MessagesProfilePage) {
 		if (!cll || !cll->m_tableView) return log::info("node was not found: cll OR cll->m_tableView");
 		const auto &cccl = cll->m_tableView->m_contentLayer;
 		if (!cccl) return log::info("node was not found: cccl");
-		gjcll->setColor(ccColor3B(0,0,0));
+		gjcll->setColor(ccColor3B({0,0,0});
 		gjcll->setOpacity(0);
 		gjcll->setPositionX(480.f);
 		for (const auto &node : CCArrayExt<CCNode*>(gjcll->getChildren())) {
