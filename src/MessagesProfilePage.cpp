@@ -12,12 +12,13 @@ class $modify(MyMessagesProfilePage, MessagesProfilePage) {
 		Manager* manager = Manager::getSharedInstance();
 	};
 	void onClose(CCObject* sender) {
-		if (!Utils::modEnabled() || !Utils::getBool("tokTikUI") || !Utils::getBool("footerMenu") || !PlayLayer::get() || m_fields->manager->senderTag != 4) return MessagesProfilePage::onClose(sender);
+		if (!Utils::modEnabled() || !Utils::getBool("tokTikUI") || !Utils::getBool("footerMenu") || !PlayLayer::get() || m_fields->manager->senderTag == -1) return MessagesProfilePage::onClose(sender);
 		auto touchDispatcher = CCTouchDispatcher::get();
 		if (m_listLayer) touchDispatcher->unregisterForcePrio(m_listLayer);
 		touchDispatcher->unregisterForcePrio(this);
 		untoggleAll();
 		setKeypadEnabled(false);
 		removeFromParentAndCleanup(true);
+		m_fields->manager->senderTag = -1;
 	}
 };
