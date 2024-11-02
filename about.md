@@ -15,7 +15,8 @@ For <c-cdcdcd>macOS</c> and <c-00adef>Windows</c> folks, <c-25f4ee>Tok</c><c-fe2
 
 However, not all devices are created the same. Therefore, <c-25f4ee>Tok</c><c-fe2c55>Tik</c>Mode has additional settings for you to adjust positions and scaling of <c-25f4ee>Tok</c><c-fe2c55>Tik</c> UI elements to fit your device as necessary.
 
-Special thanks to [TheBearodactyl](https://geode-sdk.org/mods?developer=TheBearodactyl) for sending me a more recent version of the <c-25f4ee>Tok</c><c-fe2c55>Tik</c> UI to use as a reference.
+Special thanks to [Alphalaneous](https://geode-sdk.org/mods?developer=Alphalaneous) for overhauling the core of this mod, and to [TheBearodactyl](https://geode-sdk.org/mods?developer=TheBearodactyl) for sending me a more recent version of the <c-25f4ee>Tok</c><c-fe2c55>Tik</c> UI to use as a reference.
+
 Additional thanks to [hiimjustin000](https://geode-sdk.org/mods?developer=hiimjustin000) for finding a consistent solution to show certain menus.
 
 <c-25f4ee>Tok</c><c-fe2c55>Tik</c>Mode is based on a mod idea by [Mattt Nguyen](https://discord.com/users/899558162758266920) that went too far, and is my submission for <c-A379C0>G</c><c-CA869F>eo</c><c-DF8F8F>d</c><c-E1B29B>e</c>'s <co>Modtober 24</c> contest.

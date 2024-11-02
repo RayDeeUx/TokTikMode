@@ -13,7 +13,9 @@ TokTikMode was tested on the following devices, operating systems, and aspect ra
 
 However, not all devices are created the same. Therefore, TokTikMode has additional settings for you to adjust positions and scaling of TokTik UI elements to fit your device as necessary.
 
-Special thanks to [TheBearodactyl](https://geode-sdk.org/mods?developer=TheBearodactyl) for sending me a more recent version of the <c-25f4ee>Tok</c><c-fe2c55>Tik</c> UI to use as a reference.
+Special thanks to [Alphalaneous](https://geode-sdk.org/mods?developer=Alphalaneous) for overhauling the core of this mod, and to [TheBearodactyl](https://geode-sdk.org/mods?developer=TheBearodactyl) for sending me a more recent version of the <c-25f4ee>Tok</c><c-fe2c55>Tik</c> UI to use as a reference.
+
+Additional thanks to [hiimjustin000](https://geode-sdk.org/mods?developer=hiimjustin000) for finding a consistent solution to show certain menus.
 
 Mod idea by [Mattt Nguyen](https://discord.com/users/899558162758266920).
 
