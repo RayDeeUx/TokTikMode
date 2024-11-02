@@ -1,5 +1,5 @@
 {
-	"geode": "3.4.0",
+	"geode": "3.9.0",
 	"gd": {
 		"win": "2.206",
 		"mac": "2.206",
@@ -18,105 +18,22 @@
 			"type": "bool",
 			"default": true
 		},
-		"compatibilityMode": {
-			"name": "Compatibility Mode",
-			"description": "If a level has rotation or scale triggers, this mod will not do anything.\n\n<cy>Apparently, the screen needs to be at *exactly* 1.000 scale to have rotation and scale triggers working properly.</c>\n<cr>ONLY DISABLE IF YOU KNOW WHAT YOU'RE DOING.</c>",
-			"type": "bool",
-			"default": true
-		},
 		"tokTikUI": {
 			"name": "TokTik UI",
 			"description": "Toggles the TokTik UI.",
 			"type": "bool",
 			"default": true
 		},
-		"interactiveFooter": {
-			"name": "Interactive Footer",
-			"description": "Turns the footer of the TokTik UI into a clickable menu.\n\n<cy>Some menus that appear from pressing these buttons may break. This is a Cocos2d-x issue.</c>",
+		"flipOrientation": {
+			"name": "Flip Orientation",
+			"description": "Flip the vertical orientation of the TokTik UI.",
 			"type": "bool",
 			"default": false
-		},
-		"rotationDegrees": {
-			"name": "Rotation (Degrees)",
-			"description": "The number of degrees you want to rotate your gameplay screen to.\n\n<cy>To disable, set this setting to \"0\".</c>\n\n<cy>Otherwise, choose either</c> <cl>\"90\"</c> <cy>or</c> <cl>\"270\"</c> <cy>degrees.</c>",
-			"type": "string",
-			"default": "90",
-			"one-of": [
-				"0",
-				"90",
-				"270"
-			]
-		},
-		"footerOffset": {
-			"name": "Offset (Lower Menu)",
-			"description": "The number of Cocos2d-x units you want to move the TokTik UI's lower menu.\n\n<cy>Positive numbers will bring the lower menu closer to the center of the screen.</c>\n<cy>Negative numbers will bring the lower menu further away from the center of the screen.</c>",
-			"type": "int",
-			"default": 0,
-			"control": {
-				"input": true,
-				"slider": false,
-				"arrows": true,
-				"big-arrows": true,
-				"arrow-step": 1,
-				"big-arrow-step": 10,
-				"slider-step": 0.0
-			}
-		},
-		"headerOffset": {
-			"name": "Offset (Upper Menu)",
-			"description": "The number of Cocos2d-x units you want to move the TokTik UI's upper menu.\n\n<cy>Negative numbers will bring the upper menu closer to the center of the screen.</c>\n<cy>Positive numbers will bring the upper menu further away from the center of the screen.</c>",
-			"type": "int",
-			"default": 0,
-			"control": {
-				"input": true,
-				"slider": false,
-				"arrows": true,
-				"big-arrows": true,
-				"arrow-step": 1,
-				"big-arrow-step": 10,
-				"slider-step": 0.0
-			}
-		},
-		"headerScale": {
-			"name": "Scale (Upper Menu)",
-			"description": "The extent to which you want to scale the TokTik UI's upper menu.",
-			"type": "float",
-			"default": 1.0,
-			"min": 0.01,
-			"max": 3.0,
-			"control": {
-				"input": true,
-				"slider": true,
-				"arrows": false,
-				"big-arrows": false,
-				"arrow-step": 0,
-				"big-arrow-step": 0,
-				"slider-step": 0.1
-			}
-		},
-		"actionsScale": {
-			"name": "Scale (Actions Menu)",
-			"description": "The extent to which you want to scale the TokTik UI's actions menu (on the right).",
-			"type": "float",
-			"default": 1.0,
-			"min": 0.01,
-			"max": 3.0,
-			"control": {
-				"input": true,
-				"slider": true,
-				"arrows": false,
-				"big-arrows": false,
-				"arrow-step": 0,
-				"big-arrow-step": 0,
-				"slider-step": 0.1
-			}
 		}
 	},
 	"resources": {
-		"sprites": [
-			"resources/*.png"
-		],
 		"files": [
+			"resources/*.png",
 			"resources/fonts/*.png",
 			"resources/fonts/*.fnt"
 		]

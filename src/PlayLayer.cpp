@@ -1,361 +1,601 @@
 #include <Geode/modify/PlayLayer.hpp>
+#include <Geode/modify/CCScheduler.hpp>
+#include <Geode/modify/CCScene.hpp>
+#include <Geode/modify/CCTouchDispatcher.hpp>
+#include <Geode/modify/CCNode.hpp>
 #include "Manager.hpp"
 #include "Utils.hpp"
-
-#define MAGIC_NUMBER (-2123456789)
-#define OTHER_MAGIC_NUMBER (-MAGIC_NUMBER / 30000)
 
 using namespace geode::prelude;
 
 class $modify(MyPlayLayer, PlayLayer) {
-	static void onModify(auto &self) {
-		(void) self.setHookPriority("PlayLayer::postUpdate", MAGIC_NUMBER);
-	}
+
 	struct Fields {
-		bool rotated = false;
-		bool hasRotationOrScale = false;
+		CCNode* m_uiNode;
+		CCNode* m_rotatedMenuContainer;
+		CCNode* m_container;
+		float m_scaleFactor = 1.f;
+		CCRenderTexture* m_renderTexture;
+		CCSprite* m_renderTo;
+		CCLayerColor* m_blackOverlay;
+		CCSize m_oldDesignResolution;
+		CCSize m_newDesignResolution;
+		CCSize m_originalScreenScale;
+		CCSize m_newScreenScale;
 		Manager* manager = Manager::getSharedInstance();
-		CCSize winSize = CCDirector::get()->getWinSize();
-		float winWidth = winSize.width;
-		float winHeight = winSize.height;
+		float m_degrees = 90.f;
+		bool m_initialized = false;
+		bool m_skipZOrder = true;
+		~Fields() {
+			if (m_renderTexture) m_renderTexture->release();
+		}
 	};
-	static int whichIcon(GameManager* gm = GameManager::get()) {
-		int iconType = (int) gm->m_playerIconType;
-		if (iconType == 1) return gm->m_playerShip.value();
-		if (iconType == 2) return gm->m_playerBall.value();
-		if (iconType == 3) return gm->m_playerBird.value();
-		if (iconType == 4) return gm->m_playerDart.value();
-		if (iconType == 5) return gm->m_playerRobot.value();
-		if (iconType == 6) return gm->m_playerSpider.value();
-		if (iconType == 7) return gm->m_playerSwing.value();
-		if (iconType == 8) return gm->m_playerJetpack.value();
-		return gm->m_playerFrame.value();
+
+	void applyWinSize() {
+		if(m_fields->m_newDesignResolution.width != 0 && m_fields->m_newDesignResolution.height != 0) {
+			auto view = cocos2d::CCEGLView::get();
+			
+			cocos2d::CCDirector::get()->m_obWinSizeInPoints = m_fields->m_newDesignResolution;
+			view->setDesignResolutionSize(m_fields->m_newDesignResolution.width, m_fields->m_newDesignResolution.height, ResolutionPolicy::kResolutionExactFit);
+			view->m_fScaleX = CCDirector::get()->getContentScaleFactor() * m_fields->m_newScreenScale.width;
+			view->m_fScaleY = CCDirector::get()->getContentScaleFactor() * m_fields->m_newScreenScale.height;
+		}
 	}
-	CCSprite* createFooter() {
-		CCSprite* footer = CCSprite::create("footer.png"_spr);
-		footer->setID("footer"_spr);
-		footer->setPosition({
-			m_fields->winWidth / 2.f,
-			(-m_fields->winHeight) + (2.f * footer->getContentHeight()) + static_cast<float>(Utils::getInt("footerOffset"))
-		});
-		#ifdef GEODE_IS_MACOS
-		footer->setPositionY(footer->getPositionY() + 83.f);
-		#elif defined(GEODE_IS_ANDROID)
-		footer->setPositionY(footer->getPositionY() - 145.f);
-		#endif
-		footer->setScale(m_fields->winWidth / footer->getContentWidth());
-		footer->setZOrder(OTHER_MAGIC_NUMBER);
-		return footer;
+
+	void restoreWinSize() {
+		if(m_fields->m_oldDesignResolution.width != 0 && m_fields->m_oldDesignResolution.height != 0) {
+			auto view = cocos2d::CCEGLView::get();
+
+			cocos2d::CCDirector::get()->m_obWinSizeInPoints = m_fields->m_oldDesignResolution;
+			view->setDesignResolutionSize(m_fields->m_oldDesignResolution.width, m_fields->m_oldDesignResolution.height, ResolutionPolicy::kResolutionExactFit);
+			view->m_fScaleX = m_fields->m_originalScreenScale.width;
+			view->m_fScaleY = m_fields->m_originalScreenScale.height;
+		}
 	}
-	CCSprite* createActions() {
-		CCSprite* actions = CCSprite::create("actions.png"_spr);
-		actions->setID("actions"_spr);
-		actions->setPosition({
-			m_fields->winWidth - (actions->getContentWidth() * 3.10f),
-			0 + static_cast<float>(Utils::getInt("footerOffset"))
-		});
-		#ifdef GEODE_IS_MACOS
-		actions->setPositionY(actions->getPositionY() + 83.f);
-		#elif defined(GEODE_IS_ANDROID)
-		actions->setPositionY(actions->getPositionY() - 145.f);
-		#endif
-		actions->setScale((actions->getContentWidth() / m_fields->winWidth) * 125.f * static_cast<float>(Utils::getDouble("actionsScale")));
-		actions->setZOrder(OTHER_MAGIC_NUMBER + 1);
-		return actions;
-	}
-	CCSprite* createForYou() {
-		CCSprite* forYou = CCSprite::create("followingAndFYP.png"_spr);
-		forYou->setID("for-you"_spr);
-		forYou->setPosition({
-			m_fields->winWidth / 2.f,
-			m_fields->winWidth + (forYou->getContentHeight()) + static_cast<float>(Utils::getInt("headerOffset"))
-		});
-		#ifdef GEODE_IS_MACOS
-		forYou->setPositionY(forYou->getPositionY() - 15.f);
-		forYou->setScale(((forYou->getContentWidth() / m_fields->winWidth) * 40.f) * 0.75f * static_cast<float>(Utils::getDouble("headerScale")));
-		#elif defined(GEODE_IS_ANDROID)
-		forYou->setScale(((forYou->getContentWidth() / m_fields->winWidth) * 40.f) * 1.449f * static_cast<float>(Utils::getDouble("headerScale")));
-		forYou->setPositionY(forYou->getPositionY() + 120.f);
-		#else
-		forYou->setScale((forYou->getContentWidth() / m_fields->winWidth) * 40.f * static_cast<float>(Utils::getDouble("headerScale")));
-		#endif
-		forYou->setZOrder(OTHER_MAGIC_NUMBER);
-		return forYou;
-	}
-	static CCSprite* createSearch() {
-		CCSprite* search = CCSprite::create("search.png"_spr);
-		const auto &scene = CCScene::get();
-		search->setID("search"_spr);
-		search->setPosition({
-			scene->getChildByID("actions"_spr)->getPositionX() + 20.f,
-			scene->getChildByID("for-you"_spr)->getPositionY() + 10.f,
-		});
-		search->setScale(scene->getChildByID("for-you"_spr)->getScale() * 0.85f);
-		search->setZOrder(OTHER_MAGIC_NUMBER);
-		return search;
-	}
-	static CCSprite* createLive() {
-		CCSprite* live = CCSprite::create("live.png"_spr);
-		const auto &scene = CCScene::get();
-		live->setID("live"_spr);
-		live->setPosition({
-			35.f,
-			scene->getChildByID("for-you"_spr)->getPositionY() + 10.f,
-		});
-		live->setScale(scene->getChildByID("for-you"_spr)->getScale() * 0.85f);
-		live->setZOrder(OTHER_MAGIC_NUMBER);
-		return live;
-	}
-	static CCSprite* createVibingCube() {
-		CCSprite* vibingCube = CCSprite::create("vibingCube.png"_spr);
-		vibingCube->setID("vibing-cube"_spr);
-		vibingCube->setZOrder(OTHER_MAGIC_NUMBER + 1);
-		return vibingCube;
-	}
-	CCSprite* createBottomBar() {
-		CCSprite* bottomBar = CCSprite::create("bar.png"_spr);
-		bottomBar->setID("bottom-bar"_spr);
-		bottomBar->setAnchorPoint({0.5f, 1.f});
-		bottomBar->setPosition({
-			m_fields->winWidth / 2.f,
-			0
-		});
-		bottomBar->setScale(m_fields->winWidth);
-		bottomBar->setZOrder(OTHER_MAGIC_NUMBER - 1);
-		bottomBar->setColor({0, 0, 0});
-		return bottomBar;
-	}
-	CCSprite* createTopBar() {
-		CCSprite* topBar = CCSprite::create("bar.png"_spr);
-		topBar->setID("top-bar"_spr);
-		topBar->setAnchorPoint({0.5f, 0.f});
-		topBar->setPosition({
-			m_fields->winWidth / 2.f,
-			m_fields->winHeight
-		});
-		topBar->setScale(m_fields->winWidth);
-		topBar->setZOrder(OTHER_MAGIC_NUMBER - 1);
-		topBar->setColor({0, 0, 0});
-		return topBar;
-	}
-	CCLabelBMFont* createDescLabel() {
-		std::string desc = "[This level's description does not follow TokTik's Community Guidelines, which help us foster an inclusive and authentic community and define the kind of content and behavior that's not allowed on our app.]";
-		if (m_level && !m_level->getUnpackedLevelDescription().empty()) desc = m_level->getUnpackedLevelDescription();
-		const auto &descLabel = CCLabelBMFont::create(desc.c_str(), "tokTikFont.fnt"_spr, m_fields->winWidth * 0.75f, kCCTextAlignmentLeft);
-		descLabel->setScale(0.75f);
-		descLabel->setZOrder(OTHER_MAGIC_NUMBER);
-		descLabel->setAnchorPoint({0, 0});
-		const auto &footer = CCScene::get()->getChildByID("footer"_spr);
-		descLabel->setPosition({
-			15.f,
-			footer->getPositionY() + (footer->getContentHeight() * 3) + 20.f
-		});
-		descLabel->setID("desc"_spr);
-		return descLabel;
-	}
-	CCLabelBMFont* createUsernameLabel() {
-		std::string username = "{User expunged by TokTik}";
-		if (m_level) {
-			if (m_level->m_levelType == GJLevelType::Local) username = "@RobTop";
-			else if (m_level->m_levelType == GJLevelType::Editor) username = fmt::format("@{}", GameManager::get()->m_playerName);
-			else if (m_level->m_levelType == GJLevelType::Saved) {
-				if (!m_level->m_creatorName.empty()) username = fmt::format("@{}", m_level->m_creatorName);
+
+	void onEnterTransitionDidFinish() {
+
+		PlayLayer::onEnterTransitionDidFinish();
+
+		if (!Utils::modEnabled()) return;
+
+		CCSize winSize = CCDirector::get()->getWinSize();
+		m_fields->m_container = CCNode::create();
+		m_fields->m_container->setZOrder(100000);
+		m_fields->m_container->setAnchorPoint({0.5f, 0.5f});
+		m_fields->m_container->setContentSize(winSize);
+		m_fields->m_container->setPosition(winSize/2);
+
+		m_fields->m_rotatedMenuContainer = CCNode::create();
+		m_fields->m_rotatedMenuContainer->setAnchorPoint({0.5f, 0.5f});
+		m_fields->m_rotatedMenuContainer->setContentSize({winSize.height, winSize.width});
+		m_fields->m_rotatedMenuContainer->setPosition(winSize/2);
+
+		m_fields->m_blackOverlay = CCLayerColor::create({0, 0, 0, 255});
+		m_fields->m_blackOverlay->setZOrder(0);
+		m_fields->m_blackOverlay->setContentSize(winSize);
+
+		m_fields->m_renderTexture = CCRenderTexture::create(winSize.width, winSize.height);
+		m_fields->m_renderTexture->retain();
+		m_fields->m_renderTo = CCSprite::createWithTexture(m_fields->m_renderTexture->getSprite()->getTexture());
+		m_fields->m_renderTo->setFlipY(true);
+		m_fields->m_renderTo->setZOrder(1);
+
+		if (Utils::getBool("flipOrientation")) {
+			m_fields->m_degrees = 270.f;
+			m_fields->m_container->setRotation(180.f);
+		}
+
+		m_fields->m_renderTo->setRotation(90);
+		m_fields->m_renderTo->setPosition(winSize/2);
+		float scale = winSize.height / m_fields->m_renderTo->getContentWidth();
+		m_fields->m_renderTo->setScale(scale);
+
+		m_fields->m_uiNode = CCNode::create();
+		m_fields->m_uiNode->setContentSize(winSize);
+		m_fields->m_uiNode->setPosition(winSize/2);
+		m_fields->m_uiNode->setAnchorPoint({0.5f, 0.5f});
+		m_fields->m_uiNode->setZOrder(2);
+
+		if (Utils::getBool("tokTikUI")) {
+			CCNode* footer = createFooter();
+			CCNode* actions = createActions(footer);
+			CCNode* description = createDescLabel(footer);
+			CCNode* username = createUsernameLabel(description);
+			CCNode* icon = createSimplePlayer(actions);
+			CCNode* forYou = createForYou();
+			CCNode* search = createSearch(forYou);
+			CCNode* live = createLive(forYou);
+			CCNode* vibingCube = createVibingCube(actions);
+
+			m_fields->m_uiNode->addChild(footer);
+			m_fields->m_uiNode->addChild(actions);
+			m_fields->m_uiNode->addChild(description);
+			m_fields->m_uiNode->addChild(username);
+			m_fields->m_uiNode->addChild(icon);
+			m_fields->m_uiNode->addChild(forYou);
+			m_fields->m_uiNode->addChild(search);
+			m_fields->m_uiNode->addChild(live);
+			m_fields->m_uiNode->addChild(vibingCube);
+
+			if (Utils::getBool("interactiveFooter")) {
+				createInteractiveFooter(footer);
 			}
 		}
-		const auto &authorLabel = CCLabelBMFont::create(username.c_str(), "tokTikFontBold.fnt"_spr, m_fields->winWidth * 0.75f, kCCTextAlignmentLeft);
-		authorLabel->setScale(0.75f);
-		authorLabel->setZOrder(OTHER_MAGIC_NUMBER);
-		authorLabel->setAnchorPoint({0, 0});
-		const auto &descLabel = CCScene::get()->getChildByID("desc"_spr);
-		authorLabel->setPosition({
-			15.f,
-			descLabel->getPositionY() + descLabel->getContentHeight() - 5.f
-		});
+
+		m_fields->m_container->addChild(m_fields->m_uiNode);
+		m_fields->m_container->addChild(m_fields->m_renderTo);
+		m_fields->m_container->addChild(m_fields->m_blackOverlay);
+		m_fields->m_container->addChild(m_fields->m_rotatedMenuContainer);
+
+		CCScene* currentScene = CCDirector::get()->m_pNextScene;
+		currentScene->addChild(m_fields->m_container);
+
+		auto view = cocos2d::CCEGLView::get();
+
+		m_fields->m_oldDesignResolution = view->getDesignResolutionSize();
+		float aspectRatio = winSize.width / winSize.height;
+		m_fields->m_newDesignResolution = cocos2d::CCSize(roundf(320.f * aspectRatio), 320.f);
+
+		m_fields->m_originalScreenScale = cocos2d::CCSize(view->m_fScaleX, view->m_fScaleY);
+		m_fields->m_newScreenScale = cocos2d::CCSize(winSize.width / m_fields->m_newDesignResolution.width, winSize.height / m_fields->m_newDesignResolution.height);
+
+		if(m_fields->m_oldDesignResolution != m_fields->m_newDesignResolution) applyWinSize();
+
+		m_fields->m_renderTo->scheduleUpdate();
+		m_fields->m_renderTo->schedule(schedule_selector(MyPlayLayer::updateRender));
+
+		setVisible(false);
+
+		m_fields->m_initialized = true;
+	}
+
+	void updateRender(float p0) {
+
+		MyPlayLayer* mpl = static_cast<MyPlayLayer*>(PlayLayer::get());
+
+		if (!mpl->m_fields->m_renderTexture) return;
+		if (!mpl->m_fields->m_renderTo) return;
+		
+		mpl->m_fields->m_renderTexture->beginWithClear(0.0f, 0.0f, 0.0f, 1.0f);
+		
+		mpl->m_fields->m_container->setVisible(false);
+
+		CCScene* currentScene = CCDirector::get()->m_pRunningScene;
+		mpl->setVisible(true);
+		currentScene->visit();
+		mpl->setVisible(false);
+
+		mpl->m_fields->m_container->setVisible(true);
+		mpl->m_fields->m_renderTexture->end();
+		mpl->m_fields->m_renderTo->setTexture(mpl->m_fields->m_renderTexture->getSprite()->getTexture());
+	}
+
+	void createInteractiveFooter(CCNode* footer) {
+		CCMenu* interactiveFooter = CCMenu::create();
+
+		RowLayout* rowLayout = RowLayout::create();
+		rowLayout->setAutoScale(true);
+		rowLayout->setAxisAlignment(AxisAlignment::Center);
+		rowLayout->setGap(5.0f);
+
+		interactiveFooter->setLayout(rowLayout);
+		
+		CCSprite* homeTabButton = CCSprite::create("square.png"_spr);
+		CCMenuItemSpriteExtra* homeTab = CCMenuItemSpriteExtra::create(homeTabButton, footer, menu_selector(MyPlayLayer::exitPlayLayer));
+		homeTab->setID("home-tab"_spr);
+		homeTab->setOpacity(0);
+		homeTab->setTag(1);
+
+		interactiveFooter->addChild(homeTab);
+
+		CCSprite* friendsTabButton = CCSprite::create("square.png"_spr);
+		CCMenuItemSpriteExtra* friendsTab = CCMenuItemSpriteExtra::create(friendsTabButton, footer, menu_selector(MyPlayLayer::openFriends));
+		friendsTab->setID("friends-tab"_spr);
+		friendsTab->setOpacity(0);
+		friendsTab->setTag(2);
+
+		interactiveFooter->addChild(friendsTab);
+
+		CCSprite* myLevelsTabButton = CCSprite::create("square.png"_spr);
+		CCMenuItemSpriteExtra* myLevelsTab = CCMenuItemSpriteExtra::create(myLevelsTabButton, footer, menu_selector(MyPlayLayer::openMyLevels));
+		myLevelsTab->setOpacity(0);
+		myLevelsTab->setTag(3);
+		myLevelsTab->setID("my-levels-tab"_spr);
+
+		interactiveFooter->addChild(myLevelsTab);
+
+		CCSprite* inboxTabButton = CCSprite::create("square.png"_spr);
+		CCMenuItemSpriteExtra* inboxTab = CCMenuItemSpriteExtra::create(inboxTabButton, footer, menu_selector(MyPlayLayer::openMessages));
+		inboxTab->setID("inbox-tab"_spr);
+		inboxTab->setOpacity(0);
+		inboxTab->setTag(4);
+
+		interactiveFooter->addChild(inboxTab);
+		interactiveFooter->updateLayout();
+
+		CCSprite* profileTabButton = CCSprite::create("square.png"_spr);
+		CCMenuItemSpriteExtra* profileTab = CCMenuItemSpriteExtra::create(profileTabButton, footer, menu_selector(MyPlayLayer::openProfile));
+		profileTab->setID("profile-tab"_spr);
+		profileTab->setOpacity(0);
+		profileTab->setTag(5);
+		interactiveFooter->addChild(profileTab);
+		interactiveFooter->updateLayout();
+
+		footer->addChild(interactiveFooter);
+		interactiveFooter->setPosition({47.f, 15.f}); // these hardcoded values are fine because they are for a child of an existing node
+		interactiveFooter->setScale(1.425f); // these hardcoded values are fine because they are for a child of an existing node
+		interactiveFooter->setID("footer-menu"_spr);
+	}
+
+	CCSprite* createFooter() {
+		CCSprite* footer = CCSprite::create("footer.png"_spr);
+		CCSize winSize = CCDirector::get()->getWinSize();
+		footer->setID("footer"_spr);
+		footer->setRotation(90.f);
+		footer->setAnchorPoint({0.5f, 0.f});
+		footer->setPosition({0, winSize.height/2});
+
+		m_fields->m_scaleFactor = winSize.height / footer->getContentWidth();
+		footer->setScale(m_fields->m_scaleFactor);
+
+		return footer;
+	}
+
+	CCSprite* createActions(CCNode* footer) {
+		CCSprite* actions = CCSprite::create("actions.png"_spr);
+		CCSize winSize = CCDirector::get()->getWinSize();
+		actions->setID("actions"_spr);
+		actions->setRotation(90.f);
+		actions->setAnchorPoint({1.f, 0.f});
+		float offset = 20.f;
+		actions->setPosition({footer->getScaledContentHeight() + offset, offset});
+
+		actions->setScale(m_fields->m_scaleFactor * 0.75);
+
+		createLikesLabel(actions);
+		createDownloadsLabel(actions);
+		createCommentsLabel(actions);
+
+		return actions;
+	}
+
+	CCLabelBMFont* createDescLabel(CCNode* footer) {
+		std::string desc = "[This level's description does not follow TokTik's Community Guidelines, which help us foster an inclusive and authentic community and define the kind of content and behavior that's not allowed on our app.]";
+		CCSize winSize = CCDirector::get()->getWinSize();
+		
+		if (m_level && !m_level->getUnpackedLevelDescription().empty()) desc = m_level->getUnpackedLevelDescription();
+
+		float scaleMultiplier = 0.75f;
+
+		CCLabelBMFont* descLabel = CCLabelBMFont::create(desc.c_str(), "tokTikFont.fnt"_spr, winSize.height * scaleMultiplier, kCCTextAlignmentLeft);
+		descLabel->setID("desc"_spr);
+		descLabel->setRotation(90.f);
+		descLabel->setScale(scaleMultiplier/2);
+		descLabel->setAnchorPoint({0, 0});
+
+		float offset = 10.f;
+		descLabel->setPosition({footer->getScaledContentHeight() + offset, winSize.height - offset});
+		
+		return descLabel;
+	}
+
+	CCLabelBMFont* createUsernameLabel(CCNode* description) {
+		std::string username = "{User expunged by TokTik}";
+		CCSize winSize = CCDirector::get()->getWinSize();
+
+		if (m_level) {
+			switch (m_level->m_levelType) {
+				case GJLevelType::Local:
+					username = "@RobTop";
+					break;
+				case GJLevelType::Editor:
+					username = fmt::format("@{}", GameManager::get()->m_playerName);
+					break;
+				case GJLevelType::Saved:
+					if (!m_level->m_creatorName.empty()) username = fmt::format("@{}", m_level->m_creatorName);
+					break;
+			}
+		}
+
+		float scaleMultiplier = 0.75f;
+
+		CCLabelBMFont* authorLabel = CCLabelBMFont::create(username.c_str(), "tokTikFontBold.fnt"_spr, winSize.height * scaleMultiplier, kCCTextAlignmentLeft);
 		authorLabel->setID("author"_spr);
+		authorLabel->setScale(scaleMultiplier/2);
+		authorLabel->setRotation(90.f);
+		authorLabel->setAnchorPoint({0, 0});
+
+		float offset = 10.f;
+
+		authorLabel->setPosition({description->getScaledContentHeight() + description->getPosition().x + 5, winSize.height - offset});
 		return authorLabel;
 	}
-	CCLabelBMFont* createLikesLabel() {
-		std::string likes = "0";
-		if (m_level && m_level->m_levelType == GJLevelType::Saved) likes = utils::numToAbbreviatedString(m_level->m_likes);
-		const auto &likesLabel = CCLabelBMFont::create(likes.c_str(), "tokTikFontBold.fnt"_spr);
-		likesLabel->setScale(0.2f);
-		likesLabel->setZOrder(OTHER_MAGIC_NUMBER);
-		likesLabel->setID("likes"_spr);
-		return likesLabel;
+
+	int whichIcon(GameManager* gm = GameManager::get()) {
+		switch (gm->m_playerIconType) {
+			case IconType::Ship:
+				return gm->m_playerShip.value();
+			case IconType::Ball:
+				return gm->m_playerBall.value();
+			case IconType::Ufo:
+				return gm->m_playerBird.value();
+			case IconType::Wave:
+				return gm->m_playerDart.value();
+			case IconType::Robot:
+				return gm->m_playerRobot.value();
+			case IconType::Spider:
+				return gm->m_playerSpider.value();
+			case IconType::Swing:
+				return gm->m_playerSwing.value();
+			case IconType::Jetpack:
+				return gm->m_playerJetpack.value();
+			default:
+				return gm->m_playerFrame.value();
+		}
 	}
-	CCLabelBMFont* createCommentsLabel() {
-		std::string comments = "0";
-		if (m_level && m_level->m_levelType == GJLevelType::Saved) comments = utils::numToAbbreviatedString(abs((abs(m_level->m_downloads - m_level->m_likes) + 1) / 20) * 3);
-		const auto &commentsLabel = CCLabelBMFont::create(comments.c_str(), "tokTikFontBold.fnt"_spr);
-		commentsLabel->setScale(0.2f);
-		commentsLabel->setZOrder(OTHER_MAGIC_NUMBER);
-		commentsLabel->setID("comments"_spr);
-		return commentsLabel;
-	}
-	CCLabelBMFont* createDownloadsLabel() {
-		int downloads = 0;
-		if (m_level && m_level->m_levelType == GJLevelType::Saved) downloads = m_level->m_downloads;
-		const auto &shareLabel = CCLabelBMFont::create(utils::numToAbbreviatedString(downloads).c_str(), "tokTikFontBold.fnt"_spr);
-		shareLabel->setScale(0.2f);
-		shareLabel->setZOrder(OTHER_MAGIC_NUMBER);
-		shareLabel->setID("downloads"_spr);
-		return shareLabel;
-	}
-	static SimplePlayer* createSimplePlayer() {
+
+	SimplePlayer* createSimplePlayer(CCNode* actions) {
 		GameManager* gm = GameManager::get();
 		SimplePlayer* player = SimplePlayer::create(0);
+		player->setID("player"_spr);
+
 		player->updatePlayerFrame(whichIcon(), gm->m_playerIconType);
 		player->setColor(gm->colorForIdx(gm->m_playerColor.value()));
-		const auto &actions = CCScene::get()->getChildByID("actions"_spr);
 		player->setSecondColor(gm->colorForIdx(gm->m_playerColor2.value()));
 		player->enableCustomGlowColor(gm->colorForIdx(gm->m_playerGlowColor.value()));
 		player->setGlowOutline(gm->colorForIdx(gm->m_playerGlowColor.value()));
 		if (!gm->getPlayerGlow()) player->disableGlowOutline();
-		player->setPositionY(actions->getPositionY() + 205.f);
-		player->setPositionX(actions->getPositionX() + 22.f);
-		#ifdef GEODE_IS_WINDOWS
-		player->setPositionY(player->getPositionY() - 19.f);
-		player->setPositionX(player->getPositionX() - 3.f);
-		#elif defined(GEODE_IS_ANDROID)
-		player->setPositionY(player->getPositionY() - 57.f);
-		player->setPositionX(player->getPositionX() - 6.f);
-		#endif
-		player->setZOrder(OTHER_MAGIC_NUMBER);
-		player->setID("player"_spr);
-		player->setScale(1.1f);
+
+		player->setRotation(90.f);
+		player->setContentSize(player->m_firstLayer->getContentSize());
+		player->m_firstLayer->setPosition(player->m_firstLayer->getContentSize()/2);
+		
+		float scaleFactor = CCDirector::get()->getContentScaleFactor() / 4.f;
+		
+		player->setPosition({actions->getPositionX() + actions->getScaledContentHeight() - 3, actions->getPositionY()});
+		player->setScale(actions->getScale() * (0.285 / scaleFactor));
+		player->setAnchorPoint({1.f, 0.f});
+		player->setZOrder(-1);
 		return player;
 	}
+
+	CCSprite* createForYou() {
+		CCSprite* forYou = CCSprite::create("followingAndFYP.png"_spr);
+		CCSize winSize = CCDirector::get()->getWinSize();
+
+		forYou->setID("for-you"_spr);
+		forYou->setRotation(90.f);
+		forYou->setAnchorPoint({0.5f, 1.f});
+
+		float offset = 25.f;
+
+		forYou->setPosition({winSize.width - offset, winSize.height/2});
+		forYou->setScale(m_fields->m_scaleFactor * 0.8);
+
+		return forYou;
+	}
+
+	CCSprite* createSearch(CCNode* forYou) {
+		CCSprite* search = CCSprite::create("search.png"_spr);
+		CCSize winSize = CCDirector::get()->getWinSize();
+
+		search->setID("search"_spr);
+		search->setRotation(90.f);
+		search->setAnchorPoint({1.f, 1.f});
+
+		float offset = 20.f;
+		float heightOffset = 5.f;
+
+		search->setPosition({forYou->getPositionX() + heightOffset, offset});
+		search->setScale(forYou->getScale());
+		return search;
+	}
+
+	CCSprite* createLive(CCNode* forYou) {
+		CCSprite* live = CCSprite::create("live.png"_spr);
+		CCSize winSize = CCDirector::get()->getWinSize();
+
+		live->setID("live"_spr);
+		live->setRotation(90.f);
+		live->setAnchorPoint({0.f, 1.f});
+
+		float offset = 20.f;
+		float heightOffset = 5.f;
+
+		live->setPosition({forYou->getPositionX() + heightOffset, winSize.height - offset});
+		live->setScale(forYou->getScale());
+		return live;
+	}
+	
+	CCSprite* createVibingCube(CCNode* actions) {
+		CCSprite* vibingCube = CCSprite::create("vibingCube.png"_spr);
+		vibingCube->setID("vibing-cube"_spr);
+		vibingCube->setRotation(90.f);
+		vibingCube->setScale(actions->getScale() / 19);
+
+		float offset = 6;
+
+		vibingCube->setPosition({actions->getPositionX() + 5 + offset, actions->getPositionY() - offset});
+		vibingCube->setAnchorPoint({1.f, 0.f});
+		return vibingCube;
+	}
+
+	void createLikesLabel(CCNode* actions) {
+		std::string likes = "0";
+		if (m_level && m_level->m_levelType == GJLevelType::Saved) likes = utils::numToAbbreviatedString(m_level->m_likes);
+		CCLabelBMFont* likesLabel = CCLabelBMFont::create(likes.c_str(), "tokTikFontBold.fnt"_spr);
+		likesLabel->setScale(0.2f);
+		likesLabel->setID("likes"_spr);
+		likesLabel->setPosition({13.75, 63});
+
+		actions->addChild(likesLabel);
+	}
+	void createCommentsLabel(CCNode* actions) {
+		std::string comments = "0";
+		if (m_level && m_level->m_levelType == GJLevelType::Saved) comments = utils::numToAbbreviatedString(abs((abs(m_level->m_downloads - m_level->m_likes) + 1) / 20) * 3);
+		CCLabelBMFont* commentsLabel = CCLabelBMFont::create(comments.c_str(), "tokTikFontBold.fnt"_spr);
+		commentsLabel->setScale(0.2f);
+		commentsLabel->setID("comments"_spr);
+		commentsLabel->setPosition({13.75, 44});
+
+		actions->addChild(commentsLabel);
+	}
+	void createDownloadsLabel(CCNode* actions) {
+		int downloads = 0;
+		if (m_level && m_level->m_levelType == GJLevelType::Saved) downloads = m_level->m_downloads;
+		CCLabelBMFont* shareLabel = CCLabelBMFont::create(utils::numToAbbreviatedString(downloads).c_str(), "tokTikFontBold.fnt"_spr);
+		shareLabel->setScale(0.2f);
+		shareLabel->setID("downloads"_spr);
+		shareLabel->setPosition({13.75, 23});
+
+		actions->addChild(shareLabel);
+	}
+
+	void onQuit() {
+		m_fields->manager->senderTag = -1;
+		PlayLayer::onQuit();
+	}
+
+	/*
+		I don't think it is worth making the buttons work, as there are too many issues to count on 5 hands
+		I have removed the setting, if you would like to look into resolving in the future, go for it :3
+		I tried, I failed, is it worth it, probably not.
+	*/
+
 	void exitPlayLayer(CCObject* sender) {
 		if (!Utils::modEnabled() || !Utils::getBool("tokTikUI") || !Utils::getBool("interactiveFooter") || !PlayLayer::get()) return;
 		PauseLayer::create(false)->onQuit(nullptr);
 		m_fields->manager->senderTag = -1;
 	}
+
 	void openFriends(CCObject* sender) {
 		if (!Utils::modEnabled() || !Utils::getBool("tokTikUI") || !Utils::getBool("interactiveFooter") || !PlayLayer::get()) return;
+		m_fields->m_skipZOrder = false;
 		FriendsProfilePage::create(UserListType::Friends)->show();
+		m_fields->m_skipZOrder = true;
 		m_fields->manager->senderTag = sender->getTag();
 	}
+
 	void openMyLevels(CCObject* sender) {
 		if (!Utils::modEnabled() || !Utils::getBool("tokTikUI") || !Utils::getBool("interactiveFooter") || !PlayLayer::get()) return;
+		GameManager::get()->playMenuMusic();
 		CCDirector::sharedDirector()->replaceScene(CCTransitionFade::create(0.5f, LevelBrowserLayer::scene(GJSearchObject::create(SearchType::MyLevels))));
 		m_fields->manager->senderTag = -1;
 	}
+
 	void openMessages(CCObject* sender) {
 		if (!Utils::modEnabled() || !Utils::getBool("tokTikUI") || !Utils::getBool("interactiveFooter") || !PlayLayer::get()) return;
+		m_fields->m_skipZOrder = false;
 		MessagesProfilePage::create(false)->show();
+		m_fields->m_skipZOrder = true;
 		m_fields->manager->senderTag = sender->getTag();
 	}
+
 	void openProfile(CCObject* sender) {
 		if (!Utils::modEnabled() || !Utils::getBool("tokTikUI") || !Utils::getBool("interactiveFooter") || !PlayLayer::get()) return;
+		m_fields->m_skipZOrder = false;
 		GameManager::get()->m_menuLayer->onMyProfile(nullptr);
+		m_fields->m_skipZOrder = true;
 		m_fields->manager->senderTag = sender->getTag();
 	}
-	void setupHasCompleted() {
-		PlayLayer::setupHasCompleted();
-		if (!Utils::modEnabled()) return;
-		std::array compatibilityMode {1346, 2067, 3007, 3008, 3012, 3013, 3032, 3033};
-		for (const auto &object : CCArrayExt<GameObject*>(m_objects)) {
-			if (std::ranges::find(compatibilityMode, object->m_objectID) != compatibilityMode.end()) {
-				m_fields->hasRotationOrScale = true;
-				break;
-			}
-		}
-	}
-	void postUpdate(float p0) {
-		PlayLayer::postUpdate(p0);
-		if (!Utils::modEnabled()) return;
-		const auto &degrees = static_cast<float>(utils::numFromString<int>(Utils::getString("rotationDegrees")).unwrapOr(0));
-		const auto &scene = CCScene::get();
-		if (m_fields->rotated && scene->getRotation() == degrees) return;
-		if (degrees == 0) {
-			m_fields->rotated = true;
+};
+
+class $modify(MyCCScheduler, CCScheduler) {
+	void update(float dt) {
+
+		if (!Utils::modEnabled()) return CCScheduler::update(dt);
+
+		if (PlayLayer* pl = PlayLayer::get()) {
+			MyPlayLayer* npl = static_cast<MyPlayLayer*>(pl);
+			npl->applyWinSize();
+			CCScheduler::update(dt);
+			npl->restoreWinSize();
 			return;
 		}
-		if (!scene) return;
-		if (const auto &sprite = createBottomBar(); !scene->getChildByID("bottom-bar"_spr)) scene->addChild(sprite);
-		if (const auto &sprite = createTopBar(); !scene->getChildByID("top-bar"_spr)) scene->addChild(sprite);
-		if (Utils::getBool("compatibilityMode") && m_fields->hasRotationOrScale) return;
-		scene->setRotation(degrees);
-		scene->setScale(m_fields->winHeight / m_fields->winWidth);
-		if (Utils::getBool("tokTikUI")) {
-			if (const auto &footer = createFooter(); !scene->getChildByID("footer"_spr)) scene->addChild(footer);
-			if (const auto &actions = createActions(); !scene->getChildByID("actions"_spr)) scene->addChild(actions);
-			if (const auto &forYou = createForYou(); !scene->getChildByID("for-you"_spr)) scene->addChild(forYou);
-			if (const auto &search = createSearch(); !scene->getChildByID("search"_spr)) scene->addChild(search);
-			if (const auto &live = createLive(); !scene->getChildByID("live"_spr)) scene->addChild(live);
-			if (const auto &descLabel = createDescLabel(); !scene->getChildByID("desc"_spr)) scene->addChild(descLabel);
-			if (const auto &usernameLabel = createUsernameLabel(); !scene->getChildByID("author"_spr)) scene->addChild(usernameLabel);
-			if (const auto &footer = scene->getChildByID("footer"_spr); Utils::getBool("interactiveFooter")) {
-				const auto &interactiveFooter = CCMenu::create();
-				const auto &rowLayout = RowLayout::create()->setAutoScale(true)->setAxisAlignment(AxisAlignment::Center)->setAxis(Axis::Row)->setGap(5.0f);
-				interactiveFooter->setLayout(rowLayout);
-				const auto &homeTabButton = CCSprite::create("square.png"_spr);
-				const auto &homeTab = CCMenuItemSpriteExtra::create(homeTabButton, footer, menu_selector(MyPlayLayer::exitPlayLayer));
-				homeTab->setID("home-tab"_spr);
-				homeTab->setOpacity(0);
-				homeTab->setTag(1);
-				interactiveFooter->addChild(homeTab);
-				interactiveFooter->updateLayout();
-				const auto &friendsTabButton = CCSprite::create("square.png"_spr);
-				const auto &friendsTab = CCMenuItemSpriteExtra::create(friendsTabButton, footer, menu_selector(MyPlayLayer::openFriends));
-				friendsTab->setID("friends-tab"_spr);
-				friendsTab->setOpacity(0);
-				friendsTab->setTag(2);
-				interactiveFooter->addChild(friendsTab);
-				interactiveFooter->updateLayout();
-				const auto &myLevelsTabButton = CCSprite::create("square.png"_spr);
-				const auto &myLevelsTab = CCMenuItemSpriteExtra::create(myLevelsTabButton, footer, menu_selector(MyPlayLayer::openMyLevels));
-				myLevelsTab->setOpacity(0);
-				myLevelsTab->setTag(3);
-				myLevelsTab->setID("my-levels-tab"_spr);
-				interactiveFooter->addChild(myLevelsTab);
-				interactiveFooter->updateLayout();
-				const auto &inboxTabButton = CCSprite::create("square.png"_spr);
-				const auto &inboxTab = CCMenuItemSpriteExtra::create(inboxTabButton, footer, menu_selector(MyPlayLayer::openMessages));
-				inboxTab->setID("inbox-tab"_spr);
-				inboxTab->setOpacity(0);
-				inboxTab->setTag(4);
-				interactiveFooter->addChild(inboxTab);
-				interactiveFooter->updateLayout();
-				const auto &profileTabButton = CCSprite::create("square.png"_spr);
-				const auto &profileTab = CCMenuItemSpriteExtra::create(profileTabButton, footer, menu_selector(MyPlayLayer::openProfile));
-				profileTab->setID("profile-tab"_spr);
-				profileTab->setOpacity(0);
-				profileTab->setTag(5);
-				interactiveFooter->addChild(profileTab);
-				interactiveFooter->updateLayout();
-				footer->addChild(interactiveFooter);
-				interactiveFooter->setPosition({47.f, 15.f}); // these hardcoded values are fine because they are for a child of an existing node
-				interactiveFooter->setScale(1.425f); // these hardcoded values are fine because they are for a child of an existing node
-				interactiveFooter->setID("footer-menu"_spr);
-			}
-			if (const auto &actions = scene->getChildByID("actions"_spr)) {
-				if (const auto &likesLabel = createLikesLabel(); !actions->getChildByID("likes"_spr)) {
-					actions->addChild(likesLabel);
-					likesLabel->setPosition({13.5f, 63.f}); // it's being added as a child of an existing node (at this point in code execution); no need to clutch onto your mother pearls because of "hArDcOdEd PoSiTiOnS", people
-				}
-				if (const auto &commentsLabel = createCommentsLabel(); !actions->getChildByID("comments"_spr)) {
-					actions->addChild(commentsLabel);
-					commentsLabel->setPosition({actions->getChildByID("likes"_spr)->getPositionX(), actions->getChildByID("likes"_spr)->getPositionY() - 20.f});
-				}
-				if (const auto &shareLabel = createDownloadsLabel(); !actions->getChildByID("downloads"_spr)) {
-					actions->addChild(shareLabel);
-					shareLabel->setPosition({actions->getChildByID("comments"_spr)->getPositionX(), actions->getChildByID("comments"_spr)->getPositionY() - 20.f});
-				}
-				if (const auto &vibingCube = createVibingCube(); !actions->getChildByID("vibing-cube"_spr)) {
-					actions->addChild(vibingCube);
-					vibingCube->setScale(0.05f);
-					vibingCube->setPosition({actions->getChildByID("downloads"_spr)->getPositionX(), actions->getChildByID("downloads"_spr)->getPositionY() - 12.f});
-				}
-				if (const auto &simplePlayer = createSimplePlayer(); !scene->getChildByID("player"_spr)) {
-					scene->addChild(simplePlayer);
+		CCScheduler::update(dt);
+		return;
+	}
+};
+
+class $modify(MyCCScene, CCScene) {
+
+	int getHighestChildZ() {
+
+		if (PlayLayer* pl = PlayLayer::get()) {
+			MyPlayLayer* npl = static_cast<MyPlayLayer*>(pl);
+			if (npl->m_fields->m_skipZOrder) {
+				if (CCNode* container = npl->m_fields->m_container) {
+					int origZ = container->getZOrder();
+					container->setZOrder(-1);
+					int ret = CCScene::getHighestChildZ();
+					container->setZOrder(origZ);
+					return ret;
 				}
 			}
 		}
-		m_fields->rotated = true;
+
+		return CCScene::getHighestChildZ();
 	}
-	void onQuit() {
-		m_fields->manager->senderTag = -1;
-		PlayLayer::onQuit();
+};
+
+class $modify(MyCCTouchDispatcher, CCTouchDispatcher) {
+
+	static void onModify(auto& self) {
+		// silly doggo hook prio for android ball compat
+		(void) self.setHookPriority("cocos2d::CCTouchDispatcher::touches", -999999999);
+	}
+
+	CCPoint scalePointAroundCenter(const CCPoint& point, const CCPoint& center, float scaleFactor) {
+
+		CCPoint translatedPoint = point - center;
+		translatedPoint.x *= scaleFactor;
+		translatedPoint.y *= scaleFactor;
+		CCPoint scaledPoint = translatedPoint + center;
+
+		return scaledPoint;
+	}
+
+	void touches(CCSet* touches, CCEvent* event, unsigned int type) {
+		
+		auto* touch = static_cast<CCTouch*>(touches->anyObject());
+
+		if (!touch) {
+			return;
+		}
+
+		if (!Utils::modEnabled()) return CCTouchDispatcher::touches(touches, event, type);
+
+		if (PlayLayer* pl = PlayLayer::get()) {
+			
+			MyPlayLayer* npl = static_cast<MyPlayLayer*>(pl);
+
+			if (npl->m_fields->m_initialized) {
+				npl->setVisible(true);
+				CCSize winSize = CCDirector::get()->getWinSize();
+				CCPoint center = winSize/2.f;
+
+				CCPoint pos = touch->getLocation();
+
+				if (!npl->m_fields->m_renderTo->boundingBox().containsPoint(pos)) return CCTouchDispatcher::touches(touches, event, type);
+
+				float scale = npl->m_fields->m_renderTo->getScale();
+
+				pos.y = winSize.height - pos.y;
+				pos = scalePointAroundCenter(pos, center, 1/scale);
+				
+				CCPoint newPos = pos.rotateByAngle(center, CC_DEGREES_TO_RADIANS(npl->m_fields->m_degrees));
+				newPos.y = winSize.height - newPos.y;
+				newPos.x = winSize.width - newPos.x;
+
+				touch->setTouchInfo(touch->getID(), newPos.x, newPos.y);
+				CCTouchDispatcher::touches(touches, event, type);
+
+				npl->setVisible(false);
+				return;
+			}
+		}
+
+		CCTouchDispatcher::touches(touches, event, type);
 	}
 };
