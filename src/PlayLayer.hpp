@@ -29,27 +29,31 @@ class $modify(MyPlayLayer, PlayLayer) {
 		}
 	};
 	void applyWinSize() {
-		if(m_fields->m_newDesignResolution.width != 0 && m_fields->m_newDesignResolution.height != 0) {
-			const auto view = cocos2d::CCEGLView::get();
+		if (m_fields->m_newDesignResolution.width == 0 && m_fields->m_newDesignResolution.height == 0) return;
+		const auto view = cocos2d::CCEGLView::get();
 
-			const auto director = CCDirector::get();
-			
-			director->m_obWinSizeInPoints = m_fields->m_newDesignResolution;
-			view->setDesignResolutionSize(m_fields->m_newDesignResolution.width, m_fields->m_newDesignResolution.height, ResolutionPolicy::kResolutionExactFit);
-			view->m_fScaleX = director->getContentScaleFactor() * m_fields->m_newScreenScale.width;
-			view->m_fScaleY = director->getContentScaleFactor() * m_fields->m_newScreenScale.height;
-		}
+		const auto director = CCDirector::get();
+
+		director->m_obWinSizeInPoints = m_fields->m_newDesignResolution;
+		view->setDesignResolutionSize(m_fields->m_newDesignResolution.width, m_fields->m_newDesignResolution.height, ResolutionPolicy::kResolutionExactFit);
+
+		float scaleFactor = director->getContentScaleFactor();
+		#ifdef __APPLE__
+		scaleFactor /= 2.f;
+		#endif
+
+		view->m_fScaleX = scaleFactor * m_fields->m_newScreenScale.width;
+		view->m_fScaleY = scaleFactor * m_fields->m_newScreenScale.height;
 	}
 
 	void restoreWinSize() {
-		if(m_fields->m_oldDesignResolution.width != 0 && m_fields->m_oldDesignResolution.height != 0) {
-			auto view = cocos2d::CCEGLView::get();
+		if (m_fields->m_oldDesignResolution.width == 0 && m_fields->m_oldDesignResolution.height == 0) return;
+		auto view = cocos2d::CCEGLView::get();
 
-			cocos2d::CCDirector::get()->m_obWinSizeInPoints = m_fields->m_oldDesignResolution;
-			view->setDesignResolutionSize(m_fields->m_oldDesignResolution.width, m_fields->m_oldDesignResolution.height, ResolutionPolicy::kResolutionExactFit);
-			view->m_fScaleX = m_fields->m_originalScreenScale.width;
-			view->m_fScaleY = m_fields->m_originalScreenScale.height;
-		}
+		cocos2d::CCDirector::get()->m_obWinSizeInPoints = m_fields->m_oldDesignResolution;
+		view->setDesignResolutionSize(m_fields->m_oldDesignResolution.width, m_fields->m_oldDesignResolution.height, ResolutionPolicy::kResolutionExactFit);
+		view->m_fScaleX = m_fields->m_originalScreenScale.width;
+		view->m_fScaleY = m_fields->m_originalScreenScale.height;
 	}
 
 	void onEnterTransitionDidFinish() {
@@ -139,7 +143,7 @@ class $modify(MyPlayLayer, PlayLayer) {
 		m_fields->m_originalScreenScale = cocos2d::CCSize(view->m_fScaleX, view->m_fScaleY);
 		m_fields->m_newScreenScale = cocos2d::CCSize(winSize.width / m_fields->m_newDesignResolution.width, winSize.height / m_fields->m_newDesignResolution.height);
 
-		if(m_fields->m_oldDesignResolution != m_fields->m_newDesignResolution) applyWinSize();
+		if (m_fields->m_oldDesignResolution != m_fields->m_newDesignResolution) applyWinSize();
 
 		m_fields->m_renderTo->scheduleUpdate();
 		m_fields->m_renderTo->schedule(schedule_selector(MyPlayLayer::updateRender));
@@ -462,6 +466,7 @@ class $modify(MyPlayLayer, PlayLayer) {
 		I don't think it is worth making the buttons work, as there are too many issues to count on 5 hands
 		I have removed the setting, if you would like to look into resolving in the future, go for it :3
 		I tried, I failed, is it worth it, probably not.
+		-- Alphalaneous
 	*/
 
 	void exitPlayLayer(CCObject* sender) {
