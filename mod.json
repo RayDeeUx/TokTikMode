@@ -1,5 +1,5 @@
 {
-	"geode": "3.9.0",
+	"geode": "3.4.0",
 	"gd": {
 		"win": "2.206",
 		"mac": "2.206",
@@ -7,9 +7,9 @@
 	},
 	"id": "raydeeux.toktikmode",
 	"name": "TokTikMode",
-	"version": "v1.0.1",
+	"version": "v1.0.3",
 	"developer": "RayDeeUx",
-	"description": "\"Vertical\" mode for Geometry Dash. Best on Android.",
+	"description": "\"Vertical\" mode for Geometry Dash.",
 	"repository": "https://github.com/RayDeeUx/TokTikMode",
 	"settings": {
 		"enabled": {

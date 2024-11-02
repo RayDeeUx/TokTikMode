@@ -1,15 +1,13 @@
+#pragma once
 #include <Geode/modify/PlayLayer.hpp>
-#include <Geode/modify/CCScheduler.hpp>
-#include <Geode/modify/CCScene.hpp>
-#include <Geode/modify/CCTouchDispatcher.hpp>
-#include <Geode/modify/CCNode.hpp>
 #include "Manager.hpp"
 #include "Utils.hpp"
+
+#define MAGIC_NUMBER (-2123456789)
 
 using namespace geode::prelude;
 
 class $modify(MyPlayLayer, PlayLayer) {
-
 	struct Fields {
 		CCNode* m_uiNode;
 		CCNode* m_rotatedMenuContainer;
@@ -30,15 +28,16 @@ class $modify(MyPlayLayer, PlayLayer) {
 			if (m_renderTexture) m_renderTexture->release();
 		}
 	};
-
 	void applyWinSize() {
 		if(m_fields->m_newDesignResolution.width != 0 && m_fields->m_newDesignResolution.height != 0) {
-			auto view = cocos2d::CCEGLView::get();
+			const auto view = cocos2d::CCEGLView::get();
+
+			const auto director = CCDirector::get();
 			
-			cocos2d::CCDirector::get()->m_obWinSizeInPoints = m_fields->m_newDesignResolution;
+			director->m_obWinSizeInPoints = m_fields->m_newDesignResolution;
 			view->setDesignResolutionSize(m_fields->m_newDesignResolution.width, m_fields->m_newDesignResolution.height, ResolutionPolicy::kResolutionExactFit);
-			view->m_fScaleX = CCDirector::get()->getContentScaleFactor() * m_fields->m_newScreenScale.width;
-			view->m_fScaleY = CCDirector::get()->getContentScaleFactor() * m_fields->m_newScreenScale.height;
+			view->m_fScaleX = director->getContentScaleFactor() * m_fields->m_newScreenScale.width;
+			view->m_fScaleY = director->getContentScaleFactor() * m_fields->m_newScreenScale.height;
 		}
 	}
 
@@ -54,7 +53,6 @@ class $modify(MyPlayLayer, PlayLayer) {
 	}
 
 	void onEnterTransitionDidFinish() {
-
 		PlayLayer::onEnterTransitionDidFinish();
 
 		if (!Utils::modEnabled()) return;
@@ -64,18 +62,19 @@ class $modify(MyPlayLayer, PlayLayer) {
 		m_fields->m_container->setZOrder(100000);
 		m_fields->m_container->setAnchorPoint({0.5f, 0.5f});
 		m_fields->m_container->setContentSize(winSize);
-		m_fields->m_container->setPosition(winSize/2);
+		m_fields->m_container->setPosition(winSize / 2.f);
+		m_fields->m_container->setID("toktik-mode-container"_spr);
 
 		m_fields->m_rotatedMenuContainer = CCNode::create();
 		m_fields->m_rotatedMenuContainer->setAnchorPoint({0.5f, 0.5f});
 		m_fields->m_rotatedMenuContainer->setContentSize({winSize.height, winSize.width});
-		m_fields->m_rotatedMenuContainer->setPosition(winSize/2);
+		m_fields->m_rotatedMenuContainer->setPosition(winSize / 2.f);
 
 		m_fields->m_blackOverlay = CCLayerColor::create({0, 0, 0, 255});
 		m_fields->m_blackOverlay->setZOrder(0);
 		m_fields->m_blackOverlay->setContentSize(winSize);
 
-		m_fields->m_renderTexture = CCRenderTexture::create(winSize.width, winSize.height);
+		m_fields->m_renderTexture = CCRenderTexture::create(static_cast<int>(winSize.width), static_cast<int>(winSize.height));
 		m_fields->m_renderTexture->retain();
 		m_fields->m_renderTo = CCSprite::createWithTexture(m_fields->m_renderTexture->getSprite()->getTexture());
 		m_fields->m_renderTo->setFlipY(true);
@@ -87,13 +86,13 @@ class $modify(MyPlayLayer, PlayLayer) {
 		}
 
 		m_fields->m_renderTo->setRotation(90);
-		m_fields->m_renderTo->setPosition(winSize/2);
+		m_fields->m_renderTo->setPosition(winSize / 2.f);
 		float scale = winSize.height / m_fields->m_renderTo->getContentWidth();
 		m_fields->m_renderTo->setScale(scale);
 
 		m_fields->m_uiNode = CCNode::create();
 		m_fields->m_uiNode->setContentSize(winSize);
-		m_fields->m_uiNode->setPosition(winSize/2);
+		m_fields->m_uiNode->setPosition(winSize / 2.f);
 		m_fields->m_uiNode->setAnchorPoint({0.5f, 0.5f});
 		m_fields->m_uiNode->setZOrder(2);
 
@@ -294,6 +293,8 @@ class $modify(MyPlayLayer, PlayLayer) {
 					break;
 				case GJLevelType::Saved:
 					if (!m_level->m_creatorName.empty()) username = fmt::format("@{}", m_level->m_creatorName);
+					break;
+				default:
 					break;
 			}
 		}
@@ -498,104 +499,5 @@ class $modify(MyPlayLayer, PlayLayer) {
 		GameManager::get()->m_menuLayer->onMyProfile(nullptr);
 		m_fields->m_skipZOrder = true;
 		m_fields->manager->senderTag = sender->getTag();
-	}
-};
-
-class $modify(MyCCScheduler, CCScheduler) {
-	void update(float dt) {
-
-		if (!Utils::modEnabled()) return CCScheduler::update(dt);
-
-		if (PlayLayer* pl = PlayLayer::get()) {
-			MyPlayLayer* npl = static_cast<MyPlayLayer*>(pl);
-			npl->applyWinSize();
-			CCScheduler::update(dt);
-			npl->restoreWinSize();
-			return;
-		}
-		CCScheduler::update(dt);
-		return;
-	}
-};
-
-class $modify(MyCCScene, CCScene) {
-
-	int getHighestChildZ() {
-
-		if (PlayLayer* pl = PlayLayer::get()) {
-			MyPlayLayer* npl = static_cast<MyPlayLayer*>(pl);
-			if (npl->m_fields->m_skipZOrder) {
-				if (CCNode* container = npl->m_fields->m_container) {
-					int origZ = container->getZOrder();
-					container->setZOrder(-1);
-					int ret = CCScene::getHighestChildZ();
-					container->setZOrder(origZ);
-					return ret;
-				}
-			}
-		}
-
-		return CCScene::getHighestChildZ();
-	}
-};
-
-class $modify(MyCCTouchDispatcher, CCTouchDispatcher) {
-
-	static void onModify(auto& self) {
-		// silly doggo hook prio for android ball compat
-		(void) self.setHookPriority("cocos2d::CCTouchDispatcher::touches", -999999999);
-	}
-
-	CCPoint scalePointAroundCenter(const CCPoint& point, const CCPoint& center, float scaleFactor) {
-
-		CCPoint translatedPoint = point - center;
-		translatedPoint.x *= scaleFactor;
-		translatedPoint.y *= scaleFactor;
-		CCPoint scaledPoint = translatedPoint + center;
-
-		return scaledPoint;
-	}
-
-	void touches(CCSet* touches, CCEvent* event, unsigned int type) {
-		
-		auto* touch = static_cast<CCTouch*>(touches->anyObject());
-
-		if (!touch) {
-			return;
-		}
-
-		if (!Utils::modEnabled()) return CCTouchDispatcher::touches(touches, event, type);
-
-		if (PlayLayer* pl = PlayLayer::get()) {
-			
-			MyPlayLayer* npl = static_cast<MyPlayLayer*>(pl);
-
-			if (npl->m_fields->m_initialized) {
-				npl->setVisible(true);
-				CCSize winSize = CCDirector::get()->getWinSize();
-				CCPoint center = winSize/2.f;
-
-				CCPoint pos = touch->getLocation();
-
-				if (!npl->m_fields->m_renderTo->boundingBox().containsPoint(pos)) return CCTouchDispatcher::touches(touches, event, type);
-
-				float scale = npl->m_fields->m_renderTo->getScale();
-
-				pos.y = winSize.height - pos.y;
-				pos = scalePointAroundCenter(pos, center, 1/scale);
-				
-				CCPoint newPos = pos.rotateByAngle(center, CC_DEGREES_TO_RADIANS(npl->m_fields->m_degrees));
-				newPos.y = winSize.height - newPos.y;
-				newPos.x = winSize.width - newPos.x;
-
-				touch->setTouchInfo(touch->getID(), newPos.x, newPos.y);
-				CCTouchDispatcher::touches(touches, event, type);
-
-				npl->setVisible(false);
-				return;
-			}
-		}
-
-		CCTouchDispatcher::touches(touches, event, type);
 	}
 };
