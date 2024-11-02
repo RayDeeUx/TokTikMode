@@ -22,7 +22,7 @@ class $modify(MyPlayLayer, PlayLayer) {
         CCSize m_newDesignResolution;
         CCSize m_originalScreenScale;
         CCSize m_newScreenScale;
-		Manager* manager = Manager::getSharedInstance();
+        Manager* manager = Manager::getSharedInstance();
         float m_degrees = 90.f;
         bool m_initialized = false;
         bool m_skipZOrder = true;
@@ -78,7 +78,7 @@ class $modify(MyPlayLayer, PlayLayer) {
         m_fields->m_renderTexture = CCRenderTexture::create(winSize.width, winSize.height);
         m_fields->m_renderTexture->retain();
         m_fields->m_renderTo = CCSprite::createWithTexture(m_fields->m_renderTexture->getSprite()->getTexture());
-	    m_fields->m_renderTo->setFlipY(true);
+        m_fields->m_renderTo->setFlipY(true);
         m_fields->m_renderTo->setZOrder(1);
 
         if (Utils::getBool("flipOrientation")) {
@@ -97,7 +97,7 @@ class $modify(MyPlayLayer, PlayLayer) {
         m_fields->m_uiNode->setAnchorPoint({0.5f, 0.5f});
         m_fields->m_uiNode->setZOrder(2);
 
-		if (Utils::getBool("tokTikUI")) {
+        if (Utils::getBool("tokTikUI")) {
             CCNode* footer = createFooter();
             CCNode* actions = createActions(footer);
             CCNode* description = createDescLabel(footer);
@@ -229,62 +229,62 @@ class $modify(MyPlayLayer, PlayLayer) {
     }
 
     CCSprite* createFooter() {
-		CCSprite* footer = CCSprite::create("footer.png"_spr);
+        CCSprite* footer = CCSprite::create("footer.png"_spr);
         CCSize winSize = CCDirector::get()->getWinSize();
-		footer->setID("footer"_spr);
+        footer->setID("footer"_spr);
         footer->setRotation(90.f);
         footer->setAnchorPoint({0.5f, 0.f});
         footer->setPosition({0, winSize.height/2});
 
         m_fields->m_scaleFactor = winSize.height / footer->getContentWidth();
-		footer->setScale(m_fields->m_scaleFactor);
+        footer->setScale(m_fields->m_scaleFactor);
 
-		return footer;
-	}
+        return footer;
+    }
 
     CCSprite* createActions(CCNode* footer) {
-		CCSprite* actions = CCSprite::create("actions.png"_spr);
+        CCSprite* actions = CCSprite::create("actions.png"_spr);
         CCSize winSize = CCDirector::get()->getWinSize();
-		actions->setID("actions"_spr);
+        actions->setID("actions"_spr);
         actions->setRotation(90.f);
         actions->setAnchorPoint({1.f, 0.f});
         float offset = 20.f;
         actions->setPosition({footer->getScaledContentHeight() + offset, offset});
 
-		actions->setScale(m_fields->m_scaleFactor * 0.75);
+        actions->setScale(m_fields->m_scaleFactor * 0.75);
 
         createLikesLabel(actions);
         createDownloadsLabel(actions);
         createCommentsLabel(actions);
 
-		return actions;
-	}
+        return actions;
+    }
 
     CCLabelBMFont* createDescLabel(CCNode* footer) {
-		std::string desc = "[This level's description does not follow TokTik's Community Guidelines, which help us foster an inclusive and authentic community and define the kind of content and behavior that's not allowed on our app.]";
+        std::string desc = "[This level's description does not follow TokTik's Community Guidelines, which help us foster an inclusive and authentic community and define the kind of content and behavior that's not allowed on our app.]";
         CCSize winSize = CCDirector::get()->getWinSize();
-		
+        
         if (m_level && !m_level->getUnpackedLevelDescription().empty()) desc = m_level->getUnpackedLevelDescription();
 
         float scaleMultiplier = 0.75f;
 
-		CCLabelBMFont* descLabel = CCLabelBMFont::create(desc.c_str(), "tokTikFont.fnt"_spr, winSize.height * scaleMultiplier, kCCTextAlignmentLeft);
-		descLabel->setID("desc"_spr);
+        CCLabelBMFont* descLabel = CCLabelBMFont::create(desc.c_str(), "tokTikFont.fnt"_spr, winSize.height * scaleMultiplier, kCCTextAlignmentLeft);
+        descLabel->setID("desc"_spr);
         descLabel->setRotation(90.f);
         descLabel->setScale(scaleMultiplier/2);
-		descLabel->setAnchorPoint({0, 0});
+        descLabel->setAnchorPoint({0, 0});
 
         float offset = 10.f;
         descLabel->setPosition({footer->getScaledContentHeight() + offset, winSize.height - offset});
-		
-		return descLabel;
-	}
+        
+        return descLabel;
+    }
 
     CCLabelBMFont* createUsernameLabel(CCNode* description) {
-		std::string username = "{User expunged by TokTik}";
+        std::string username = "{User expunged by TokTik}";
         CCSize winSize = CCDirector::get()->getWinSize();
 
-		if (m_level) {
+        if (m_level) {
             switch (m_level->m_levelType) {
                 case GJLevelType::Local:
                     username = "@RobTop";
@@ -296,21 +296,21 @@ class $modify(MyPlayLayer, PlayLayer) {
                     if (!m_level->m_creatorName.empty()) username = fmt::format("@{}", m_level->m_creatorName);
                     break;
             }
-		}
+        }
 
         float scaleMultiplier = 0.75f;
 
-		CCLabelBMFont* authorLabel = CCLabelBMFont::create(username.c_str(), "tokTikFontBold.fnt"_spr, winSize.height * scaleMultiplier, kCCTextAlignmentLeft);
-		authorLabel->setID("author"_spr);
+        CCLabelBMFont* authorLabel = CCLabelBMFont::create(username.c_str(), "tokTikFontBold.fnt"_spr, winSize.height * scaleMultiplier, kCCTextAlignmentLeft);
+        authorLabel->setID("author"_spr);
         authorLabel->setScale(scaleMultiplier/2);
         authorLabel->setRotation(90.f);
-		authorLabel->setAnchorPoint({0, 0});
+        authorLabel->setAnchorPoint({0, 0});
 
         float offset = 10.f;
 
         authorLabel->setPosition({description->getScaledContentHeight() + description->getPosition().x + 5, winSize.height - offset});
-		return authorLabel;
-	}
+        return authorLabel;
+    }
 
     int whichIcon(GameManager* gm = GameManager::get()) {
         switch (gm->m_playerIconType) {
@@ -333,19 +333,19 @@ class $modify(MyPlayLayer, PlayLayer) {
             default:
                 return gm->m_playerFrame.value();
         }
-	}
+    }
 
     SimplePlayer* createSimplePlayer(CCNode* actions) {
-		GameManager* gm = GameManager::get();
-		SimplePlayer* player = SimplePlayer::create(0);
-		player->setID("player"_spr);
+        GameManager* gm = GameManager::get();
+        SimplePlayer* player = SimplePlayer::create(0);
+        player->setID("player"_spr);
 
-		player->updatePlayerFrame(whichIcon(), gm->m_playerIconType);
-		player->setColor(gm->colorForIdx(gm->m_playerColor.value()));
-		player->setSecondColor(gm->colorForIdx(gm->m_playerColor2.value()));
-		player->enableCustomGlowColor(gm->colorForIdx(gm->m_playerGlowColor.value()));
-		player->setGlowOutline(gm->colorForIdx(gm->m_playerGlowColor.value()));
-		if (!gm->getPlayerGlow()) player->disableGlowOutline();
+        player->updatePlayerFrame(whichIcon(), gm->m_playerIconType);
+        player->setColor(gm->colorForIdx(gm->m_playerColor.value()));
+        player->setSecondColor(gm->colorForIdx(gm->m_playerColor2.value()));
+        player->enableCustomGlowColor(gm->colorForIdx(gm->m_playerGlowColor.value()));
+        player->setGlowOutline(gm->colorForIdx(gm->m_playerGlowColor.value()));
+        if (!gm->getPlayerGlow()) player->disableGlowOutline();
 
         player->setRotation(90.f);
         player->setContentSize(player->m_firstLayer->getContentSize());
@@ -354,108 +354,108 @@ class $modify(MyPlayLayer, PlayLayer) {
         float scaleFactor = CCDirector::get()->getContentScaleFactor() / 4.f;
         
         player->setPosition({actions->getPositionX() + actions->getScaledContentHeight() - 3, actions->getPositionY()});
-		player->setScale(actions->getScale() * (0.285 / scaleFactor));
+        player->setScale(actions->getScale() * (0.285 / scaleFactor));
         player->setAnchorPoint({1.f, 0.f});
         player->setZOrder(-1);
-		return player;
-	}
+        return player;
+    }
 
     CCSprite* createForYou() {
-		CCSprite* forYou = CCSprite::create("followingAndFYP.png"_spr);
+        CCSprite* forYou = CCSprite::create("followingAndFYP.png"_spr);
         CCSize winSize = CCDirector::get()->getWinSize();
 
-		forYou->setID("for-you"_spr);
+        forYou->setID("for-you"_spr);
         forYou->setRotation(90.f);
-		forYou->setAnchorPoint({0.5f, 1.f});
+        forYou->setAnchorPoint({0.5f, 1.f});
 
         float offset = 25.f;
 
         forYou->setPosition({winSize.width - offset, winSize.height/2});
-		forYou->setScale(m_fields->m_scaleFactor * 0.8);
+        forYou->setScale(m_fields->m_scaleFactor * 0.8);
 
-		return forYou;
-	}
+        return forYou;
+    }
 
     CCSprite* createSearch(CCNode* forYou) {
-		CCSprite* search = CCSprite::create("search.png"_spr);
+        CCSprite* search = CCSprite::create("search.png"_spr);
         CCSize winSize = CCDirector::get()->getWinSize();
 
-		search->setID("search"_spr);
+        search->setID("search"_spr);
         search->setRotation(90.f);
-		search->setAnchorPoint({1.f, 1.f});
+        search->setAnchorPoint({1.f, 1.f});
 
         float offset = 20.f;
         float heightOffset = 5.f;
 
         search->setPosition({forYou->getPositionX() + heightOffset, offset});
-		search->setScale(forYou->getScale());
-		return search;
-	}
+        search->setScale(forYou->getScale());
+        return search;
+    }
 
-	CCSprite* createLive(CCNode* forYou) {
-		CCSprite* live = CCSprite::create("live.png"_spr);
+    CCSprite* createLive(CCNode* forYou) {
+        CCSprite* live = CCSprite::create("live.png"_spr);
         CCSize winSize = CCDirector::get()->getWinSize();
 
-		live->setID("live"_spr);
-		live->setRotation(90.f);
-		live->setAnchorPoint({0.f, 1.f});
+        live->setID("live"_spr);
+        live->setRotation(90.f);
+        live->setAnchorPoint({0.f, 1.f});
 
         float offset = 20.f;
         float heightOffset = 5.f;
 
         live->setPosition({forYou->getPositionX() + heightOffset, winSize.height - offset});
-		live->setScale(forYou->getScale());
-		return live;
-	}
-	
+        live->setScale(forYou->getScale());
+        return live;
+    }
+    
     CCSprite* createVibingCube(CCNode* actions) {
-		CCSprite* vibingCube = CCSprite::create("vibingCube.png"_spr);
-		vibingCube->setID("vibing-cube"_spr);
-		vibingCube->setRotation(90.f);
+        CCSprite* vibingCube = CCSprite::create("vibingCube.png"_spr);
+        vibingCube->setID("vibing-cube"_spr);
+        vibingCube->setRotation(90.f);
         vibingCube->setScale(actions->getScale() / 19);
 
         float offset = 6;
 
         vibingCube->setPosition({actions->getPositionX() + 5 + offset, actions->getPositionY() - offset});
-		vibingCube->setAnchorPoint({1.f, 0.f});
-		return vibingCube;
-	}
+        vibingCube->setAnchorPoint({1.f, 0.f});
+        return vibingCube;
+    }
 
     void createLikesLabel(CCNode* actions) {
-		std::string likes = "0";
-		if (m_level && m_level->m_levelType == GJLevelType::Saved) likes = utils::numToAbbreviatedString(m_level->m_likes);
-		CCLabelBMFont* likesLabel = CCLabelBMFont::create(likes.c_str(), "tokTikFontBold.fnt"_spr);
-		likesLabel->setScale(0.2f);
-		likesLabel->setID("likes"_spr);
+        std::string likes = "0";
+        if (m_level && m_level->m_levelType == GJLevelType::Saved) likes = utils::numToAbbreviatedString(m_level->m_likes);
+        CCLabelBMFont* likesLabel = CCLabelBMFont::create(likes.c_str(), "tokTikFontBold.fnt"_spr);
+        likesLabel->setScale(0.2f);
+        likesLabel->setID("likes"_spr);
         likesLabel->setPosition({13.75, 63});
 
         actions->addChild(likesLabel);
-	}
-	void createCommentsLabel(CCNode* actions) {
-		std::string comments = "0";
-		if (m_level && m_level->m_levelType == GJLevelType::Saved) comments = utils::numToAbbreviatedString(abs((abs(m_level->m_downloads - m_level->m_likes) + 1) / 20) * 3);
-		CCLabelBMFont* commentsLabel = CCLabelBMFont::create(comments.c_str(), "tokTikFontBold.fnt"_spr);
-		commentsLabel->setScale(0.2f);
-		commentsLabel->setID("comments"_spr);
+    }
+    void createCommentsLabel(CCNode* actions) {
+        std::string comments = "0";
+        if (m_level && m_level->m_levelType == GJLevelType::Saved) comments = utils::numToAbbreviatedString(abs((abs(m_level->m_downloads - m_level->m_likes) + 1) / 20) * 3);
+        CCLabelBMFont* commentsLabel = CCLabelBMFont::create(comments.c_str(), "tokTikFontBold.fnt"_spr);
+        commentsLabel->setScale(0.2f);
+        commentsLabel->setID("comments"_spr);
         commentsLabel->setPosition({13.75, 44});
 
         actions->addChild(commentsLabel);
-	}
-	void createDownloadsLabel(CCNode* actions) {
-		int downloads = 0;
-		if (m_level && m_level->m_levelType == GJLevelType::Saved) downloads = m_level->m_downloads;
-		CCLabelBMFont* shareLabel = CCLabelBMFont::create(utils::numToAbbreviatedString(downloads).c_str(), "tokTikFontBold.fnt"_spr);
-		shareLabel->setScale(0.2f);
-		shareLabel->setID("downloads"_spr);
+    }
+    void createDownloadsLabel(CCNode* actions) {
+        int downloads = 0;
+        if (m_level && m_level->m_levelType == GJLevelType::Saved) downloads = m_level->m_downloads;
+        CCLabelBMFont* shareLabel = CCLabelBMFont::create(utils::numToAbbreviatedString(downloads).c_str(), "tokTikFontBold.fnt"_spr);
+        shareLabel->setScale(0.2f);
+        shareLabel->setID("downloads"_spr);
         shareLabel->setPosition({13.75, 23});
 
         actions->addChild(shareLabel);
-	}
+    }
 
     void onQuit() {
-		m_fields->manager->senderTag = -1;
-		PlayLayer::onQuit();
-	}
+        m_fields->manager->senderTag = -1;
+        PlayLayer::onQuit();
+    }
 
     /*
         I don't think it is worth making the buttons work, as there are too many issues to count on 5 hands
@@ -464,41 +464,41 @@ class $modify(MyPlayLayer, PlayLayer) {
     */
 
     void exitPlayLayer(CCObject* sender) {
-		if (!Utils::modEnabled() || !Utils::getBool("tokTikUI") || !Utils::getBool("interactiveFooter") || !PlayLayer::get()) return;
-		PauseLayer::create(false)->onQuit(nullptr);
-		m_fields->manager->senderTag = -1;
-	}
+        if (!Utils::modEnabled() || !Utils::getBool("tokTikUI") || !Utils::getBool("interactiveFooter") || !PlayLayer::get()) return;
+        PauseLayer::create(false)->onQuit(nullptr);
+        m_fields->manager->senderTag = -1;
+    }
 
-	void openFriends(CCObject* sender) {
-		if (!Utils::modEnabled() || !Utils::getBool("tokTikUI") || !Utils::getBool("interactiveFooter") || !PlayLayer::get()) return;
-		m_fields->m_skipZOrder = false;
+    void openFriends(CCObject* sender) {
+        if (!Utils::modEnabled() || !Utils::getBool("tokTikUI") || !Utils::getBool("interactiveFooter") || !PlayLayer::get()) return;
+        m_fields->m_skipZOrder = false;
         FriendsProfilePage::create(UserListType::Friends)->show();
-		m_fields->m_skipZOrder = true;
-		m_fields->manager->senderTag = sender->getTag();
-	}
+        m_fields->m_skipZOrder = true;
+        m_fields->manager->senderTag = sender->getTag();
+    }
 
-	void openMyLevels(CCObject* sender) {
-		if (!Utils::modEnabled() || !Utils::getBool("tokTikUI") || !Utils::getBool("interactiveFooter") || !PlayLayer::get()) return;
+    void openMyLevels(CCObject* sender) {
+        if (!Utils::modEnabled() || !Utils::getBool("tokTikUI") || !Utils::getBool("interactiveFooter") || !PlayLayer::get()) return;
         GameManager::get()->playMenuMusic();
-		CCDirector::sharedDirector()->replaceScene(CCTransitionFade::create(0.5f, LevelBrowserLayer::scene(GJSearchObject::create(SearchType::MyLevels))));
-		m_fields->manager->senderTag = -1;
-	}
+        CCDirector::sharedDirector()->replaceScene(CCTransitionFade::create(0.5f, LevelBrowserLayer::scene(GJSearchObject::create(SearchType::MyLevels))));
+        m_fields->manager->senderTag = -1;
+    }
 
-	void openMessages(CCObject* sender) {
-		if (!Utils::modEnabled() || !Utils::getBool("tokTikUI") || !Utils::getBool("interactiveFooter") || !PlayLayer::get()) return;
-		m_fields->m_skipZOrder = false;
+    void openMessages(CCObject* sender) {
+        if (!Utils::modEnabled() || !Utils::getBool("tokTikUI") || !Utils::getBool("interactiveFooter") || !PlayLayer::get()) return;
+        m_fields->m_skipZOrder = false;
         MessagesProfilePage::create(false)->show();
-		m_fields->m_skipZOrder = true;
-		m_fields->manager->senderTag = sender->getTag();
-	}
+        m_fields->m_skipZOrder = true;
+        m_fields->manager->senderTag = sender->getTag();
+    }
 
-	void openProfile(CCObject* sender) {
-		if (!Utils::modEnabled() || !Utils::getBool("tokTikUI") || !Utils::getBool("interactiveFooter") || !PlayLayer::get()) return;
-		m_fields->m_skipZOrder = false;
+    void openProfile(CCObject* sender) {
+        if (!Utils::modEnabled() || !Utils::getBool("tokTikUI") || !Utils::getBool("interactiveFooter") || !PlayLayer::get()) return;
+        m_fields->m_skipZOrder = false;
         GameManager::get()->m_menuLayer->onMyProfile(nullptr);
-		m_fields->m_skipZOrder = true;
-		m_fields->manager->senderTag = sender->getTag();
-	}
+        m_fields->m_skipZOrder = true;
+        m_fields->manager->senderTag = sender->getTag();
+    }
 };
 
 class $modify(MyCCScheduler, CCScheduler) {
