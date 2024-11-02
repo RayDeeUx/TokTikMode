@@ -15,7 +15,7 @@ class $modify(MyInfoLayer, InfoLayer) {
 	};
 	void setupCommentsBrowser(cocos2d::CCArray* p0) {
 		InfoLayer::setupCommentsBrowser(p0);
-		if (!Utils::modEnabled() || !Utils::getBool("tokTikUI") || !Utils::getBool("interactiveFooter") || !PlayLayer::get() || m_fields->manager->senderTag == -1) return;
+		if (!Utils::modEnabled() || !Utils::getBool("tokTikUI") || !Utils::getBool("interactiveFooterButtons") || !PlayLayer::get() || m_fields->manager->senderTag == -1) return;
 		Utils::showFirstTimeAlert();
 	}
 };

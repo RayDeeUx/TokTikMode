@@ -123,8 +123,8 @@ class $modify(MyPlayLayer, PlayLayer) {
 			m_fields->m_uiNode->addChild(live);
 			m_fields->m_uiNode->addChild(vibingCube);
 
-			if (Utils::getBool("interactiveFooter")) {
-				createInteractiveFooter(footer);
+			if (Utils::getBool("interactiveFooterButtons")) {
+				createinteractiveFooterButtons(footer);
 			}
 		}
 
@@ -176,15 +176,15 @@ class $modify(MyPlayLayer, PlayLayer) {
 		mpl->m_fields->m_renderTo->setTexture(mpl->m_fields->m_renderTexture->getSprite()->getTexture());
 	}
 
-	void createInteractiveFooter(CCNode* footer) {
-		CCMenu* interactiveFooter = CCMenu::create();
+	void createinteractiveFooterButtons(CCNode* footer) {
+		CCMenu* interactiveFooterButtons = CCMenu::create();
 
 		RowLayout* rowLayout = RowLayout::create();
 		rowLayout->setAutoScale(true);
 		rowLayout->setAxisAlignment(AxisAlignment::Center);
 		rowLayout->setGap(5.0f);
 
-		interactiveFooter->setLayout(rowLayout);
+		interactiveFooterButtons->setLayout(rowLayout);
 		
 		CCSprite* homeTabButton = CCSprite::create("square.png"_spr);
 		CCMenuItemSpriteExtra* homeTab = CCMenuItemSpriteExtra::create(homeTabButton, footer, menu_selector(MyPlayLayer::exitPlayLayer));
@@ -192,7 +192,7 @@ class $modify(MyPlayLayer, PlayLayer) {
 		homeTab->setOpacity(0);
 		homeTab->setTag(1);
 
-		interactiveFooter->addChild(homeTab);
+		interactiveFooterButtons->addChild(homeTab);
 
 		CCSprite* friendsTabButton = CCSprite::create("square.png"_spr);
 		CCMenuItemSpriteExtra* friendsTab = CCMenuItemSpriteExtra::create(friendsTabButton, footer, menu_selector(MyPlayLayer::openFriends));
@@ -200,7 +200,7 @@ class $modify(MyPlayLayer, PlayLayer) {
 		friendsTab->setOpacity(0);
 		friendsTab->setTag(2);
 
-		interactiveFooter->addChild(friendsTab);
+		interactiveFooterButtons->addChild(friendsTab);
 
 		CCSprite* myLevelsTabButton = CCSprite::create("square.png"_spr);
 		CCMenuItemSpriteExtra* myLevelsTab = CCMenuItemSpriteExtra::create(myLevelsTabButton, footer, menu_selector(MyPlayLayer::openMyLevels));
@@ -208,7 +208,7 @@ class $modify(MyPlayLayer, PlayLayer) {
 		myLevelsTab->setTag(3);
 		myLevelsTab->setID("my-levels-tab"_spr);
 
-		interactiveFooter->addChild(myLevelsTab);
+		interactiveFooterButtons->addChild(myLevelsTab);
 
 		CCSprite* inboxTabButton = CCSprite::create("square.png"_spr);
 		CCMenuItemSpriteExtra* inboxTab = CCMenuItemSpriteExtra::create(inboxTabButton, footer, menu_selector(MyPlayLayer::openMessages));
@@ -216,21 +216,21 @@ class $modify(MyPlayLayer, PlayLayer) {
 		inboxTab->setOpacity(0);
 		inboxTab->setTag(4);
 
-		interactiveFooter->addChild(inboxTab);
-		interactiveFooter->updateLayout();
+		interactiveFooterButtons->addChild(inboxTab);
+		interactiveFooterButtons->updateLayout();
 
 		CCSprite* profileTabButton = CCSprite::create("square.png"_spr);
 		CCMenuItemSpriteExtra* profileTab = CCMenuItemSpriteExtra::create(profileTabButton, footer, menu_selector(MyPlayLayer::openProfile));
 		profileTab->setID("profile-tab"_spr);
 		profileTab->setOpacity(0);
 		profileTab->setTag(5);
-		interactiveFooter->addChild(profileTab);
-		interactiveFooter->updateLayout();
+		interactiveFooterButtons->addChild(profileTab);
+		interactiveFooterButtons->updateLayout();
 
-		footer->addChild(interactiveFooter);
-		interactiveFooter->setPosition({47.f, 15.f}); // these hardcoded values are fine because they are for a child of an existing node
-		interactiveFooter->setScale(1.425f); // these hardcoded values are fine because they are for a child of an existing node
-		interactiveFooter->setID("footer-menu"_spr);
+		footer->addChild(interactiveFooterButtons);
+		interactiveFooterButtons->setPosition({47.f, 15.f}); // these hardcoded values are fine because they are for a child of an existing node
+		interactiveFooterButtons->setScale(1.425f); // these hardcoded values are fine because they are for a child of an existing node
+		interactiveFooterButtons->setID("footer-menu"_spr);
 	}
 
 	CCSprite* createFooter() {
@@ -472,13 +472,13 @@ class $modify(MyPlayLayer, PlayLayer) {
 	*/
 
 	void exitPlayLayer(CCObject* sender) {
-		if (!Utils::modEnabled() || !Utils::getBool("tokTikUI") || !Utils::getBool("interactiveFooter") || !PlayLayer::get()) return;
+		if (!Utils::modEnabled() || !Utils::getBool("tokTikUI") || !Utils::getBool("interactiveFooterButtons") || !PlayLayer::get()) return;
 		PauseLayer::create(false)->onQuit(nullptr);
 		m_fields->manager->senderTag = -1;
 	}
 
 	void openFriends(CCObject* sender) {
-		if (!Utils::modEnabled() || !Utils::getBool("tokTikUI") || !Utils::getBool("interactiveFooter") || !PlayLayer::get()) return;
+		if (!Utils::modEnabled() || !Utils::getBool("tokTikUI") || !Utils::getBool("interactiveFooterButtons") || !PlayLayer::get()) return;
 		m_fields->m_skipZOrder = false;
 		FriendsProfilePage::create(UserListType::Friends)->show();
 		m_fields->m_skipZOrder = true;
@@ -486,14 +486,14 @@ class $modify(MyPlayLayer, PlayLayer) {
 	}
 
 	void openMyLevels(CCObject* sender) {
-		if (!Utils::modEnabled() || !Utils::getBool("tokTikUI") || !Utils::getBool("interactiveFooter") || !PlayLayer::get()) return;
+		if (!Utils::modEnabled() || !Utils::getBool("tokTikUI") || !Utils::getBool("interactiveFooterButtons") || !PlayLayer::get()) return;
 		GameManager::get()->playMenuMusic();
 		CCDirector::sharedDirector()->replaceScene(CCTransitionFade::create(0.5f, LevelBrowserLayer::scene(GJSearchObject::create(SearchType::MyLevels))));
 		m_fields->manager->senderTag = -1;
 	}
 
 	void openMessages(CCObject* sender) {
-		if (!Utils::modEnabled() || !Utils::getBool("tokTikUI") || !Utils::getBool("interactiveFooter") || !PlayLayer::get()) return;
+		if (!Utils::modEnabled() || !Utils::getBool("tokTikUI") || !Utils::getBool("interactiveFooterButtons") || !PlayLayer::get()) return;
 		m_fields->m_skipZOrder = false;
 		MessagesProfilePage::create(false)->show();
 		m_fields->m_skipZOrder = true;
@@ -501,7 +501,7 @@ class $modify(MyPlayLayer, PlayLayer) {
 	}
 
 	void openProfile(CCObject* sender) {
-		if (!Utils::modEnabled() || !Utils::getBool("tokTikUI") || !Utils::getBool("interactiveFooter") || !PlayLayer::get()) return;
+		if (!Utils::modEnabled() || !Utils::getBool("tokTikUI") || !Utils::getBool("interactiveFooterButtons") || !PlayLayer::get()) return;
 		m_fields->m_skipZOrder = false;
 		GameManager::get()->m_menuLayer->onMyProfile(nullptr);
 		m_fields->m_skipZOrder = true;

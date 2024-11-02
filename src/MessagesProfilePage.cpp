@@ -13,7 +13,7 @@ class $modify(MyMessagesProfilePage, MessagesProfilePage) {
 		Manager* manager = Manager::getSharedInstance();
 	};
 	void onClose(CCObject* sender) {
-		if (!Utils::modEnabled() || !Utils::getBool("tokTikUI") || !Utils::getBool("interactiveFooter") || !PlayLayer::get() || m_fields->manager->senderTag == -1) return MessagesProfilePage::onClose(sender);
+		if (!Utils::modEnabled() || !Utils::getBool("tokTikUI") || !Utils::getBool("interactiveFooterButtons") || !PlayLayer::get() || m_fields->manager->senderTag == -1) return MessagesProfilePage::onClose(sender);
 		// re-creation of original code -- see about.md for credits
 		auto touchDispatcher = CCTouchDispatcher::get();
 		if (m_listLayer) touchDispatcher->unregisterForcePrio(m_listLayer);
@@ -25,7 +25,7 @@ class $modify(MyMessagesProfilePage, MessagesProfilePage) {
 	}
 	void setupCommentsBrowser(cocos2d::CCArray* p0) {
 		MessagesProfilePage::setupCommentsBrowser(p0);
-		if (!Utils::modEnabled() || !Utils::getBool("tokTikUI") || !Utils::getBool("interactiveFooter") || !PlayLayer::get() || m_fields->manager->senderTag == -1) return;
+		if (!Utils::modEnabled() || !Utils::getBool("tokTikUI") || !Utils::getBool("interactiveFooterButtons") || !PlayLayer::get() || m_fields->manager->senderTag == -1) return;
 		Utils::showFirstTimeAlert();
 	}
 };

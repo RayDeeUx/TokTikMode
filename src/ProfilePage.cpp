@@ -15,16 +15,16 @@ class $modify(MyProfilePage, ProfilePage) {
 		Manager* manager = Manager::getSharedInstance();
 	};
 	void onMyLevels(cocos2d::CCObject* sender) {
-		if (!Utils::modEnabled() || !Utils::getBool("tokTikUI") || !Utils::getBool("interactiveFooter") || !PlayLayer::get() || m_fields->manager->senderTag == -1) return ProfilePage::onMyLevels(sender);
+		if (!Utils::modEnabled() || !Utils::getBool("tokTikUI") || !Utils::getBool("interactiveFooterButtons") || !PlayLayer::get() || m_fields->manager->senderTag == -1) return ProfilePage::onMyLevels(sender);
 		Utils::showGuardrailAlert();
 	}
 	void onMyLists(cocos2d::CCObject* sender) {
-		if (!Utils::modEnabled() || !Utils::getBool("tokTikUI") || !Utils::getBool("interactiveFooter") || !PlayLayer::get() || m_fields->manager->senderTag == -1) return ProfilePage::onMyLists(sender);
+		if (!Utils::modEnabled() || !Utils::getBool("tokTikUI") || !Utils::getBool("interactiveFooterButtons") || !PlayLayer::get() || m_fields->manager->senderTag == -1) return ProfilePage::onMyLists(sender);
 		Utils::showGuardrailAlert();
 	}
 	void setupCommentsBrowser(cocos2d::CCArray* p0) {
 		ProfilePage::setupCommentsBrowser(p0);
-		if (!Utils::modEnabled() || !Utils::getBool("tokTikUI") || !Utils::getBool("interactiveFooter") || !PlayLayer::get() || m_fields->manager->senderTag == -1) return;
+		if (!Utils::modEnabled() || !Utils::getBool("tokTikUI") || !Utils::getBool("interactiveFooterButtons") || !PlayLayer::get() || m_fields->manager->senderTag == -1) return;
 		Utils::showFirstTimeAlert();
 	}
 };
