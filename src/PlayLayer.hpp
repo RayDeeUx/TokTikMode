@@ -73,6 +73,7 @@ class $modify(MyPlayLayer, PlayLayer) {
 		m_fields->m_rotatedMenuContainer->setAnchorPoint({0.5f, 0.5f});
 		m_fields->m_rotatedMenuContainer->setContentSize({winSize.height, winSize.width});
 		m_fields->m_rotatedMenuContainer->setPosition(winSize / 2.f);
+		m_fields->m_rotatedMenuContainer->setID("toktik-mode-rotated-menu-container"_spr);
 
 		m_fields->m_blackOverlay = CCLayerColor::create({0, 0, 0, 255});
 		m_fields->m_blackOverlay->setZOrder(0);
@@ -99,6 +100,7 @@ class $modify(MyPlayLayer, PlayLayer) {
 		m_fields->m_uiNode->setPosition(winSize / 2.f);
 		m_fields->m_uiNode->setAnchorPoint({0.5f, 0.5f});
 		m_fields->m_uiNode->setZOrder(2);
+		m_fields->m_uiNode->setID("toktik-mode-container"_spr);
 
 		if (Utils::getBool("tokTikUI")) {
 			CCNode* footer = createFooter();
