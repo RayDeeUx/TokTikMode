@@ -67,23 +67,25 @@ class $modify(MyPlayLayer, PlayLayer) {
 		m_fields->m_container->setAnchorPoint({0.5f, 0.5f});
 		m_fields->m_container->setContentSize(winSize);
 		m_fields->m_container->setPosition(winSize / 2.f);
-		m_fields->m_container->setID("toktik-mode-container"_spr);
+		m_fields->m_container->setID("container"_spr);
 
 		m_fields->m_rotatedMenuContainer = CCNode::create();
 		m_fields->m_rotatedMenuContainer->setAnchorPoint({0.5f, 0.5f});
 		m_fields->m_rotatedMenuContainer->setContentSize({winSize.height, winSize.width});
 		m_fields->m_rotatedMenuContainer->setPosition(winSize / 2.f);
-		m_fields->m_rotatedMenuContainer->setID("toktik-mode-rotated-menu-container"_spr);
+		m_fields->m_rotatedMenuContainer->setID("rotated-menu-container"_spr);
 
 		m_fields->m_blackOverlay = CCLayerColor::create({0, 0, 0, 255});
 		m_fields->m_blackOverlay->setZOrder(0);
 		m_fields->m_blackOverlay->setContentSize(winSize);
+		m_fields->m_blackOverlay->setID("black-overlay"_spr);
 
 		m_fields->m_renderTexture = CCRenderTexture::create(static_cast<int>(winSize.width), static_cast<int>(winSize.height));
 		m_fields->m_renderTexture->retain();
 		m_fields->m_renderTo = CCSprite::createWithTexture(m_fields->m_renderTexture->getSprite()->getTexture());
 		m_fields->m_renderTo->setFlipY(true);
 		m_fields->m_renderTo->setZOrder(1);
+		m_fields->m_renderTo->setID("render-texture-if-youre-another-mod-developer-who-wants-to-modify-this-node-then-please-dont-unless-if-your-goal-is-to-break-the-entire-game-for-other-geode-users-i-really-hope-the-extreme-length-of-this-node-id-is-enough-of-a-hint-and-that-youre-not-just-copypasting-this-into-your-source-code-to-suppress-your-guilt"_spr);
 
 		if (Utils::getBool("flipOrientation")) {
 			m_fields->m_degrees = 270.f;
@@ -100,7 +102,7 @@ class $modify(MyPlayLayer, PlayLayer) {
 		m_fields->m_uiNode->setPosition(winSize / 2.f);
 		m_fields->m_uiNode->setAnchorPoint({0.5f, 0.5f});
 		m_fields->m_uiNode->setZOrder(2);
-		m_fields->m_uiNode->setID("toktik-mode-container"_spr);
+		m_fields->m_uiNode->setID("ui-container"_spr);
 
 		if (Utils::getBool("tokTikUI")) {
 			CCNode* footer = createFooter();
