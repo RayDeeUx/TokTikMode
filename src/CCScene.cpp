@@ -7,6 +7,8 @@ class $modify(MyCCScene, CCScene) {
 	int getHighestChildZ() {
 		PlayLayer* pl = PlayLayer::get();
 		if (!pl) return CCScene::getHighestChildZ();
+		if (pl->m_level->isPlatformer() && Utils::getBool("disableOnPlatformer")) return CCScene::getHighestChildZ();
+		if (!pl->m_level->isPlatformer() && Utils::getBool("disableOnClassic")) return CCScene::getHighestChildZ();
 
 		MyPlayLayer* mpl = static_cast<MyPlayLayer*>(pl);
 		if (!mpl->m_fields->m_skipZOrder) return CCScene::getHighestChildZ();

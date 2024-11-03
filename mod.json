@@ -29,6 +29,24 @@
 			"description": "Flip the vertical orientation of the TokTik UI.",
 			"type": "bool",
 			"default": false
+		},
+		"ignoreOOBTouchesDuringGP": {
+			"name": "Ignore Out-of-Bounds Touches During Gameplay",
+			"description": "Ignores any touches you make that fall outside the rotated PlayLayer screen.\n\n<cy>Not recommended for anyone, but the option is here.</c>",
+			"type": "bool",
+			"default": false
+		},
+		"disableOnPlatformer": {
+			"name": "Disable on Platformer Levels",
+			"description": "Disables the entire mod when playing Platformer levels, so that you can control the player(s) properly instead of within a cramped rotated screen area.\n\n<cy>Highly recommended for Android users.</c>",
+			"type": "bool",
+			"default": false
+		},
+		"disableOnClassic": {
+			"name": "Disable on Classic Levels",
+			"description": "Disables the entire mod when playing Classic levels, so that y'all won't need to bother anyone for this toggle just because there's one for Platformer levels.",
+			"type": "bool",
+			"default": false
 		}
 	},
 	"resources": {

@@ -23,17 +23,22 @@ class $modify(MyCCTouchDispatcher, CCTouchDispatcher) {
 
 		PlayLayer* pl = PlayLayer::get();
 		if (!pl) return CCTouchDispatcher::touches(touches, event, type);
+		if (pl->m_level->isPlatformer() && Utils::getBool("disableOnPlatformer")) return CCTouchDispatcher::touches(touches, event, type);
+		if (!pl->m_level->isPlatformer() && Utils::getBool("disableOnClassic")) return CCTouchDispatcher::touches(touches, event, type);
 
 		MyPlayLayer* mpl = static_cast<MyPlayLayer*>(pl);
 		if (!mpl->m_fields->m_initialized) return CCTouchDispatcher::touches(touches, event, type);
 
+		CCPoint pos = touch->getLocation();
+		if (!mpl->m_fields->m_renderTo->boundingBox().containsPoint(pos) && mpl->m_fields->m_blackOverlay->boundingBox().containsPoint(pos)) {
+			bool isPausedOrPauseLayer = pl->m_isPaused || getChildOfType<PauseLayer*>(pl, 0);
+			if (Utils::getBool("ignoreOOBTouchesDuringGP") && !isPausedOrPauseLayer) return;
+			if (isPausedOrPauseLayer) return;
+		} else if (!mpl->m_fields->m_renderTo->boundingBox().containsPoint(pos)) return CCTouchDispatcher::touches(touches, event, type);
+
 		mpl->setVisible(true);
 		CCSize winSize = CCDirector::get()->getWinSize();
 		CCPoint center = winSize / 2.f;
-
-		CCPoint pos = touch->getLocation();
-
-		if (!mpl->m_fields->m_renderTo->boundingBox().containsPoint(pos)) return CCTouchDispatcher::touches(touches, event, type);
 
 		float scale = mpl->m_fields->m_renderTo->getScale();
 

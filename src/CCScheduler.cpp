@@ -10,6 +10,8 @@ class $modify(MyCCScheduler, CCScheduler) {
 
 		PlayLayer* pl = PlayLayer::get();
 		if (!pl) return CCScheduler::update(dt);
+		if (pl->m_level->isPlatformer() && Utils::getBool("disableOnPlatformer")) return CCScheduler::update(dt);
+		if (!pl->m_level->isPlatformer() && Utils::getBool("disableOnClassic")) return CCScheduler::update(dt);
 
 		MyPlayLayer* mpl = static_cast<MyPlayLayer*>(pl);
 

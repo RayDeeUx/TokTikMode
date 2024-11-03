@@ -28,6 +28,9 @@ class $modify(MyPlayLayer, PlayLayer) {
 			if (m_renderTexture) m_renderTexture->release();
 		}
 	};
+	static void onModify(auto& self) {
+		(void) self.setHookPriority("PlayLayer::onEnterTransitionDidFinish", MAGIC_NUMBER);
+	}
 	void applyWinSize() {
 		if (m_fields->m_newDesignResolution.width == 0 && m_fields->m_newDesignResolution.height == 0) return;
 		const auto view = cocos2d::CCEGLView::get();
@@ -60,6 +63,8 @@ class $modify(MyPlayLayer, PlayLayer) {
 		PlayLayer::onEnterTransitionDidFinish();
 
 		if (!Utils::modEnabled()) return;
+		if (m_level->isPlatformer() && Utils::getBool("disableOnPlatformer")) return;
+		if (!m_level->isPlatformer() && Utils::getBool("disableOnClassic")) return;
 
 		CCSize winSize = CCDirector::get()->getWinSize();
 		m_fields->m_container = CCNode::create();

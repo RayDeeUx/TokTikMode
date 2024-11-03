@@ -1,11 +1,5 @@
 #pragma once
 
-#include <Geode/utils/web.hpp>
-
-#define PI 3.14159265
-#define KABBA_LATITUDE 21.4225046
-#define KABBA_LONGITUDE 39.8261148
-
 using namespace geode::prelude;
 
 namespace Utils {
