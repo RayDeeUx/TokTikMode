@@ -51,7 +51,7 @@ class $modify(MyCCTouchDispatcher, CCTouchDispatcher) {
 
 		CCPoint pos = touch->getLocation();
 		if (!mpl->m_fields->m_renderTo->boundingBox().containsPoint(pos) && mpl->m_fields->m_blackOverlay->boundingBox().containsPoint(pos)) {
-			bool isPausedOrPauseLayer = pl->m_isPaused || getChildOfType<PauseLayer*>(pl, 0);
+			bool isPausedOrPauseLayer = pl->m_isPaused || getChildOfType<PauseLayer>(pl, 0);
 			if (Utils::getBool("ignoreOOBTouchesDuringGP") && !isPausedOrPauseLayer) return;
 			if (isPausedOrPauseLayer) return;
 		} else if (!mpl->m_fields->m_renderTo->boundingBox().containsPoint(pos)) return CCTouchDispatcher::touches(touches, event, type);
