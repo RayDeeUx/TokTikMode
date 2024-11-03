@@ -24,4 +24,4 @@ Some parts of the <c-25f4ee>Tok</c><c-fe2c55>Tik</c> UI recreation re-use [asset
 
 The <c-25f4ee>Tok</c><c-fe2c55>Tik</c> UI's font is (based on) Helvetica Neue DeskInterface, available on [FontKe](https://eng.fontke.com/font/106860486/download/) for non-commercial purposes.
 
-The source code of this mod is licensed under LGPLv2. To report bugs or get help with using my mods, press the Discord button in the lower left corner.
+The source code of this [Geode mod](https://geode-sdk.org) is licensed under LGPLv2. To report bugs or get help with using my mods, press the Discord button in the lower left corner.
