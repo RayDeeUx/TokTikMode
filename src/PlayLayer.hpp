@@ -12,7 +12,6 @@ class $modify(MyPlayLayer, PlayLayer) {
 		CCNode* m_uiNode;
 		CCNode* m_rotatedMenuContainer;
 		CCNode* m_container;
-		float m_scaleFactor = 1.f;
 		CCRenderTexture* m_renderTexture;
 		CCSprite* m_renderTo;
 		CCLayerColor* m_blackOverlay;
@@ -21,6 +20,7 @@ class $modify(MyPlayLayer, PlayLayer) {
 		CCSize m_originalScreenScale;
 		CCSize m_newScreenScale;
 		Manager* manager = Manager::getSharedInstance();
+		float m_scaleFactor = 1.f;
 		float m_degrees = 90.f;
 		bool m_initialized = false;
 		bool m_skipZOrder = true;
