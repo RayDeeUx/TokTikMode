@@ -472,6 +472,11 @@ class $modify(MyPlayLayer, PlayLayer) {
 		I tried, I failed, is it worth it, probably not.
 		-- Alphalaneous
 	*/
+	/*
+		@everyone: If you really want the interactiveFooterButtons, edit settings.json.
+		no warranty for you if anything breaks on your end and interactiveFooterButtons is enabled.
+		-- RayDeeUx
+	*/
 
 	void exitPlayLayer(CCObject* sender) {
 		if (!Utils::modEnabled() || !Utils::getBool("tokTikUI") || !Utils::getBool("interactiveFooterButtons") || !PlayLayer::get()) return;
