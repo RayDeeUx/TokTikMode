@@ -20,13 +20,13 @@
 		},
 		"tokTikUI": {
 			"name": "TokTik UI",
-			"description": "Toggles the TokTik UI.",
+			"description": "Toggles the <cj>Tok</c><cr>Tik</c> UI.",
 			"type": "bool",
 			"default": true
 		},
 		"flipOrientation": {
 			"name": "Flip Orientation",
-			"description": "Flip the vertical orientation of the TokTik UI.",
+			"description": "Flip the vertical orientation of the <cj>Tok</c><cr>Tik</c> UI.",
 			"type": "bool",
 			"default": false
 		},
