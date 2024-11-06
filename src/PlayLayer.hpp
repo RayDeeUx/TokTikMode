@@ -84,7 +84,7 @@ class $modify(MyPlayLayer, PlayLayer) {
 	}
 
 	void addObject(GameObject* p0) {
-		if (p0->m_objectID == 2903 && Utils::getBool("gradientCompat") && Utils::modEnabled()) m_fields->m_doNotApply == true;
+		if (p0->m_objectID == 2903 && Utils::getBool("gradientCompat") && Utils::modEnabled()) m_fields->m_doNotApply = true;
 		PlayLayer::addObject(p0);
 	}
 
