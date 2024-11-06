@@ -4,9 +4,11 @@ Play <co>Geometry</c> <cj>Dash</c> levels as if you were viewing a TokTik video.
 
 For <c-cdcdcd>macOS</c> and <c-00adef>Windows</c> folks, <c-25f4ee>Tok</c><c-fe2c55>Tik</c>Mode is best experienced with <cl>Fullscreen</c>. For <cg>Android</c> folks, well... you already *are* on Fullscreen, obviously.
 
+<cy>***_All users:_***</c> *<c-25f4ee>Tok</c><c-fe2c55>Tik</c>Mode <cy>automatically disables itself when a level has a gradient trigger, so that mod nitpickers won't repeatedly report the same three bugs for the next three weeks. To disable this behavior, please disable `Gradient Trigger Compatibility`.</c>*
+
 <cy>***_Android users:_***</c> <cy>*Please consider enabling `Disable on Platformer Levels` after installing*</c> *<c-25f4ee>Tok</c><c-fe2c55>Tik</c>Mode*<cy>*;*</c> <cy>*controlling the player(s) in Platformer levels with*</c> *<c-25f4ee>Tok</c><c-fe2c55>Tik</c>Mode* <cy>*enabled gets*</c> <cy>***MUCH***</c> <cy>*harder otherwise.*</c>
 
-<cy>***_Windows/macOS users:_***</c> <cy>Due to the nature of</c> <c-25f4ee>Tok</c><c-fe2c55>Tik</c>Mode, <cy>Eclipse Menu's "Right Click Teleport" feature will still behave as if the screen was never rotated. Please don't report this bug, as both sides are aware of this issue.</c>
+<cy>***_Windows/macOS users:_***</c> *<cy>Due to the nature of</c> <c-25f4ee>Tok</c><c-fe2c55>Tik</c>Mode, <cy>Eclipse Menu's "Right Click Teleport" feature will still behave as if the screen was never rotated. Please don't report this bug, as both sides are aware of this issue.</c>*
 
 <c-25f4ee>Tok</c><c-fe2c55>Tik</c>Mode was tested on the following devices, operating systems, and aspect ratios:
 - <c-cdcdcd>MacBook Pro</c> (16-inch, 2019) running <c-cdcdcd>macOS</c> <c-2e88d6>Seq</c><c-f7a865>uoia</c> <c-cdcdcd>(macOS 15.0.1)</c> with a <cl>16:10</c> aspect ratio display
@@ -24,7 +26,7 @@ For <c-cdcdcd>macOS</c> and <c-00adef>Windows</c> folks, <c-25f4ee>Tok</c><c-fe2
 
 ## Legal
 
-<c-25f4ee>Tok</c><c-fe2c55>Tik</c>Mode is non-profit, open-source, fan-made, U.S-origin software written in C++ with the <c-A379C0>Ge</c><c-CA869F>od</c><c-DF8F8F>e S</c><c-E1B29B>DK</c> as a mod for <co>Geometry</c> <cj>Dash</c>, and has no affiliation with <c-305bb7>Byt</c><c-3d8aff>eDa</c><c-00c9ca>nce</c> <c-78e5df>Ltd.</c> It parodies the social media platform of a similar name by re-creating its user interface within <co>Geometry</c> <cj>Dash</c>, a game that also has zero affiliation with with <c-305bb7>Byt</c><c-3d8aff>eDa</c><c-00c9ca>nce</c> <c-78e5df>Ltd.</c> As such, <c-25f4ee>Tok</c><c-fe2c55>Tik</c>Mode falls under fair use per [Section 107 of the Copyright Act](https://www.copyright.gov/title17/92chap1.html#107).
+<c-25f4ee>Tok</c><c-fe2c55>Tik</c>Mode is non-profit, open-source, fan-made, U.S-origin software written in C++ with the <c-A379C0>Ge</c><c-CA869F>od</c><c-DF8F8F>e S</c><c-E1B29B>DK</c> as a mod for <co>Geometry</c> <cj>Dash</c>, and has no affiliation with <c-305bb7>Byt</c><c-3d8aff>eDa</c><c-00c9ca>nce</c> <c-78e5df>Ltd.</c> It parodies the social media platform of a similar name by re-creating its user interface within <co>Geometry</c> <cj>Dash</c>, a game that also has zero affiliation with with <c-305bb7>Byt</c><c-3d8aff>eDa</c><c-00c9ca>nce</c>. As such, <c-25f4ee>Tok</c><c-fe2c55>Tik</c>Mode falls under fair use per [Section 107 of the Copyright Act](https://www.copyright.gov/title17/92chap1.html#107).
 
 Some parts of the <c-25f4ee>Tok</c><c-fe2c55>Tik</c> UI recreation are based on assets re-used and adapted from [Adriano Reis on Figma](https://www.figma.com/community/file/865012298664294326/tiktok-ui-mockup-fully-customizable). All assets found in <c-25f4ee>Tok</c><c-fe2c55>Tik</c>Mode, including my adaptations from Adriano Reis's assets, are licensed under [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/).
 

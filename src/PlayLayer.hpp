@@ -46,12 +46,14 @@ class $modify(MyPlayLayer, PlayLayer) {
 		float m_degrees = 90.f;
 		bool m_initialized = false;
 		bool m_skipZOrder = true;
+		bool m_doNotApply = false;
 		~Fields() {
 			if (m_renderTexture) m_renderTexture->release();
 		}
 	};
 	static void onModify(auto& self) {
 		(void) self.setHookPriority("PlayLayer::onEnterTransitionDidFinish", MAGIC_NUMBER);
+		(void) self.setHookPriority("PlayLayer::addObject", MAGIC_NUMBER);
 	}
 	void applyWinSize() {
 		if (m_fields->m_newDesignResolution.width == 0 && m_fields->m_newDesignResolution.height == 0) return;
@@ -81,10 +83,15 @@ class $modify(MyPlayLayer, PlayLayer) {
 		view->m_fScaleY = m_fields->m_originalScreenScale.height;
 	}
 
+	void addObject(GameObject* p0) {
+		if (p0->m_objectID == 2903 && Utils::getBool("gradientCompat") && Utils::modEnabled()) m_fields->m_doNotApply == true;
+		PlayLayer::addObject(p0);
+	}
+
 	void onEnterTransitionDidFinish() {
 		PlayLayer::onEnterTransitionDidFinish();
 
-		if (!Utils::modEnabled()) return;
+		if (!Utils::modEnabled() || m_fields->m_doNotApply) return;
 		if (m_level->isPlatformer() && Utils::getBool("disableOnPlatformer")) return;
 		if (!m_level->isPlatformer() && Utils::getBool("disableOnClassic")) return;
 

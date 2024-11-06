@@ -18,6 +18,12 @@
 			"type": "bool",
 			"default": true
 		},
+		"gradientCompat": {
+			"name": "Gradient Trigger Compatibility",
+			"description": "Disables the mod if a Gradient trigger is active in a level.",
+			"type": "bool",
+			"default": true
+		},
 		"tokTikUI": {
 			"name": "TokTik UI",
 			"description": "Toggles the <cj>Tok</c><cr>Tik</c> UI.",
