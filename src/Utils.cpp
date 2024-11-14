@@ -70,7 +70,7 @@ namespace Utils {
 
 	void showFirstTimeAlert() {
 		if (!PlayLayer::get()) return;
-		const auto &priorAlert = getChildOfType<FLAlertLayer>(CCScene::get(), -1);
+		const auto &priorAlert = CCScene::get()->getChildByType<FLAlertLayer>(-1);
 		if (priorAlert && priorAlert->m_button1) {
 			if (std::string(priorAlert->m_button1->m_label->getString()) == "Alright") return;
 		}
