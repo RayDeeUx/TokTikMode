@@ -18,7 +18,7 @@ License along with TokTikMode; if not, see
 
 /* Source code is self-authored. --Erymanthus */
 
-#include <Geode/loader/SettingEvent.hpp>
+#include <Geode/loader/SettingV3.hpp>
 #include <Geode/modify/MenuLayer.hpp>
 #include "Manager.hpp"
 #include "Utils.hpp"
