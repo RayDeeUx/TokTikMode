@@ -37,7 +37,7 @@ jobs:
         with:
           # bindings: RayDeeUx/bindings
           # bindings-ref: i-hate-cc-lightning-toktikmode
-          sdk: nightly
+          # sdk: nightly
           combine: true
           target: ${{ matrix.config.target }}
 
