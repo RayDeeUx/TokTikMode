@@ -25,7 +25,7 @@ fixing any bugs. --Erymanthus */
 #include "Manager.hpp"
 #include "Utils.hpp"
 
-#define MAGIC_NUMBER (-2123456789)
+#define MAGIC_NUMBER (-3456789)
 
 using namespace geode::prelude;
 
