@@ -19,6 +19,10 @@ License along with TokTikMode; if not, see
 /* Source code is self-authored, with help from
 hiimjustin000 for re-creating vanilla GD behavior. --Erymanthus */
 
+// temporarily disabled source file because missing binding is inlined
+// all my homies hate inlining
+
+/*
 #include <Geode/modify/MessagesProfilePage.hpp>
 #include "Manager.hpp"
 #include "Utils.hpp"
@@ -50,3 +54,4 @@ class $modify(MyMessagesProfilePage, MessagesProfilePage) {
 		Utils::showFirstTimeAlert();
 	}
 };
+*/

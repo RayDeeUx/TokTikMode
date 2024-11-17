@@ -536,9 +536,14 @@ class $modify(MyPlayLayer, PlayLayer) {
 	void openMessages(CCObject* sender) {
 		if (!Utils::modEnabled() || !Utils::getBool("tokTikUI") || !Utils::getBool("interactiveFooterButtons") || !PlayLayer::get()) return;
 		m_fields->m_skipZOrder = false;
-		MessagesProfilePage::create(false)->show();
+		// MessagesProfilePage::create(false)->show();
+		FLAlertLayer::create(
+			"Warning",
+			"Hey there! This button currently does nothing else besides showing this popup, since C++ is a legendary programming language and inlined functions are apparently the best thing ever since sliced bread.\n\n--<cj>Tok</c><cr>Tik</c>Mode",
+			"Alright"
+		)->show();
 		m_fields->m_skipZOrder = true;
-		m_fields->manager->senderTag = sender->getTag();
+		// m_fields->manager->senderTag = sender->getTag();
 	}
 
 	void openProfile(CCObject* sender) {
