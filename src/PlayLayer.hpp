@@ -25,7 +25,7 @@ fixing any bugs. --Erymanthus */
 #include "Manager.hpp"
 #include "Utils.hpp"
 
-#define MAGIC_NUMBER (1999) // positive hook prio for the lolz (also because devtools compat) --erymanthus
+#define MAGIC_NUMBER (2123456789) // positive hook prio for the lolz (also because devtools compat) --erymanthus
 
 using namespace geode::prelude;
 
@@ -213,7 +213,6 @@ class $modify(MyPlayLayer, PlayLayer) {
 	}
 
 	void createInteractiveFooterButtons(CCNode* footer) {
-		log::info("FOOTER CREATED FOOTER CREATED FOOTER CREATED FOOTER CREATED FOOTER CREATED FOOTER CREATED FOOTER CREATED");
 		CCMenu* interactiveFooterButtons = CCMenu::create();
 
 		RowLayout* rowLayout = RowLayout::create();

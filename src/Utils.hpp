@@ -40,4 +40,6 @@ namespace Utils {
 
 	void showGuardrailAlert();
 	void showFirstTimeAlert();
+	
+	bool getSavedBool(const std::string_view setting);
 }

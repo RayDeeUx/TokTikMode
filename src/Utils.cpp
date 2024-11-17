@@ -81,5 +81,5 @@ namespace Utils {
 		)->show();
 	}
 
-
+	bool getSavedBool(const std::string_view setting) { return return Mod::get()->getSavedValue<T>(setting); }
 }

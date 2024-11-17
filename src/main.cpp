@@ -59,8 +59,6 @@ class $modify(MyMenuLayer, MenuLayer) {
 		manager->originalMaxAlpha = infoLabelTweaks->getSettingValue<bool>("maxAlphaDebugText");
 		manager->originalIsChroma = infoLabelTweaks->getSettingValue<bool>("chromaDebugText");
 
-		log::info("Utils::getBool(\"interactiveFooterButtons\"): {}", Utils::getBool("interactiveFooterButtons"));
-
 		return true;
 	}
 };
