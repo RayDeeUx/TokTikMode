@@ -514,7 +514,8 @@ class $modify(MyPlayLayer, PlayLayer) {
 
 	void exitPlayLayer(CCObject* sender) {
 		if (!Utils::modEnabled() || !Utils::getBool("tokTikUI") || !Utils::getBool("interactiveFooterButtons") || !PlayLayer::get()) return;
-		PauseLayer::create(false)->onQuit(nullptr);
+		// PauseLayer::create(false)->onQuit(nullptr);
+		PlayLayer::onExit();
 		m_fields->manager->senderTag = -1;
 	}
 
