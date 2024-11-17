@@ -25,7 +25,7 @@ fixing any bugs. --Erymanthus */
 #include "Manager.hpp"
 #include "Utils.hpp"
 
-#define MAGIC_NUMBER (2123456789)
+#define MAGIC_NUMBER (2123456789) // positive hook prio for the lolz (also because devtools compat) --erymanthus
 
 using namespace geode::prelude;
 
@@ -159,11 +159,9 @@ class $modify(MyPlayLayer, PlayLayer) {
 			m_fields->m_uiNode->addChild(live);
 			m_fields->m_uiNode->addChild(vibingCube);
 
-			/*
 			if (Utils::getBool("interactiveFooterButtons")) {
 				createInteractiveFooterButtons(footer);
 			}
-			*/
 		}
 
 		m_fields->m_container->addChild(m_fields->m_uiNode);
