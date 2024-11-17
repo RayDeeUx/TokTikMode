@@ -51,6 +51,8 @@ class $modify(MyMenuLayer, MenuLayer) {
 		if (manager->hasCalledAlready) return true;
 		manager->hasCalledAlready = true;
 
+		log::info("interactiveFooterButtons: {}", Utils::getSavedBool("interactiveFooterButtons"));
+
 		if (!Utils::isModLoaded(INFO_LABEL_TWEAKS)) return true;
 
 		const auto &infoLabelTweaks = Utils::getMod(INFO_LABEL_TWEAKS);
