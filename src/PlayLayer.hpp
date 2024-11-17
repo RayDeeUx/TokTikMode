@@ -159,7 +159,7 @@ class $modify(MyPlayLayer, PlayLayer) {
 			m_fields->m_uiNode->addChild(live);
 			m_fields->m_uiNode->addChild(vibingCube);
 
-			if (Utils::getBool("interactiveFooterButtons")) {
+			if (Utils::getSavedBool("interactiveFooterButtons")) {
 				createInteractiveFooterButtons(footer);
 			}
 		}
@@ -513,14 +513,14 @@ class $modify(MyPlayLayer, PlayLayer) {
 	*/
 
 	void exitPlayLayer(CCObject* sender) {
-		if (!Utils::modEnabled() || !Utils::getBool("tokTikUI") || !Utils::getBool("interactiveFooterButtons") || !PlayLayer::get()) return;
+		if (!Utils::modEnabled() || !Utils::getBool("tokTikUI") || !Utils::getSavedBool("interactiveFooterButtons") || !PlayLayer::get()) return;
 		// PauseLayer::create(false)->onQuit(nullptr);
 		PlayLayer::onExit();
 		m_fields->manager->senderTag = -1;
 	}
 
 	void openFriends(CCObject* sender) {
-		if (!Utils::modEnabled() || !Utils::getBool("tokTikUI") || !Utils::getBool("interactiveFooterButtons") || !PlayLayer::get()) return;
+		if (!Utils::modEnabled() || !Utils::getBool("tokTikUI") || !Utils::getSavedBool("interactiveFooterButtons") || !PlayLayer::get()) return;
 		m_fields->m_skipZOrder = false;
 		FriendsProfilePage::create(UserListType::Friends)->show();
 		m_fields->m_skipZOrder = true;
@@ -528,14 +528,14 @@ class $modify(MyPlayLayer, PlayLayer) {
 	}
 
 	void openMyLevels(CCObject* sender) {
-		if (!Utils::modEnabled() || !Utils::getBool("tokTikUI") || !Utils::getBool("interactiveFooterButtons") || !PlayLayer::get()) return;
+		if (!Utils::modEnabled() || !Utils::getBool("tokTikUI") || !Utils::getSavedBool("interactiveFooterButtons") || !PlayLayer::get()) return;
 		GameManager::get()->playMenuMusic();
 		CCDirector::sharedDirector()->replaceScene(CCTransitionFade::create(0.5f, LevelBrowserLayer::scene(GJSearchObject::create(SearchType::MyLevels))));
 		m_fields->manager->senderTag = -1;
 	}
 
 	void openMessages(CCObject* sender) {
-		if (!Utils::modEnabled() || !Utils::getBool("tokTikUI") || !Utils::getBool("interactiveFooterButtons") || !PlayLayer::get()) return;
+		if (!Utils::modEnabled() || !Utils::getBool("tokTikUI") || !Utils::getSavedBool("interactiveFooterButtons") || !PlayLayer::get()) return;
 		m_fields->m_skipZOrder = false;
 		// MessagesProfilePage::create(false)->show();
 		FLAlertLayer::create(
@@ -548,7 +548,7 @@ class $modify(MyPlayLayer, PlayLayer) {
 	}
 
 	void openProfile(CCObject* sender) {
-		if (!Utils::modEnabled() || !Utils::getBool("tokTikUI") || !Utils::getBool("interactiveFooterButtons") || !PlayLayer::get()) return;
+		if (!Utils::modEnabled() || !Utils::getBool("tokTikUI") || !Utils::getSavedBool("interactiveFooterButtons") || !PlayLayer::get()) return;
 		m_fields->m_skipZOrder = false;
 		GameManager::get()->m_menuLayer->onMyProfile(nullptr);
 		m_fields->m_skipZOrder = true;
