@@ -159,9 +159,11 @@ class $modify(MyPlayLayer, PlayLayer) {
 			m_fields->m_uiNode->addChild(live);
 			m_fields->m_uiNode->addChild(vibingCube);
 
+			/*
 			if (Utils::getBool("interactiveFooterButtons")) {
-				createinteractiveFooterButtons(footer);
+				createInteractiveFooterButtons(footer);
 			}
+			*/
 		}
 
 		m_fields->m_container->addChild(m_fields->m_uiNode);
@@ -212,7 +214,7 @@ class $modify(MyPlayLayer, PlayLayer) {
 		mpl->m_fields->m_renderTo->setTexture(mpl->m_fields->m_renderTexture->getSprite()->getTexture());
 	}
 
-	void createinteractiveFooterButtons(CCNode* footer) {
+	void createInteractiveFooterButtons(CCNode* footer) {
 		CCMenu* interactiveFooterButtons = CCMenu::create();
 
 		RowLayout* rowLayout = RowLayout::create();
