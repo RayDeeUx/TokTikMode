@@ -213,6 +213,7 @@ class $modify(MyPlayLayer, PlayLayer) {
 	}
 
 	void createInteractiveFooterButtons(CCNode* footer) {
+		log::info("FOOTER CREATED FOOTER CREATED FOOTER CREATED FOOTER CREATED FOOTER CREATED FOOTER CREATED FOOTER CREATED");
 		CCMenu* interactiveFooterButtons = CCMenu::create();
 
 		RowLayout* rowLayout = RowLayout::create();
@@ -263,10 +264,10 @@ class $modify(MyPlayLayer, PlayLayer) {
 		interactiveFooterButtons->addChild(profileTab);
 		interactiveFooterButtons->updateLayout();
 
-		footer->addChild(interactiveFooterButtons);
 		interactiveFooterButtons->setPosition({47.f, 15.f}); // these hardcoded values are fine because they are for a child of an existing node
 		interactiveFooterButtons->setScale(1.425f); // these hardcoded values are fine because they are for a child of an existing node
 		interactiveFooterButtons->setID("footer-menu"_spr);
+		footer->addChild(interactiveFooterButtons);
 	}
 
 	CCSprite* createFooter() {
