@@ -19,11 +19,11 @@ License along with TokTikMode; if not, see
 /* Source code is self-authored. --Erymanthus */
 
 #include <Geode/loader/SettingV3.hpp>
-#include <Geode/modify/MenuLayer.hpp>
 #include "Manager.hpp"
 #include "Utils.hpp"
 
 #define INFO_LABEL_TWEAKS "raydeeux.infolabeltweaks"
+#define HARD_MODE "realluke.hard_mode"
 
 using namespace geode::prelude;
 
@@ -35,7 +35,7 @@ $on_mod(Loaded) {
 			infoLabelTweaks->setSettingValue<bool>("blendingDebugText", false);
 			infoLabelTweaks->setSettingValue<bool>("maxAlphaDebugText", true);
 			infoLabelTweaks->setSettingValue<bool>("chromaDebugText", true);
-			if (Utils::isModLoaded("realluke.hard_mode")) FLAlertLayer::create("Heads up!", "<cl>Realluke's Hard Mode</c> is loaded. Things will get really messy, but remember that <cr>you</c> signed up for this.\n\n--<cr>Tok</c><cj>Tik</c>Mode", "Close")->show();
+			if (Utils::isModLoaded(HARD_MODE)) FLAlertLayer::create("Heads up!", "<cl>Realluke's Hard Mode</c> is loaded. Things will get really messy, but remember that <cr>you</c> signed up for this.\n\n--<cr>Tok</c><cj>Tik</c>Mode", "Close")->show();
 		} else {
 			const auto &manager = Manager::getSharedInstance();
 			infoLabelTweaks->setSettingValue<bool>("blendingDebugText", manager->originalIsBlending);
@@ -44,25 +44,6 @@ $on_mod(Loaded) {
 		}
 	});
 	listenForSettingChanges<bool>("tokTikUI", [](bool tokTikUI) {
-		if (tokTikUI && Utils::isModLoaded("realluke.hard_mode")) FLAlertLayer::create("Heads up!", "<cl>Realluke's Hard Mode</c> is loaded. Things will get really messy, but remember that <cr>you</c> signed up for this.\n\n--<cr>Tok</c><cj>Tik</c>Mode", "Close")->show();
+		if (Utils::modEnabled() && tokTikUI && Utils::isModLoaded("realluke.hard_mode")) FLAlertLayer::create("Heads up!", "<cl>Realluke's Hard Mode</c> is loaded. Things will get really messy, but remember that <cr>you</c> signed up for this.\n\n--<cr>Tok</c><cj>Tik</c>Mode", "Close")->show();
 	});
 }
-
-class $modify(MyMenuLayer, MenuLayer) {
-	bool init() {
-		if (!MenuLayer::init()) return false;
-		const auto &manager = Manager::getSharedInstance();
-		if (manager->hasCalledAlready) return true;
-		manager->hasCalledAlready = true;
-
-		if (!Utils::isModLoaded(INFO_LABEL_TWEAKS)) return true;
-
-		const auto &infoLabelTweaks = Utils::getMod(INFO_LABEL_TWEAKS);
-
-		manager->originalIsBlending = infoLabelTweaks->getSettingValue<bool>("blendingDebugText");
-		manager->originalMaxAlpha = infoLabelTweaks->getSettingValue<bool>("maxAlphaDebugText");
-		manager->originalIsChroma = infoLabelTweaks->getSettingValue<bool>("chromaDebugText");
-
-		return true;
-	}
-};
