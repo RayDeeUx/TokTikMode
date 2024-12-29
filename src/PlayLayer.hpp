@@ -97,7 +97,7 @@ class $modify(MyPlayLayer, PlayLayer) {
 
 		CCSize winSize = CCDirector::get()->getWinSize();
 		m_fields->m_container = CCNode::create();
-		m_fields->m_container->setZOrder(100000);
+		m_fields->m_container->setZOrder(MAGIC_NUMBER);
 		m_fields->m_container->setAnchorPoint({0.5f, 0.5f});
 		m_fields->m_container->setContentSize(winSize);
 		m_fields->m_container->setPosition(winSize / 2.f);

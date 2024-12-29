@@ -18,7 +18,7 @@ License along with TokTikMode; if not, see
 
 /* Source code is self-authored. --Erymanthus */
 
-#include <Geode/modify/GameManager.hpp>
+#include <Geode/modify/MenuLayer.hpp>
 #include "Manager.hpp"
 #include "Utils.hpp"
 
@@ -27,18 +27,19 @@ License along with TokTikMode; if not, see
 
 using namespace geode::prelude;
 
-class $modify(MyGameManager, GameManager) {
-	static void onModify(auto& self) {
-		(void) self.setHookPriority("GameManager::encodeDataTo", PREFERRED_HOOK_PRIO);
-	}
-	void encodeDataTo(DS_Dictionary* dict) {
-		if (!Utils::modEnabled() || !Utils::isModLoaded(INFO_LABEL_TWEAKS)) return GameManager::encodeDataTo(dict);
-		const auto &manager = Manager::getSharedInstance();
-		if (!manager->hasCalledAlready) return GameManager::encodeDataTo(dict);
+class $modify(MyMenuLayer, MenuLayer) {
+	bool init() {
+		if (!MenuLayer::init()) return false;
+		Manager* manager = Manager::getSharedInstance();
+		
+		if (manager->hasCalledAlready) return true;
+		manager->hasCalledAlready = true;
+
 		const auto &infoLabelTweaks = Utils::getMod(INFO_LABEL_TWEAKS);
-		infoLabelTweaks->setSettingValue<bool>("blendingDebugText", manager->originalIsBlending);
-		infoLabelTweaks->setSettingValue<bool>("maxAlphaDebugText", manager->originalMaxAlpha);
-		infoLabelTweaks->setSettingValue<bool>("chromaDebugText", manager->originalIsChroma);
-		GameManager::encodeDataTo(dict);
+		manager->originalIsBlending = infoLabelTweaks->getSettingValue<bool>("blendingDebugText");
+		manager->originalMaxAlpha = infoLabelTweaks->getSettingValue<bool>("maxAlphaDebugText");
+		manager->originalIsChroma = infoLabelTweaks->getSettingValue<bool>("chromaDebugText");
+		
+		return true;
 	}
 };

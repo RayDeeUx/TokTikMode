@@ -35,12 +35,16 @@ $on_mod(Loaded) {
 			infoLabelTweaks->setSettingValue<bool>("blendingDebugText", false);
 			infoLabelTweaks->setSettingValue<bool>("maxAlphaDebugText", true);
 			infoLabelTweaks->setSettingValue<bool>("chromaDebugText", true);
+			if (Utils::isModLoaded("realluke.hard_mode")) FLAlertLayer::create("Heads up!", "<cl>Realluke's Hard Mode</c> is loaded. Things will get really messy, but remember that <cr>you</c> signed up for this.\n\n--<cr>Tok</c><cj>Tik</c>Mode", "Close")->show();
 		} else {
 			const auto &manager = Manager::getSharedInstance();
 			infoLabelTweaks->setSettingValue<bool>("blendingDebugText", manager->originalIsBlending);
 			infoLabelTweaks->setSettingValue<bool>("maxAlphaDebugText", manager->originalMaxAlpha);
 			infoLabelTweaks->setSettingValue<bool>("chromaDebugText", manager->originalIsChroma);
 		}
+	});
+	listenForSettingChanges<bool>("tokTikUI", [](bool tokTikUI) {
+		if (tokTikUI && Utils::isModLoaded("realluke.hard_mode")) FLAlertLayer::create("Heads up!", "<cl>Realluke's Hard Mode</c> is loaded. Things will get really messy, but remember that <cr>you</c> signed up for this.\n\n--<cr>Tok</c><cj>Tik</c>Mode", "Close")->show();
 	});
 }
 

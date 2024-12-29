@@ -1,4 +1,7 @@
 # <c-25f4ee>Tok</c><c-fe2c55>Tik</c>Mode Changelog
+## 1.1.2
+- Various front-facing changes and re-phrasings to prepare for potential bans of a certain social media platform (most imminently, one in the United States during 2025).
+- Fix an egregious incompatibility with Realluke's Hard Mode mod. <cy>(It's still an incompatibility, but at least you can click where you want and expect a response.)</c>
 ## 1.1.1
 - Port to 2.2074.
 ## 1.1.0

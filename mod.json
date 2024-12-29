@@ -7,7 +7,7 @@
 	},
 	"id": "raydeeux.toktikmode",
 	"name": "TokTikMode",
-	"version": "v1.1.1",
+	"version": "v1.1.2",
 	"developers": ["RayDeeUx", "Alphalaneous"],
 	"description": "\"Vertical\" mode for Geometry Dash.",
 	"repository": "https://github.com/RayDeeUx/TokTikMode",
@@ -26,7 +26,7 @@
 		},
 		"tokTikUI": {
 			"name": "TokTik UI",
-			"description": "Toggles the <cj>Tok</c><cr>Tik</c> UI.",
+			"description": "Toggles the <cj>Tok</c><cr>Tik</c> UI.\n\n<cy>No, the \"buttons\" won't be interactive anytime soon.</c>",
 			"type": "bool",
 			"default": true
 		},
