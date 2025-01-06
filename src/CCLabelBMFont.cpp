@@ -20,7 +20,7 @@ License along with TokTikMode; if not, see
 #include <Geode/modify/CCLabelBMFont.hpp>
 #include "Utils.hpp"
 
-#define MAGIC_NUMBER (-2123456789)
+#define MAGIC_NUMBER (-4000)
 
 using namespace geode::prelude;
 

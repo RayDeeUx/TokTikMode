@@ -25,7 +25,7 @@ fixing any bugs. --Erymanthus */
 #include "Manager.hpp"
 #include "Utils.hpp"
 
-#define MAGIC_NUMBER (2123456789) // positive hook prio for the lolz (also because devtools compat) --erymanthus
+#define MAGIC_NUMBER (4000) // positive hook prio for the lolz (also because devtools compat) --erymanthus
 
 using namespace geode::prelude;
 
@@ -97,7 +97,7 @@ class $modify(MyPlayLayer, PlayLayer) {
 
 		CCSize winSize = CCDirector::get()->getWinSize();
 		m_fields->m_container = CCNode::create();
-		m_fields->m_container->setZOrder(MAGIC_NUMBER);
+		m_fields->m_container->setZOrder(200000);
 		m_fields->m_container->setAnchorPoint({0.5f, 0.5f});
 		m_fields->m_container->setContentSize(winSize);
 		m_fields->m_container->setPosition(winSize / 2.f);

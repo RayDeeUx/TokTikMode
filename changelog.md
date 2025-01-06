@@ -1,4 +1,7 @@
 # <c-25f4ee>Tok</c><c-fe2c55>Tik</c>Mode Changelog
+## v1.1.3
+- Index compliance. (8000 slot hook priority system < 4 billion slot hook priority system)
+    - Some features might break.
 ## v1.1.2
 - Various front-facing changes and re-phrasings to prepare for potential bans of a certain social media platform (most imminently, one in the United States during 2025).
 - Fix an egregious incompatibility with Realluke's Hard Mode mod. <cy>(It's still an incompatibility, but at least you can click where you want and expect a response.)</c>

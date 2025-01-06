@@ -23,7 +23,7 @@ License along with TokTikMode; if not, see
 #include "Utils.hpp"
 
 #define INFO_LABEL_TWEAKS "raydeeux.infolabeltweaks"
-#define PREFERRED_HOOK_PRIO (-2123456789)
+#define PREFERRED_HOOK_PRIO (-4000)
 
 using namespace geode::prelude;
 
