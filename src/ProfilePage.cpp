@@ -23,7 +23,7 @@ hiimjustin000 for re-creating vanilla GD behavior. --Erymanthus */
 #include "Manager.hpp"
 #include "Utils.hpp"
 
-#define PREFERRED_HOOK_PRIO (-4000)
+#define PREFERRED_HOOK_PRIO (-3999)
 
 using namespace geode::prelude;
 

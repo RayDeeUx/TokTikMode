@@ -25,7 +25,7 @@ fixing any bugs. --Erymanthus */
 #include "Manager.hpp"
 #include "Utils.hpp"
 
-#define MAGIC_NUMBER (4000) // positive hook prio for the lolz (also because devtools compat) --erymanthus
+#define MAGIC_NUMBER (3999) // positive hook prio for the lolz (also because devtools compat) --erymanthus
 
 using namespace geode::prelude;
 

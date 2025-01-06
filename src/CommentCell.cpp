@@ -22,7 +22,7 @@ License along with TokTikMode; if not, see
 #include "Manager.hpp"
 #include "Utils.hpp"
 
-#define PREFERRED_HOOK_PRIO (-4000)
+#define PREFERRED_HOOK_PRIO (-3999)
 
 using namespace geode::prelude;
 

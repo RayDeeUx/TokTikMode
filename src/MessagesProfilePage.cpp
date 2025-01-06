@@ -27,7 +27,7 @@ hiimjustin000 for re-creating vanilla GD behavior. --Erymanthus */
 #include "Manager.hpp"
 #include "Utils.hpp"
 
-#define MAGIC_NUMBER (-4000)
+#define MAGIC_NUMBER (-3999)
 
 class $modify(MyMessagesProfilePage, MessagesProfilePage) {
 	static void onModify(auto &self) {
