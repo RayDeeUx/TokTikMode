@@ -1,4 +1,7 @@
 # <c-25f4ee>Tok</c><c-fe2c55>Tik</c>Mode Changelog
+## v1.1.4
+- Sorry, TokTik isn't available right now. (Or is it?)
+  - Requested by ***<cr>_overwhelming_</c>*** demand, for some godforsaken reason.
 ## v1.1.3
 - Index compliance. (8000 slot hook priority system < 4 billion slot hook priority system)
     - Some features might break.

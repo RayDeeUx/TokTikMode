@@ -22,6 +22,9 @@ fixing any bugs. --Erymanthus */
 
 #pragma once
 #include <Geode/modify/PlayLayer.hpp>
+#include <Geode/utils/web.hpp>
+
+#include "BanModal.hpp"
 #include "Manager.hpp"
 #include "Utils.hpp"
 
@@ -30,7 +33,14 @@ fixing any bugs. --Erymanthus */
 using namespace geode::prelude;
 
 class $modify(MyPlayLayer, PlayLayer) {
-	struct Fields {
+	struct Fields : FLAlertLayerProtocol {
+
+		virtual void FLAlert_Clicked(FLAlertLayer* alert, bool isButtonTwo) {
+			if (!Utils::modEnabled() || alert->getTag() != 20250119) return;
+			if (isButtonTwo) return PauseLayer::create(false)->onQuit(nullptr);
+			geode::utils::web::openLinkInBrowser("https://www.supremecourt.gov/opinions/24pdf/24-656_ca7d.pdf");
+		}
+
 		CCNode* m_uiNode;
 		CCNode* m_rotatedMenuContainer;
 		CCNode* m_container;
@@ -189,6 +199,10 @@ class $modify(MyPlayLayer, PlayLayer) {
 		setVisible(false);
 
 		m_fields->m_initialized = true;
+
+		Loader::get()->queueInMainThread([] {
+			BanModal::create()->show();
+		});
 	}
 
 	void updateRender(float p0) {
