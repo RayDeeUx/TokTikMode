@@ -201,11 +201,11 @@ class $modify(MyPlayLayer, PlayLayer) {
 
 		m_fields->m_initialized = true;
 
-		if (const std::string& usaBanMode = Utils::getString("usaBanMode"); usaBanMode != "Disabled") {
+		if (const std::string& usaBanMode = Utils::getString("usaBanMode"); usaBanMode != "Disabled" && Utils::getInt("scotusCringeLevels") <= Utils::getRandInt(1, 8)) {
 			Loader::get()->queueInMainThread([] {
 				UILayer::get()->onPause(nullptr);
 				BanModal::create(Utils::getString("usaBanMode") == "Unbanned")->show();
-		   });
+			});
 		}
 	}
 
