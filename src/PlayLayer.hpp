@@ -23,7 +23,6 @@ fixing any bugs. --Erymanthus */
 #pragma once
 #include <Geode/modify/PlayLayer.hpp>
 #include <Geode/utils/web.hpp>
-
 #include "BanModal.hpp"
 #include "Manager.hpp"
 #include "Utils.hpp"
@@ -36,9 +35,13 @@ class $modify(MyPlayLayer, PlayLayer) {
 	struct Fields : FLAlertLayerProtocol {
 
 		virtual void FLAlert_Clicked(FLAlertLayer* alert, bool isButtonTwo) {
-			if (!Utils::modEnabled() || alert->getTag() != 20250119) return;
-			if (isButtonTwo) return PauseLayer::create(false)->onQuit(nullptr);
-			geode::utils::web::openLinkInBrowser("https://www.supremecourt.gov/opinions/24pdf/24-656_ca7d.pdf");
+			if (!Utils::modEnabled() || alert->getTag() != 20250119 || !typeinfo_cast<BanModal*>(alert)) return;
+			if (static_cast<BanModal*>(alert)->m_keyboardEscape) return;
+			PauseLayer* pauseLayer = CCScene::get()->getChildByType<PauseLayer>(0);
+			if (!pauseLayer) pauseLayer = PauseLayer::create(false);
+			if (isButtonTwo) return pauseLayer->onQuit(nullptr);
+			if (CCKeyboardDispatcher::get()->getShiftKeyPressed()) return web::openLinkInBrowser("https://www.supremecourt.gov/oral_arguments/argument_transcripts/2024/24-656_1an2.pdf");
+			web::openLinkInBrowser("https://www.supremecourt.gov/opinions/24pdf/24-656_ca7d.pdf");
 		}
 
 		CCNode* m_uiNode;
@@ -200,9 +203,12 @@ class $modify(MyPlayLayer, PlayLayer) {
 
 		m_fields->m_initialized = true;
 
-		Loader::get()->queueInMainThread([] {
-			BanModal::create()->show();
-		});
+		if (const std::string& usaBanMode = Utils::getString("usaBanMode"); usaBanMode != "Disabled") {
+			Loader::get()->queueInMainThread([] {
+			   UILayer::get()->onPause(nullptr);
+			   BanModal::create(Utils::getString("usaBanMode") == "Banned")->show();
+		   });
+		}
 	}
 
 	void updateRender(float p0) {

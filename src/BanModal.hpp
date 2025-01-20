@@ -22,10 +22,15 @@ License along with TokTikMode; if not, see
 
 #define BAN_MODAL_TITLE "Sorry, TokTik isn't\navailable right now"
 #define BAN_MODAL_TEXT "A law banning TokTik has been enacted in the U.S. Unfortunately, that means you can't use TokTik right now.\n\nWe are fortunate that President Trump has indicated that he will work with us on a solution to reinstate TokTik once he takes office. Stay tuned!"
+#define WELCOME_BACK_TITLE "Welcome back!"
+#define WELCOME_BACK_TEXT "Thanks for your patience and support. As a result of President Trump's efforts, TokTik is back in the U.S.!\n\nYou can continue to create, share, and discover all the things you love on TokTik."
 
 class BanModal final : public FLAlertLayer {
 protected:
-	bool init() override;
+	bool init(bool);
+	bool initWelcomeBackInstead(FLAlertLayerProtocol*);
+	void keyBackClicked() override;
 public:
-	static BanModal* create();
+	static BanModal* create(bool);
+	bool m_keyboardEscape = false;
 };

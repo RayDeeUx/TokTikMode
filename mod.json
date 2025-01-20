@@ -30,6 +30,16 @@
 			"type": "bool",
 			"default": true
 		},
+		"usaBanMode": {
+			"name": "USA TokTik Ban Mode",
+			"type": "String",
+			"default": "Banned",
+			"one-of": [
+				"Disabled",
+				"Banned",
+				"Unbanned"
+			]
+		},
 		"flipOrientation": {
 			"name": "Flip Orientation",
 			"description": "Flip the vertical orientation of the <cj>Tok</c><cr>Tik</c> UI.",
@@ -60,6 +70,9 @@
 			"resources/*.png",
 			"resources/fonts/*.png",
 			"resources/fonts/*.fnt"
+		],
+		"sprites": [
+			"resources/sprites/*.png"
 		]
 	},
 	"tags":	[
