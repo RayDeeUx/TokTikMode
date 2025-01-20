@@ -48,7 +48,11 @@
 			"name": "US Supreme Court Justices Upholding Ban",
 			"description": "(Likelihood of a popup showing up when entering a level; see previous setting.)",
 			"type": "int",
-			"default": 9,
+			"default": {
+				"win": 3,
+				"mac": 3,
+				"android": 1
+			},
 			"control": {
 				"min": 0,
 				"max": 9
