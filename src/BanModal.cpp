@@ -54,7 +54,7 @@ bool BanModal::init(bool welcomeBack) {
 	background->setContentSize({200.f, 220.f});
 
 	m_buttonMenu->setScale(m_buttonMenu->getScale() * .6f);
-	m_buttonMenu->setPosition({152.f, 8.f}); // hardcoded position; but this is an inherited alert layer
+	m_buttonMenu->setPosition({152.f, 8.f}); // hardcoded position, but this is an inherited alert layer, so go take a hike
 
 	m_button1->m_label->setFntFile("tokTikFont.fnt"_spr);
 	m_button1->m_label->setString("Learn more");
@@ -63,12 +63,15 @@ bool BanModal::init(bool welcomeBack) {
 	m_button2->m_label->setFntFile("tokTikFontBold.fnt"_spr);
 	m_button2->m_label->setString("Close app");
 	m_button2->m_BGSprite->setVisible(false);
-	m_button2->m_label->setColor({206, 206, 206});
+	m_button2->m_label->setColor({246, 246, 246});
 
 	if (const auto textArea = m_mainLayer->getChildByType<TextArea>(0)) {
 		textArea->setPositionY(textArea->getPositionY() - 15.f);
 		textArea->setPositionX(237.5f);
-		for (CCLabelBMFont* label : CCArrayExt<CCLabelBMFont*>(textArea->getChildByType<MultilineBitmapFont>(0)->m_lines)) label->setFntFile("tokTikFont.fnt"_spr);
+		for (CCLabelBMFont* label : CCArrayExt<CCLabelBMFont*>(textArea->getChildByType<MultilineBitmapFont>(0)->m_lines)) {
+			label->setFntFile("tokTikFont.fnt"_spr);
+			label->setColor({206, 206, 206});
+		}
 	}
 
 	this->setTag(20250119);
@@ -111,7 +114,10 @@ bool BanModal::initWelcomeBackInstead(FLAlertLayerProtocol* protocol) {
 
 	if (const auto textArea = m_mainLayer->getChildByType<TextArea>(0)) {
 		textArea->setPosition({237.5f, 106.f});
-		for (CCLabelBMFont* label : CCArrayExt<CCLabelBMFont*>(textArea->getChildByType<MultilineBitmapFont>(0)->m_lines)) label->setFntFile("tokTikFont.fnt"_spr);
+		for (CCLabelBMFont* label : CCArrayExt<CCLabelBMFont*>(textArea->getChildByType<MultilineBitmapFont>(0)->m_lines)) {
+			label->setFntFile("tokTikFont.fnt"_spr);
+			label->setColor({206, 206, 206});
+		}
 	}
 
 	this->m_noElasticity = true;
