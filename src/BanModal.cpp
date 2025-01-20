@@ -67,7 +67,7 @@ bool BanModal::init(bool welcomeBack) {
 
 	if (const auto textArea = m_mainLayer->getChildByType<TextArea>(0)) {
 		textArea->setPositionY(textArea->getPositionY() - 15.f);
-		textArea->setPositionX(237.5f);
+		textArea->setPositionX(238.f);
 		for (CCLabelBMFont* label : CCArrayExt<CCLabelBMFont*>(textArea->getChildByType<MultilineBitmapFont>(0)->m_lines)) {
 			label->setFntFile("tokTikFont.fnt"_spr);
 			label->setColor({206, 206, 206});
@@ -113,7 +113,7 @@ bool BanModal::initWelcomeBackInstead(FLAlertLayerProtocol* protocol) {
 	m_mainLayer->addChild(welcomeBackSprite);
 
 	if (const auto textArea = m_mainLayer->getChildByType<TextArea>(0)) {
-		textArea->setPosition({237.5f, 106.f});
+		textArea->setPosition({238.f, 106.f});
 		for (CCLabelBMFont* label : CCArrayExt<CCLabelBMFont*>(textArea->getChildByType<MultilineBitmapFont>(0)->m_lines)) {
 			label->setFntFile("tokTikFont.fnt"_spr);
 			label->setColor({206, 206, 206});
