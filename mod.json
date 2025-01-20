@@ -53,9 +53,16 @@
 				"mac": 3,
 				"android": 1
 			},
+			"min": 0,
+			"max": 9,
 			"control": {
-				"min": 0,
-				"max": 9
+				"input": false,
+				"slider": true,
+				"arrows": false,
+				"big-arrows": false,
+				"arrow-step": 0,
+				"big-arrow-step": 0,
+				"slider-step": 1
 			}
 		},
 		"flipOrientation": {
