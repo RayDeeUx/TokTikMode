@@ -24,6 +24,7 @@ License along with TokTikMode; if not, see
 #define BAN_MODAL_TEXT fmt::format("A law banning TokTik has been enacted in the U.S. Unfortunately, that means you can't use TokTik right now.\n\nWe are fortunate that President {} has indicated that he will work with us on a solution to reinstate TokTik once he takes office. Stay tuned!", Manager::getSharedInstance()->presidentName).c_str()
 #define WELCOME_BACK_TITLE "Welcome back!"
 #define WELCOME_BACK_TEXT fmt::format("Thanks for your patience and support. As a result of President {}'s efforts, TokTik is back in the U.S.!\n\nYou can continue to create, share, and discover all the things you love on TokTik.", Manager::getSharedInstance()->presidentName).c_str()
+#define TEXTAREA_X_POS CCDirector::get()->getLoadedTextureQuality() == 3 ? 238.f : 240.f
 
 class BanModal final : public FLAlertLayer {
 protected:
