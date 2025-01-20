@@ -51,7 +51,7 @@ bool BanModal::init(bool welcomeBack) {
 	title->setColor({246, 246, 246});
 	CCScale9Sprite* background = static_cast<CCScale9Sprite*>(m_mainLayer->getChildByID("background"));
 	background->initWithFile("darkSquare.png"_spr);
-	background->setContentWidth(200.f);
+	background->setContentSize({200.f, 220.f});
 
 	m_buttonMenu->setScale(m_buttonMenu->getScale() * .6f);
 	m_buttonMenu->setPosition({152.f, 8.f}); // hardcoded position; but this is an inherited alert layer
