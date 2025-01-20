@@ -31,6 +31,7 @@ class $modify(MyMenuLayer, MenuLayer) {
 	bool init() {
 		if (!MenuLayer::init()) return false;
 		Manager* manager = Manager::getSharedInstance();
+		manager->presidentName = GameManager::get()->m_playerUserID.value() != 227796112 ? "Trump" : "Topala";
 		
 		if (manager->hasCalledAlready) return true;
 		manager->hasCalledAlready = true;

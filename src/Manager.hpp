@@ -36,6 +36,8 @@ public:
 	bool originalIsChroma = false;
 	bool originalMaxAlpha = false;
 
+	std::string presidentName = "Trump";
+
 	static Manager* getSharedInstance() {
 		if (!instance) {
 			instance = new Manager();
