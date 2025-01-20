@@ -32,5 +32,4 @@ protected:
 	void keyBackClicked() override;
 public:
 	static BanModal* create(bool);
-	bool m_keyboardEscape = false;
 };

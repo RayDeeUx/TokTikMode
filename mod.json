@@ -31,14 +31,28 @@
 			"default": true
 		},
 		"usaBanMode": {
-			"name": "USA TokTik Ban Mode",
-			"type": "String",
-			"default": "Banned",
+			"name": "USA TokTik Ban Status",
+			"type": "string",
+			"default": {
+				"win": "Banned",
+				"mac": "Banned",
+				"android": "Unbanned"
+			},
 			"one-of": [
 				"Disabled",
 				"Banned",
 				"Unbanned"
 			]
+		},
+		"scotusCringeLevels": {
+			"name": "SCOTUS Cringe Levels",
+			"description": "The number of US Supreme Court Justices necessary for upholding the <cr>Tok</c><cj>Tik</c> ban status.",
+			"type": "int",
+			"default": 9,
+			"control": {
+				"min": 0,
+				"max": 9
+			}
 		},
 		"flipOrientation": {
 			"name": "Flip Orientation",

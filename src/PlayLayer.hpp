@@ -36,7 +36,6 @@ class $modify(MyPlayLayer, PlayLayer) {
 
 		virtual void FLAlert_Clicked(FLAlertLayer* alert, bool isButtonTwo) {
 			if (!Utils::modEnabled() || alert->getTag() != 20250119 || !typeinfo_cast<BanModal*>(alert)) return;
-			if (static_cast<BanModal*>(alert)->m_keyboardEscape) return;
 			PauseLayer* pauseLayer = CCScene::get()->getChildByType<PauseLayer>(0);
 			if (!pauseLayer) pauseLayer = PauseLayer::create(false);
 			if (isButtonTwo) return pauseLayer->onQuit(nullptr);
@@ -205,8 +204,8 @@ class $modify(MyPlayLayer, PlayLayer) {
 
 		if (const std::string& usaBanMode = Utils::getString("usaBanMode"); usaBanMode != "Disabled") {
 			Loader::get()->queueInMainThread([] {
-			   UILayer::get()->onPause(nullptr);
-			   BanModal::create(Utils::getString("usaBanMode") == "Banned")->show();
+				UILayer::get()->onPause(nullptr);
+				BanModal::create(Utils::getString("usaBanMode") == "Unbanned")->show();
 		   });
 		}
 	}
@@ -305,7 +304,6 @@ class $modify(MyPlayLayer, PlayLayer) {
 
 	CCSprite* createActions(CCNode* footer) {
 		CCSprite* actions = CCSprite::create("actions.png"_spr);
-		CCSize winSize = CCDirector::get()->getWinSize();
 		actions->setID("actions"_spr);
 		actions->setRotation(90.f);
 		actions->setAnchorPoint({1.f, 0.f});
@@ -375,7 +373,7 @@ class $modify(MyPlayLayer, PlayLayer) {
 		return authorLabel;
 	}
 
-	int whichIcon(GameManager* gm = GameManager::get()) {
+	static int whichIcon(GameManager* gm = GameManager::get()) {
 		switch (gm->m_playerIconType) {
 			case IconType::Ship:
 				return gm->m_playerShip.value();
@@ -441,7 +439,6 @@ class $modify(MyPlayLayer, PlayLayer) {
 
 	CCSprite* createSearch(CCNode* forYou) {
 		CCSprite* search = CCSprite::create("search.png"_spr);
-		CCSize winSize = CCDirector::get()->getWinSize();
 
 		search->setID("search"_spr);
 		search->setRotation(90.f);
