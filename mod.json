@@ -45,8 +45,8 @@
 			]
 		},
 		"scotusCringeLevels": {
-			"name": "SCOTUS Cringe Levels",
-			"description": "The number of US Supreme Court Justices necessary for upholding the <cr>Tok</c><cj>Tik</c> ban status.",
+			"name": "Supreme Court Justices Upholding Ban",
+			"description": "(Likelihood of a popup showing up when entering a level; see previous setting.)",
 			"type": "int",
 			"default": 9,
 			"control": {

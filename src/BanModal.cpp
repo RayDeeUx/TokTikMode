@@ -55,8 +55,10 @@ bool BanModal::init(bool welcomeBack) {
 
 	m_button1->m_label->setFntFile("tokTikFont.fnt"_spr);
 	m_button1->m_label->setString("Learn more");
+	m_button1->m_BGSprite->setVisible(false);
 	m_button2->m_label->setFntFile("tokTikFontBold.fnt"_spr);
 	m_button2->m_label->setString("Close app");
+	m_button2->m_BGSprite->setVisible(false);
 
 	if (const auto textArea = m_mainLayer->getChildByType<TextArea>(0)) {
 		textArea->setPositionY(textArea->getPositionY() - 15.f);
@@ -89,6 +91,7 @@ bool BanModal::initWelcomeBackInstead(FLAlertLayerProtocol* protocol) {
 
 	m_button1->m_label->setFntFile("tokTikFont.fnt"_spr);
 	m_button1->m_label->setString("Continue");
+	m_button1->m_BGSprite->setVisible(false);
 
 	CCSprite* welcomeBackSprite = CCSprite::create("welcomeBack.png"_spr);
 	welcomeBackSprite->setPosition({title->getPositionX(), 246.f});

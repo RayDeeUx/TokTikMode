@@ -37,8 +37,7 @@ class $modify(MyPlayLayer, PlayLayer) {
 		virtual void FLAlert_Clicked(FLAlertLayer* alert, bool isButtonTwo) {
 			if (!Utils::modEnabled() || alert->getTag() != 20250119 || !typeinfo_cast<BanModal*>(alert)) return;
 			PauseLayer* pauseLayer = CCScene::get()->getChildByType<PauseLayer>(0);
-			if (!pauseLayer) pauseLayer = PauseLayer::create(false);
-			if (isButtonTwo) return pauseLayer->onQuit(nullptr);
+			if (isButtonTwo && pauseLayer) return pauseLayer->onQuit(nullptr);
 			if (CCKeyboardDispatcher::get()->getShiftKeyPressed()) return web::openLinkInBrowser("https://www.supremecourt.gov/oral_arguments/argument_transcripts/2024/24-656_1an2.pdf");
 			web::openLinkInBrowser("https://www.supremecourt.gov/opinions/24pdf/24-656_ca7d.pdf");
 		}
