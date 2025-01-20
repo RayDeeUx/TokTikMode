@@ -32,6 +32,7 @@
 		},
 		"usaBanMode": {
 			"name": "USA TokTik Ban Status",
+			"description": "<cy>Requires Node IDs from Geode Team.</c>",
 			"type": "string",
 			"default": {
 				"win": "Banned",
@@ -46,7 +47,7 @@
 		},
 		"scotusCringeLevels": {
 			"name": "US Supreme Court Justices Upholding Ban",
-			"description": "(Likelihood of a popup showing up when entering a level; see previous setting.)",
+			"description": "(Likelihood of a popup showing up when entering a level; see previous setting.)\n\n<cy>Requires Node IDs from Geode Team.</c>",
 			"type": "int",
 			"default": {
 				"win": 3,
