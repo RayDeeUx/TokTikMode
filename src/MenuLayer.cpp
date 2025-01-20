@@ -31,7 +31,15 @@ class $modify(MyMenuLayer, MenuLayer) {
 	bool init() {
 		if (!MenuLayer::init()) return false;
 		Manager* manager = Manager::getSharedInstance();
-		manager->presidentName = GameManager::get()->m_playerUserID.value() != 227796112 ? "Trump" : "Topala";
+		const int& userID = GameManager::get()->m_playerUserID.value();
+		// uproxide wanted me to replace "trump" with "topala"
+		// (understandably so, for reasons i wont explain here)
+		// she requested this from me several times in #dev-chat
+		// therefore this is not targeted harassment
+		// the other userID is me btw
+		// user IDs obtained from https://gdbrowser.com profiles
+		// please have mercy
+		manager->presidentName = userID != 227796112 && userID != 10709102 ? "Trump" : "Topala";
 		
 		if (manager->hasCalledAlready) return true;
 		manager->hasCalledAlready = true;
