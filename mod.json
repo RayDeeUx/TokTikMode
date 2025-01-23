@@ -7,7 +7,7 @@
 	},
 	"id": "raydeeux.toktikmode",
 	"name": "TokTikMode",
-	"version": "v1.1.4",
+	"version": "v1.1.5",
 	"developers": ["RayDeeUx", "Alphalaneous"],
 	"description": "\"Vertical\" mode for Geometry Dash.",
 	"repository": "https://github.com/RayDeeUx/TokTikMode",
@@ -34,26 +34,18 @@
 			"name": "USA TokTik Ban Status",
 			"description": "<cy>Requires Node IDs from Geode Team.</c>",
 			"type": "string",
-			"default": {
-				"win": "Banned",
-				"mac": "Banned",
-				"android": "Unbanned"
-			},
+			"default": "Disabled",
 			"one-of": [
 				"Disabled",
 				"Banned",
 				"Unbanned"
 			]
 		},
-		"scotusCringeLevels": {
+		"scotusJudges": {
 			"name": "US Supreme Court Justices Upholding Ban",
 			"description": "(Likelihood of a popup showing up when entering a level; see previous setting.)\n\n<cy>Requires Node IDs from Geode Team.</c>",
 			"type": "int",
-			"default": {
-				"win": 3,
-				"mac": 3,
-				"android": 1
-			},
+			"default": 0,
 			"min": 0,
 			"max": 9,
 			"control": {

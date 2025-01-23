@@ -20,9 +20,7 @@ License along with TokTikMode; if not, see
 
 #include <Geode/modify/MenuLayer.hpp>
 #include "Manager.hpp"
-#include "Utils.hpp"
 
-#define INFO_LABEL_TWEAKS "raydeeux.infolabeltweaks"
 #define PREFERRED_HOOK_PRIO (-3999)
 
 using namespace geode::prelude;
@@ -31,6 +29,9 @@ class $modify(MyMenuLayer, MenuLayer) {
 	bool init() {
 		if (!MenuLayer::init()) return false;
 		Manager* manager = Manager::getSharedInstance();
+		if (manager->hasCalledAlready) return true;
+		manager->hasCalledAlready = true;
+
 		const int& userID = GameManager::get()->m_playerUserID.value();
 		// uproxide wanted me to replace "trump" with "topala"
 		// (understandably so, for reasons i wont explain here)
@@ -40,15 +41,6 @@ class $modify(MyMenuLayer, MenuLayer) {
 		// user IDs obtained from https://gdbrowser.com profiles
 		// please have mercy
 		manager->presidentName = userID != 227796112 && userID != 10709102 ? "Trump" : "Topala";
-		
-		if (manager->hasCalledAlready) return true;
-		manager->hasCalledAlready = true;
-		if (!Utils::isModLoaded(INFO_LABEL_TWEAKS)) return true;
-
-		const auto &infoLabelTweaks = Utils::getMod(INFO_LABEL_TWEAKS);
-		manager->originalIsBlending = infoLabelTweaks->getSettingValue<bool>("blendingDebugText");
-		manager->originalMaxAlpha = infoLabelTweaks->getSettingValue<bool>("maxAlphaDebugText");
-		manager->originalIsChroma = infoLabelTweaks->getSettingValue<bool>("chromaDebugText");
 		
 		return true;
 	}

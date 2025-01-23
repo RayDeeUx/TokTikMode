@@ -1,4 +1,7 @@
 # <c-25f4ee>Tok</c><c-fe2c55>Tik</c>Mode Changelog
+## v1.1.5
+- Everyone hates Elon.
+  - Squash a few bugs here and there.
 ## v1.1.4
 - Sorry, <c-25f4ee>Tok</c><c-fe2c55>Tik</c> isn't available right now. (Or is it?)
   - Requested by ***<cr>_overwhelming_</c>*** demand, for some godforsaken reason.
