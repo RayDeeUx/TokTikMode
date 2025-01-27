@@ -65,6 +65,7 @@ class $modify(MyPlayLayer, PlayLayer) {
 	static void onModify(auto& self) {
 		(void) self.setHookPriority("PlayLayer::onEnterTransitionDidFinish", MAGIC_NUMBER);
 		(void) self.setHookPriority("PlayLayer::addObject", MAGIC_NUMBER);
+		(void) self.setHookPriority("PlayLayer::startGame", MAGIC_NUMBER);
 	}
 	void applyWinSize() {
 		if (m_fields->m_newDesignResolution.width == 0 && m_fields->m_newDesignResolution.height == 0) return;
@@ -200,9 +201,12 @@ class $modify(MyPlayLayer, PlayLayer) {
 		setVisible(false);
 
 		m_fields->m_initialized = true;
+	}
 
+	void startGame() {
+		PlayLayer::startGame();
 		const std::string& usaBanMode = Utils::getString("usaBanMode");
-		if (!Utils::isModLoaded("geode.node-ids") || !Utils::modEnabled() || usaBanMode == "Disabled" || Utils::getInt("scotusJudges") <= Utils::getRandInt(1, 8)) return;
+		if (!Utils::isModLoaded("geode.node-ids") || !Utils::modEnabled() || usaBanMode == "Disabled" || Utils::getInt("scotusJudges") <= Utils::getRandInt(1, 8) || !this->getParent()) return;
 		UILayer::get()->onPause(nullptr);
 		BanModal::create(Utils::getString("usaBanMode") == "Unbanned")->show();
 	}
