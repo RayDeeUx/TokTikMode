@@ -1,4 +1,6 @@
 # <c-25f4ee>Tok</c><c-fe2c55>Tik</c>Mode Changelog
+## v1.1.6
+- Fix one more bug with help from Prevter.
 ## v1.1.5
 - Everyone hates Elon.
   - Squash a few bugs here and there.
