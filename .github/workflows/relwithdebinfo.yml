@@ -1,4 +1,4 @@
-name: Build Geode Mod
+name: RelWithDebInfo
 
 on:
   workflow_dispatch:
@@ -18,6 +18,10 @@ jobs:
         - name: macOS
           os: macos-latest
 
+        - name: iOS
+          os: macos-latest
+          target: iOS
+
         - name: Android32
           os: ubuntu-latest
           target: Android32
@@ -32,16 +36,17 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Build the mod
+      - name: Build the mod (RelWithDebInfo)
         uses: geode-sdk/build-geode-mod@main
         with:
+          build-config: RelWithDebInfo
+          export-pdb: true
           # bindings: RayDeeUx/bindings
-          # bindings-ref: i-hate-cc-lightning-toktikmode
-          # sdk: nightly
-          build-config: RelWithDebInfo # [vscode] comment this out (and the line below!) to Release mode
-          export-pdb: true # [vscode] comment this out (and the line above!) to Release mode
+          # bindings-ref: "foobar"
           combine: true
           target: ${{ matrix.config.target }}
+          cli: nightly # remove once iOS finishes
+          sdk: nightly # remove once iOS finishes
 
   package:
     name: Package builds
@@ -51,6 +56,8 @@ jobs:
     steps:
       - uses: geode-sdk/build-geode-mod/combine@main
         id: build
+        with:
+          cli: nightly # remove once iOS finishes
 
       - uses: actions/upload-artifact@v4
         with:

@@ -1,14 +1,18 @@
 {
-	"geode": "4.0.1",
+	"geode": "4.3.1",
 	"gd": {
 		"win": "2.2074",
 		"mac": "2.2074",
-		"android": "2.2074"
+		"android": "2.2074",
+		"ios": "2.2074"
 	},
 	"id": "raydeeux.toktikmode",
 	"name": "TokTikMode",
-	"version": "v1.1.6",
-	"developers": ["RayDeeUx", "Alphalaneous"],
+	"version": "v1.1.7",
+	"developers": [
+		"RayDeeUx",
+		"Alphalaneous"
+	],
 	"description": "\"Vertical\" mode for Geometry Dash.",
 	"repository": "https://github.com/RayDeeUx/TokTikMode",
 	"settings": {
@@ -93,7 +97,7 @@
 			"resources/sprites/*.png"
 		]
 	},
-	"tags":	[
+	"tags": [
 		"content",
 		"customization",
 		"gameplay",
