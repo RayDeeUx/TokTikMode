@@ -18,6 +18,7 @@ License along with TokTikMode; if not, see
 
 /* Source code is self-authored. --Erymanthus */
 
+#ifndef GEODE_IS_MOBILE
 #include "PlayLayer.hpp"
 #include "BanModal.hpp"
 
@@ -129,3 +130,4 @@ bool BanModal::initWelcomeBackInstead(FLAlertLayerProtocol* protocol) {
 void BanModal::keyBackClicked() {
 	this->removeMeAndCleanup();
 }
+#endif

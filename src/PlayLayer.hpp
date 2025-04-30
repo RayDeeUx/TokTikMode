@@ -23,9 +23,12 @@ fixing any bugs. --Erymanthus */
 #pragma once
 #include <Geode/modify/PlayLayer.hpp>
 #include <Geode/utils/web.hpp>
-#include "BanModal.hpp"
 #include "Manager.hpp"
 #include "Utils.hpp"
+
+#ifndef GEODE_IS_MOBILE
+#include "BanModal.hpp"
+#endif
 
 #define MAGIC_NUMBER (3999) // positive hook prio for the lolz (also because devtools compat) --erymanthus
 
@@ -34,6 +37,7 @@ using namespace geode::prelude;
 class $modify(MyPlayLayer, PlayLayer) {
 	struct Fields : FLAlertLayerProtocol {
 
+		#ifndef GEODE_IS_MOBILE
 		virtual void FLAlert_Clicked(FLAlertLayer* alert, bool isButtonTwo) {
 			if (!Utils::modEnabled() || alert->getTag() != 20250119 || !typeinfo_cast<BanModal*>(alert)) return;
 			PauseLayer* pauseLayer = CCScene::get()->getChildByType<PauseLayer>(0);
@@ -41,6 +45,7 @@ class $modify(MyPlayLayer, PlayLayer) {
 			if (CCKeyboardDispatcher::get()->getShiftKeyPressed()) return web::openLinkInBrowser("https://www.supremecourt.gov/oral_arguments/argument_transcripts/2024/24-656_1an2.pdf");
 			web::openLinkInBrowser("https://www.supremecourt.gov/opinions/24pdf/24-656_ca7d.pdf");
 		}
+		#endif
 
 		CCNode* m_uiNode;
 		CCNode* m_rotatedMenuContainer;
@@ -203,6 +208,7 @@ class $modify(MyPlayLayer, PlayLayer) {
 		m_fields->m_initialized = true;
 	}
 
+	#ifndef GEODE_IS_MOBILE
 	void startGame() {
 		PlayLayer::startGame();
 		const std::string& usaBanMode = Utils::getString("usaBanMode");
@@ -210,6 +216,7 @@ class $modify(MyPlayLayer, PlayLayer) {
 		UILayer::get()->onPause(nullptr);
 		BanModal::create(Utils::getString("usaBanMode") == "Unbanned")->show();
 	}
+	#endif
 
 	void updateRender(float p0) {
 

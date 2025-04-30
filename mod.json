@@ -43,13 +43,19 @@
 				"Disabled",
 				"Banned",
 				"Unbanned"
-			]
+			],
+			"platforms": ["win", "mac"]
 		},
 		"scotusJudges": {
 			"name": "US Supreme Court Justices Upholding Ban",
 			"description": "(Likelihood of a popup showing up when entering a level; see previous setting.)\n\n<cy>Requires Node IDs from Geode Team.</c>",
 			"type": "int",
-			"default": 0,
+			"default": {
+				"win": 0,
+				"mac": 0,
+				"ios": -1,
+				"android": -1
+			},
 			"min": 0,
 			"max": 9,
 			"control": {
@@ -60,7 +66,8 @@
 				"arrow-step": 0,
 				"big-arrow-step": 0,
 				"slider-step": 1
-			}
+			},
+			"platforms": ["win", "mac"]
 		},
 		"flipOrientation": {
 			"name": "Flip Orientation",
@@ -76,7 +83,7 @@
 		},
 		"disableOnPlatformer": {
 			"name": "Disable on Platformer Levels",
-			"description": "Disables the entire mod when playing Platformer levels, so that you can control the player(s) properly instead of within a cramped rotated screen area.\n\n<cy>Highly recommended for Android users.</c>",
+			"description": "Disables the entire mod when playing Platformer levels, so that you can control the player(s) properly instead of within a cramped rotated screen area.\n\n<cy>Highly recommended for Android and iOS users.</c>",
 			"type": "bool",
 			"default": false
 		},

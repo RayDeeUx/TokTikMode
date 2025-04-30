@@ -18,6 +18,7 @@ License along with TokTikMode; if not, see
 
 /* Source code is self-authored. --Erymanthus */
 
+#ifndef GEODE_IS_MOBILE
 #pragma once
 
 #define BAN_MODAL_TITLE "Sorry, TokTik isn't\navailable right now"
@@ -34,3 +35,4 @@ protected:
 public:
 	static BanModal* create(bool);
 };
+#endif

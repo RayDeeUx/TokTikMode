@@ -8,7 +8,7 @@ For <c-cdcdcd>macOS</c> and <c-00adef>Windows</c> users, <c-25f4ee>Tok</c><c-fe2
 
 <cy>***_All users:_***</c> *<c-25f4ee>Tok</c><c-fe2c55>Tik</c>Mode <cy>automatically disables itself when a level has a gradient trigger, so that mod nitpickers won't repeatedly report the same three bugs for the next three weeks. To disable this behavior, please disable `Gradient Trigger Compatibility`.</c>*
 
-<cy>***_Android users:_***</c> <cy>*Please consider enabling `Disable on Platformer Levels` after installing*</c> *<c-25f4ee>Tok</c><c-fe2c55>Tik</c>Mode*<cy>*;*</c> <cy>*controlling the player(s) in Platformer levels with*</c> *<c-25f4ee>Tok</c><c-fe2c55>Tik</c>Mode* <cy>*enabled gets*</c> <cy>***MUCH***</c> <cy>*harder otherwise.*</c>
+<cy>***_Android/iOS users:_***</c> <cy>*Please consider enabling `Disable on Platformer Levels` after installing*</c> *<c-25f4ee>Tok</c><c-fe2c55>Tik</c>Mode*<cy>*;*</c> <cy>*controlling the player(s) in Platformer levels with*</c> *<c-25f4ee>Tok</c><c-fe2c55>Tik</c>Mode* <cy>*enabled gets*</c> <cy>***MUCH***</c> <cy>*harder otherwise.*</c>
 
 <cy>***_Windows/macOS users:_***</c> *<cy>Due to the nature of</c> <c-25f4ee>Tok</c><c-fe2c55>Tik</c>Mode, <cy>Eclipse Menu's "Right Click Teleport" feature will still behave as if the screen was never rotated. Please don't report this bug, as both sides are aware of this issue.</c>*
 
@@ -16,6 +16,7 @@ For <c-cdcdcd>macOS</c> and <c-00adef>Windows</c> users, <c-25f4ee>Tok</c><c-fe2
 - <c-cdcdcd>MacBook Pro</c> (16-inch, 2019) running <c-cdcdcd>macOS</c> <c-2e88d6>Seq</c><c-f7a865>uoia</c> <c-cdcdcd>(macOS 15.0.1)</c> with a <cl>16:10</c> aspect ratio display
 - <c-f50414>OnePlus 9 5G</c> (6.55-inch, 2021) running <c-0982ea>OxygenOS 13</c> (forked from <cg>Android 13</c>) with a <cl>20:9</c> aspect ratio display
 - <c-007cb8>Dell Latitude 5420</c> (14-inch, 2021) running <c-00adef>Windows 10 Enterprise Build 19045</c> with a <cl>16:9</c> aspect ratio display
+- <c-dedede>iPhone 13 Pro Max</c> running <c-38a5c8>iOS</c> <c-5f90a0>18</c><c-92776d>.4</c><c-c75c37>.1</c> with a <cl>19.5:9</c> aspect ratio display
 - Whatever  `u l t r a w i d e`  monitor <c-4c6e5d>Alp</c><c-73ab90>ha</c><c-bc419c>la</c><c-ce6087>n</c><c-ec9667>e</c><c-fcfc78>o</c><c-83da96>u</c><c-80d5dc>s</c> uses, I guess.
 
 The point is, <c-25f4ee>Tok</c><c-fe2c55>Tik</c>Mode works on most conventional aspect ratios and/or windows sizes.
