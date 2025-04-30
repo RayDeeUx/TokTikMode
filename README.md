@@ -4,7 +4,7 @@
 
 Play <co>Geometry</c> <cj>Dash</c> levels as if you were viewing a <c-25f4ee>Tok</c><c-fe2c55>Tik</c> video. Or if you just want to play <co>Geometry</c> <cj>Dash</c> vertically for whatever reason.
 
-For <c-cdcdcd>macOS</c> and <c-00adef>Windows</c> users, <c-25f4ee>Tok</c><c-fe2c55>Tik</c>Mode is best experienced with <cl>Fullscreen</c>. For <cg>Android</c> folks, well... you already *are* on Fullscreen, obviously.
+For <c-cdcdcd>macOS</c> and <c-00adef>Windows</c> users, <c-25f4ee>Tok</c><c-fe2c55>Tik</c>Mode is best experienced with <cl>Fullscreen</c>. For <cg>Android</c> and <c-dedede>iOS</c> folks, well... you already *are* on Fullscreen, obviously.
 
 <cy>***_All users:_***</c> *<c-25f4ee>Tok</c><c-fe2c55>Tik</c>Mode <cy>automatically disables itself when a level has a gradient trigger, so that mod nitpickers won't repeatedly report the same three bugs for the next three weeks. To disable this behavior, please disable `Gradient Trigger Compatibility`.</c>*
 
@@ -27,7 +27,7 @@ The point is, <c-25f4ee>Tok</c><c-fe2c55>Tik</c>Mode works on most conventional 
 
 - <c-4c6e5d>Alp</c><c-73ab90>ha</c><c-bc419c>la</c><c-ce6087>n</c><c-ec9667>e</c><c-fcfc78>o</c><c-83da96>u</c><c-80d5dc>s</c> for overhauling the core of this mod.
 - <c-c6afd9>The</c><c-a87ae6>Bear</c><c-daa5ff>o</c><c-e492ff>dac</c><c-f2ccff>tyl</c> for sending me a more recent version of the <c-25f4ee>Tok</c><c-fe2c55>Tik</c> UI to use as a reference.
-- <c-ffff00>hi</c><c-ffffdd>im</c><c-ffff00>justin</c><c-ffffdd>000</c> for finding a consistent solution to show certain menus.
+- <c-fcb5ff>hiim</c><c-00c8ff>jasmine</c><c-fcb5ff>00</c> for finding a consistent solution to show certain menus.
 
 ## Legal
 

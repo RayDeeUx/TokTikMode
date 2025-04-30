@@ -2,6 +2,7 @@
 ## v1.1.7
 - Experimental iOS support.
 - Remove "<c-25f4ee>Tok</c><c-fe2c55>Tik</c> isn't available" popups from mobile due to a number of bugs beyond unironic human concern.
+- Remove deadnames.
 ## v1.1.6
 - Fix one more bug with help from Prevter.
 ## v1.1.5
