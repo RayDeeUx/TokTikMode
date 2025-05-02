@@ -41,6 +41,7 @@ jobs:
         with:
           build-config: RelWithDebInfo
           export-pdb: true
+          export-symbols: true
           # bindings: RayDeeUx/bindings
           # bindings-ref: "foobar"
           combine: true
