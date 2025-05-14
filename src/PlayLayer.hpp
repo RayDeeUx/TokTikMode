@@ -108,7 +108,7 @@ class $modify(MyPlayLayer, PlayLayer) {
 	void setupHasCompleted() {
 		PlayLayer::setupHasCompleted();
 
-		if (!Utils::modEnabled() || m_fields->m_doNotApply) return;
+		if (!Utils::modEnabled() || m_fields->m_doNotApply || !this->getParent()) return;
 		if (m_level->isPlatformer() && Utils::getBool("disableOnPlatformer")) return;
 		if (!m_level->isPlatformer() && Utils::getBool("disableOnClassic")) return;
 
@@ -186,8 +186,7 @@ class $modify(MyPlayLayer, PlayLayer) {
 		m_fields->m_container->addChild(m_fields->m_blackOverlay);
 		m_fields->m_container->addChild(m_fields->m_rotatedMenuContainer);
 
-		CCScene* currentScene = CCDirector::get()->m_pNextScene;
-		currentScene->addChild(m_fields->m_container);
+		this->getParent()->addChild(m_fields->m_container);
 
 		auto view = cocos2d::CCEGLView::get();
 
