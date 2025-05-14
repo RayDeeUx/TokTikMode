@@ -68,7 +68,7 @@ class $modify(MyPlayLayer, PlayLayer) {
 		}
 	};
 	static void onModify(auto& self) {
-		(void) self.setHookPriority("PlayLayer::onEnterTransitionDidFinish", MAGIC_NUMBER);
+		(void) self.setHookPriority("PlayLayer::setupHasCompleted", MAGIC_NUMBER);
 		(void) self.setHookPriority("PlayLayer::addObject", MAGIC_NUMBER);
 		(void) self.setHookPriority("PlayLayer::startGame", MAGIC_NUMBER);
 	}
@@ -105,8 +105,8 @@ class $modify(MyPlayLayer, PlayLayer) {
 		PlayLayer::addObject(p0);
 	}
 
-	void onEnterTransitionDidFinish() {
-		PlayLayer::onEnterTransitionDidFinish();
+	void setupHasCompleted() {
+		PlayLayer::setupHasCompleted();
 
 		if (!Utils::modEnabled() || m_fields->m_doNotApply) return;
 		if (m_level->isPlatformer() && Utils::getBool("disableOnPlatformer")) return;
