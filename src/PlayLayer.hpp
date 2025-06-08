@@ -68,7 +68,7 @@ class $modify(MyPlayLayer, PlayLayer) {
 		}
 	};
 	static void onModify(auto& self) {
-		(void) self.setHookPriority("PlayLayer::onEnterTransitionDidFinish", MAGIC_NUMBER);
+		(void) self.setHookPriority("PlayLayer::setupHasCompleted", MAGIC_NUMBER);
 		(void) self.setHookPriority("PlayLayer::addObject", MAGIC_NUMBER);
 		(void) self.setHookPriority("PlayLayer::startGame", MAGIC_NUMBER);
 	}
@@ -105,10 +105,10 @@ class $modify(MyPlayLayer, PlayLayer) {
 		PlayLayer::addObject(p0);
 	}
 
-	void onEnterTransitionDidFinish() {
-		PlayLayer::onEnterTransitionDidFinish();
+	void setupHasCompleted() {
+		PlayLayer::setupHasCompleted();
 
-		if (!Utils::modEnabled() || m_fields->m_doNotApply) return;
+		if (!Utils::modEnabled() || m_fields->m_doNotApply || !this->getParent()) return;
 		if (m_level->isPlatformer() && Utils::getBool("disableOnPlatformer")) return;
 		if (!m_level->isPlatformer() && Utils::getBool("disableOnClassic")) return;
 
@@ -186,8 +186,7 @@ class $modify(MyPlayLayer, PlayLayer) {
 		m_fields->m_container->addChild(m_fields->m_blackOverlay);
 		m_fields->m_container->addChild(m_fields->m_rotatedMenuContainer);
 
-		CCScene* currentScene = CCDirector::get()->m_pNextScene;
-		currentScene->addChild(m_fields->m_container);
+		this->getParent()->addChild(m_fields->m_container);
 
 		auto view = cocos2d::CCEGLView::get();
 

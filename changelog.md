@@ -1,4 +1,11 @@
 # <c-25f4ee>Tok</c><c-fe2c55>Tik</c>Mode Changelog
+## v1.1.8
+- Fix a nasty crash from hooking the wrong PlayLayer function.
+  - As part of this bugfix, <c-25f4ee>Tok</c><c-fe2c55>Tik</c>Mode support for levels already part of vanilla GD (and probably levels you play when enabling a fangame mod) has been removed indefinitely.
+  - As an alternative to losing main levels support, feel free to visit RobsVault, or find an account that has uploaded the levels from the fangame mod that you would like to play with <c-25f4ee>Tok</c><c-fe2c55>Tik</c>Mode active.
+  - This decision was not made lightly.
+  - For some godforsaken reason, people keep installing this mod and showcasing it in their videos, and some of them keep winning the unlucky lottery where the game crashes on them just when they enter a level, and quite frankly I'm getting sick and tired of these crashes.
+  - Cocos2d-x (and RobTop's changes to the library as a whole) has got to be one of the most mind-bending libraries to work with; imagine having to modify its behavior without the original source code in front of you.
 ## v1.1.7
 - Experimental iOS support.
 - Remove "<c-25f4ee>Tok</c><c-fe2c55>Tik</c> isn't available" popups from mobile due to a number of bugs beyond unironic human concern.

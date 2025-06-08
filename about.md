@@ -6,11 +6,13 @@ Play <co>Geometry</c> <cj>Dash</c> levels as if you were viewing a <c-25f4ee>Tok
 
 For <c-cdcdcd>macOS</c> and <c-00adef>Windows</c> users, <c-25f4ee>Tok</c><c-fe2c55>Tik</c>Mode is best experienced with <cl>Fullscreen</c>. For <cg>Android</c> and <c-dedede>iOS</c> folks, well... you already *are* on Fullscreen, obviously.
 
+<cr>***_All users:_***</c> *<c-25f4ee>Tok</c><c-fe2c55>Tik</c>Mode <cr>support for the main levels (either those by RobTop or those loaded from a fangame mod) has been removed __indefinitely__ to avoid crashes on some systems. Please find alternate solutions on your own instead of harassing any mod developers to "rEvErT" this change.</c>*
+
 <cy>***_All users:_***</c> *<c-25f4ee>Tok</c><c-fe2c55>Tik</c>Mode <cy>automatically disables itself when a level has a gradient trigger, so that mod nitpickers won't repeatedly report the same three bugs for the next three weeks. To disable this behavior, please disable `Gradient Trigger Compatibility`.</c>*
 
 <cy>***_Android/iOS users:_***</c> <cy>*Please consider enabling `Disable on Platformer Levels` after installing*</c> *<c-25f4ee>Tok</c><c-fe2c55>Tik</c>Mode*<cy>*;*</c> <cy>*controlling the player(s) in Platformer levels with*</c> *<c-25f4ee>Tok</c><c-fe2c55>Tik</c>Mode* <cy>*enabled gets*</c> <cy>***MUCH***</c> <cy>*harder otherwise.*</c>
 
-<cy>***_Windows/macOS users:_***</c> *<cy>Due to the nature of</c> <c-25f4ee>Tok</c><c-fe2c55>Tik</c>Mode, <cy>Eclipse Menu's "Right Click Teleport" feature will still behave as if the screen was never rotated. Please don't report this bug, as both sides are aware of this issue.</c>*
+<cy>***_Windows/macOS users:_***</c> *<cy>Due to how</c> <c-25f4ee>Tok</c><c-fe2c55>Tik</c>Mode <cy>works, Eclipse Menu's "Right Click Teleport" feature will still behave as if the screen was never rotated. Please don't report this bug, as both sides are aware of this issue.</c>*
 
 <c-25f4ee>Tok</c><c-fe2c55>Tik</c>Mode was tested on the following devices, operating systems, and aspect ratios:
 - <c-cdcdcd>MacBook Pro</c> (16-inch, 2019) running <c-cdcdcd>macOS</c> <c-2e88d6>Seq</c><c-f7a865>uoia</c> <c-cdcdcd>(macOS 15.0.1)</c> with a <cl>16:10</c> aspect ratio display
